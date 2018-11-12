@@ -1,0 +1,88 @@
+<div class="sessao" id="criar-ordem-servico">
+	<div class="linha">				
+		<div class="coluna col12">
+			<h2>Criar Ordem de Serviço</h2>
+		</div>
+		<form action="" method="">
+			<div class="coluna col12 sem-padding-right sem-padding-left">
+				<div class="coluna col12">
+					<h3>Serviços</h3>
+				</div>
+				<!--Exemplo de Como os produtos devem ser inseridos por php-->						
+				<div class="div-criar-acesso">						
+				    <input type="checkbox" value="0" name="input-os-servico-1" id="input-os-servico-1" />
+				    <label for="input-os-servico-1">Cadastrar Serviço</label>
+				</div>			
+			</div>
+			<div class="coluna col12 sem-padding-right sem-padding-left">
+				<div class="coluna col12">
+					<h3>Produtos</h3>
+				</div>
+				<!--Exemplo de Como os produtos devem ser inseridos por php-->						
+				<!--div class="coluna col2">
+					<label for="input-os-data-solicitacao">Data de Solitação *</label>
+					<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
+				</div-->
+			</div>					
+			<div class="coluna col4">
+				<label for="select-os-empresa">Empresa *</label>
+				<select name="select-os-empresa" id="select-os-empresa" required></select>
+			</div>
+			<div class="coluna col2">
+				<label for="input-os-data-solicitacao">Data de Solitação *</label>
+				<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
+			</div>
+			<div class="coluna col4">
+				<label for="select-os-atendente">Atendente *</label>
+				<select name="select-os-atendente" id="select-os-atendente" required></select>
+			</div>
+			<div class="coluna col2">
+				<label for="select-os-tipo">Tipo *</label>
+				<select name="select-os-tipo" id="select-os-tipo" required>
+					<option value="venda">Venda</option>
+					<option value="suporte">Suporte</option>
+				</select>
+			</div>
+			<div class="coluna col4">
+				<label for="select-os-cliente">Cliente *</label>
+				<select name="select-os-cliente" id="select-os-cliente" required></select>
+			</div>
+			<div class="coluna col4">
+				<label for="select-os-tecnico">Técnico Responsável *</label>
+				<select name="select-os-tecnico" id="select-os-tecnico" required></select>
+			</div>
+			<div class="coluna col2">
+				<label for="input-os-data-data-execucao">Data de Execução *</label>
+				<input type="date" name="input-os-data-data-execucao" id="input-os-data-data-execucao" required>
+			</div>
+			<div class="coluna col2">
+				<label for="select-os-forma-pagamento">Pagamento *</label>
+				<select name="select-os-forma-pagamento" id="select-os-forma-pagamento" required>
+					<option value="a vista">À Vista</option>
+					<option value="a prazo">À Prazo</option>
+				</select>
+			</div>
+			<div class="coluna col2">
+				<label for="input-os-desconto">Desconto</label>
+				<input type="text" name="input-os-desconto" id="input-os-desconto" required>
+
+				<label for="input-os-valor-parcela">Valor da Parcela</label>
+				<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" required>
+			</div>
+			<div class="coluna col2">
+				<label for="input-os-quantidade-parcelas">Parcelas</label>
+				<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" required>
+
+				<label for="input-os-valor-total">Valor Total</label>
+				<input type="text" name="input-os-valor-total" id="input-os-valor-total" required>
+			</div>
+			<div class="coluna col8">
+				<label for="textarea-os-descricao">Descrição</label>
+				<textarea class="descricao-servico" id="textarea-os-descricao" required></textarea>
+			</div>
+			<div class="div-centralizada">
+				<input type="submit" value="Criar Ordem de Serviço" class="botao-cadastro">
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,477 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Roboto', sans-serif;                
+    font-weight: 300;
+    background: #E8E8E8;
+}
+img{
+	width: 100%;
+}
+@media (min-width: 1320px) {
+	.linha{
+		width: 1320px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 90px;
+	}
+	.col2{
+		width: 200px;
+	}
+	.col3{
+		width: 310px;
+	}
+	.col4{
+		width: 420px;
+	}
+	.col5{
+		width: 530px;
+	}
+	.col6{
+		width: 640px;
+	}
+	.col7{
+		width: 750px;
+	}
+	.col8{
+		width: 860px;
+	}
+	.col9{
+		width: 970px;
+	}
+	.col10{
+		width: 1080px;
+	}
+	.col11{
+		width: 1190px;
+	}
+	.col12{
+		width: 1300px;
+	}
+	.div-centralizada{
+		width: 420px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 310px;
+	}
+	.input-titulo-nome{
+		width: 420px;
+	}
+}
+@media (min-width: 1200px) and (max-width: 1319px){
+	.linha{
+		width: 1200px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 80px;
+	}
+	.col2{
+		width: 180px;
+	}
+	.col3{
+		width: 280px;
+	}
+	.col4{
+		width: 380px;
+	}
+	.col5{
+		width: 480px;
+	}
+	.col6{
+		width: 580px;
+	}
+	.col7{
+		width: 680px;
+	}
+	.col8{
+		width: 780px;
+	}
+	.col9{
+		width: 880px;
+	}
+	.col10{
+		width: 980px;
+	}
+	.col11{
+		width: 1080px;
+	}
+	.col12{
+		width: 1180px;
+	}
+	.div-centralizada{
+		width: 380px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 280px;
+	}
+	.input-titulo-nome{
+		width: 380px;
+	}
+}
+@media (min-width: 1080px) and (max-width: 1199px){
+	.linha{
+		width: 1080px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 70px;/*90*/
+	}
+	.col2{
+		width: 160px;
+	}
+	.col3{
+		width: 250px;
+	}
+	.col4{
+		width: 340px;
+	}
+	.col5{
+		width: 430px;
+	}
+	.col6{
+		width: 520px;
+	}
+	.col7{
+		width: 610px;
+	}
+	.col8{
+		width: 700px;
+	}
+	.col9{
+		width: 790px;
+	}
+	.col10{
+		width: 880px;
+	}
+	.col11{
+		width: 970px;
+	}
+	.col12{
+		width: 1060px;
+	}
+	.div-centralizada{
+		width: 340px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 250px;
+	}
+	.input-titulo-nome{
+		width: 340px;
+	}
+}
+@media (min-width: 960px) and (max-width: 1079px){
+	.linha{
+		width: 960px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 60px;/*80*/
+	}
+	.col2{
+		width: 140px;
+	}
+	.col3{
+		width: 220px;
+	}
+	.col4{
+		width: 300px;
+	}
+	.col5{
+		width: 380px;
+	}
+	.col6{
+		width: 460px;
+	}
+	.col7{
+		width: 540px;
+	}
+	.col8{
+		width: 620px;
+	}
+	.col9{
+		width: 700px;
+	}
+	.col10{
+		width: 780px;
+	}
+	.col11{
+		width: 860px;
+	}
+	.col12{
+		width: 940px;
+	}
+	.div-centralizada{
+		width: 300px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 220px;
+	}
+	.input-titulo-nome{
+		width: 300px;
+	}
+}
+/*
+@media (min-width: 1440px) {
+	.linha{
+		width: 1440px;
+		margin: 0 auto;
+	}
+	.col1{
+		width: 100px;
+	}
+	.col2{
+		width: 220px;
+	}
+	.col3{
+		width: 340px;
+	}
+	.col4{
+		width: 460px;
+	}
+	.col5{
+		width: 580px;
+	}
+	.col6{
+		width: 700px;
+	}
+	.col7{
+		width: 820px;
+	}
+	.col8{
+		width: 940px;
+	}
+	.col9{
+		width: 1060px;
+	}
+	.col10{
+		width: 1180px;
+	}
+	.col11{
+		width: 1300px;
+	}
+	.col12{
+		width: 1420px;
+	}
+	.div-centralizada{
+		width: 460px;
+		text-align: center;
+		margin: 0 auto;
+	}
+}*/	
+
+.coluna{
+	float: left;
+	padding: 0 10px;
+}
+
+.header{
+	position: fixed;
+	background-color: #df3a01;
+	color: white;
+	top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9;
+    height: 70px;
+}
+.logo h1{
+	font-weight: 100;
+	margin-top: 15px;
+}
+.sessao{
+	padding-top: 70px;
+}
+#pagina_inicio{	
+	height: 860px;
+	z-index: -1;
+	background-color: red;
+}
+#pagina_fim{	
+	height: 860px;
+	z-index: -1;
+	background-color: blue;
+}
+/*Classe do Menu Superior*/
+.menu{
+	list-style:none;  
+	float:right; 
+	margin-top: 25px;
+	font-size: 16px;
+	/*text-transform: capitalize;*/
+	font-weight: 300;
+}
+.menu li{
+	position:relative; 
+	float:left; 
+}
+.menu li a{
+	color:#fff; 
+	background-color: #df3a01;
+	text-decoration:none; 
+	padding:5px 10px; 
+	display:block;
+}
+.menu li a:hover{
+	background:#fff; 
+	color:#df3a01; 
+}
+.menu li ul{
+	position:absolute; 
+	top:29px; /*25*/ 
+	left:0; 
+	background-color:#fff; 
+	display:none; 
+}
+.menu li:last-child ul{
+	/*left: -60.438055%;/*-75px; Ordem de Serviço*/
+}
+.menu li:hover ul, .menu li.over ul{
+	display:block;
+}
+.menu li ul li{ 
+	text-align: center;
+	display:block; 
+	width:220px;
+}
+.footer{
+    clear: both;
+    font-size: 16px;
+    height: 20px;
+    text-align: center;
+    background-color: #191970;
+    color: white;
+    padding: 22px 0;
+    clear: both;
+    margin-top: 40px;
+    position: relative;
+    font-weight: 100;
+}/*input*/
+label{
+	font-size: 16px;
+	font-weight: 400;
+}
+input{
+	margin: 10px 0;
+	width: 100%;
+	font-size: 16px;
+	height: 30px;
+	/*padding: 7px;*/
+}
+/*Ids de Sessões*/
+#cadastrar-empresa{
+	padding-top: 80px;
+}
+h2{
+	font-size: 20px;
+	font-weight: 500;
+	margin: 10px 0;
+}
+h3{
+	font-size: 16px;
+	font-weight: 500;
+	margin: 10px 0;
+}
+
+.botao-cadastro{
+	transition: all .4s;
+	height: 35px;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	background-color: #df3a01;
+}
+.botao-cadastro:hover{
+	transition: all .4s;
+	cursor: pointer;
+	background-color: #191970;
+}
+select{
+	/*border: none;*/
+	margin: 10px 0;
+	width: 100%;
+	font-size: 16px;
+	height: 34px;
+}
+
+/*Personalização de Checkbox HTML*/
+input[type=checkbox]{
+    display:none; /* Esconde os inputs */
+} 
+label {
+    cursor: pointer;
+}
+input[type="checkbox"] + label:before {
+    border: 1px solid #5D5C5C;
+    content: "\00a0";
+    display: inline-block;
+    font: 16px/1em sans-serif;
+    height: 16px;
+    margin: 0 .25em 0 0;
+    padding:0;
+    vertical-align: top;
+    width: 16px;
+    border-radius:4px;
+} 
+input[type="checkbox"]:checked + label:before {
+    background: #A0A0A0;
+    color: #FFF;
+    content: "\2713";
+    text-align: center;
+} 
+input[type="checkbox"]:checked + label:after {
+    font-weight: bold;
+}
+
+textarea{
+	width: 100%;
+	margin: 10px 0;
+}
+.descricao-servico{
+	height: 105px;
+	max-width: 100%;
+	min-width: 100%;
+	max-height: 105px;
+	min-height: 105px;
+}
+.sem-padding-left{
+	padding-left: 0;
+}
+.sem-padding-right{
+	padding-right: 0;
+}
