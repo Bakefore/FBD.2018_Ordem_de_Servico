@@ -3,6 +3,8 @@
 		<div class="coluna col12">
 			<h2>Cadastrar Empresa</h2>
 		</div>
+
+		
 		<form action="" method="post">
 			<!--Linha 1-->					
 			<div class="coluna col4">
