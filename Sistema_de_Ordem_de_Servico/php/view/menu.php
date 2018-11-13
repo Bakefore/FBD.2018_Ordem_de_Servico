@@ -1,134 +1,49 @@
 <?php
 	function verificarMenuEmpresa(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-empresa'>Empresa</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#cadastrar-empresa'>Cadastrar Empresa</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Empresa</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";	
-
-			return true;
+			echo "<li><a href='pesquisar_empresa.php' id='link-empresa'>Empresa</a></li>";
 		}
 	}
 
 	function verificarMenuAcesso(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-acesso'>Acesso</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#criar-acesso'>Criar Acesso</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Acesso</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";	
-
-			return true;
+			echo "<li><a href='pesquisar_acesso.php' id='link-acesso'>Acesso</a></li>";
 		}
 	}
 
 	function verficarMenuFuncionario(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-funcionario'>Funcionário</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#cadastrar-funcionario'>Cadastrar Funcionário</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Funcionário</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='pesquisar_funcionario.php' id='link-funcionario'>Funcionário</a></li>";
 		}
 	}
 
 	function verficarMenuCliente(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-cliente'>Cliente</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#cadastrar-cliente'>Cadastrar Cliente</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Cliente</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='pesquisar_cliente.php' id='link-cliente'>Cliente</a></li>";
 		}
 	}
 
 	function verficarMenuServico(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-servico'>Serviço</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#cadastrar-servico'>Cadastrar Serviço</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Serviço</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='pesquisar_servico.php' id='link-servico'>Serviço</a></li>";
 		}
 	}
 
 	function verficarMenuProduto(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-produto'>Produto</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#cadastrar-produto'>Cadastrar Produto</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Produto</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='pesquisar_produto.php' id='link-produto'>Produto</a></li>";
 		}
 	}
 
 	function verficarMenuOrdemDeServico(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-ordem-de-servico'>Ordem de Serviço</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#criar-ordem-servico'>Criar Ordem de Serviço</a></li>";
-			}
-			if (true) {
-				echo "<li><a href='#'>Pesquisar Ordem de Serviço</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='pesquisar_ordem_servico.php' id='link-ordem-de-servico'>Ordem de Serviço</a></li>";
 		}
 	}
 
 	function verficarMenuFinanceiro(){
 		if (true) {//editar condição para verificar acesso do usuário
-			echo "<li><a href='#' id='link-financeiro'>Finanças</a>";
-			echo "<ul>";
-			if (true) {
-				echo "<li><a href='#'>Controle de Finanças</a></li>";
-			}
-			echo "</ul>";
-			echo "</li>";
-
-			return true;
+			echo "<li><a href='#' id='link-financeiro'>Finanças</a></li>";
 		}
 	}	
 ?>

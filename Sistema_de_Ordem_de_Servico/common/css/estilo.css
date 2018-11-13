@@ -380,8 +380,13 @@ img{
     clear: both;
     margin-top: 40px;
     position: relative;
-    font-weight: 100;
+    font-weight: 100;    
 }/*input*/
+.absolute-bottom{
+	position: absolute;
+    width: 100%;
+    bottom: 0;
+}
 label{
 	font-size: 16px;
 	font-weight: 400;

@@ -25,7 +25,7 @@
 				<div class="coluna col12">
 					<h2>Realizar Login</h2>
 				</div>
-				<form action="principal.php" method="post">										
+				<form action="php/view/principal.php" method="post">										
 					<div class="coluna col12">
 						<label for="input-login">Login</label>
 						<input type="text" name="input-login" id="input-login" required>
@@ -49,19 +49,13 @@
 	//CPFinvalidoException está pegando
 	//CNPJinvalidoException está pegando
 	//A classe Mensagem está pegando
-	/*
-	require_once("php/config/config.php");
+	//A classe Sql está funcionando
+	
+	/*require_once("php/config/config.php");
 	require_once("php/autoload/autoloadModel.php");//autoloadView
-	require_once("php/autoload/autoloadView.php");
+	require_once("php/autoload/autoloadView.php");*/
 
-	use excessao\CNPJinvalidoException;
+	
 
-	try {
-		if (!Validador::validarCPF('106190294390')) {
-			throw new CNPJinvalidoException("O CNPJ inserido não é válido", 1);			
-		}
-		echo "Válido";
-	} catch (CNPJinvalidoException $e) {
-		Mensagem::exibirMensagem($e->getMessage());
-	}*/
+
 ?>

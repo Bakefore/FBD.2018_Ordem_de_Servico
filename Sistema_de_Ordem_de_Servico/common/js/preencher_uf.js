@@ -10,6 +10,6 @@ function inserirEstados(idSelect){
 	}
 }
 
-inserirEstados('select-empresa-uf');
-inserirEstados('select-funcionario-uf');
-inserirEstados('select-cliente-uf');
+//inserirEstados('select-empresa-uf');
+//inserirEstados('select-funcionario-uf');
+//inserirEstados('select-cliente-uf');

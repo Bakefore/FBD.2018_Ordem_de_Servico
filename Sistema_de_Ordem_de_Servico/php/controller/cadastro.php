@@ -2,6 +2,7 @@
 	require_once("php/config/config.php");
 	require_once("php/autoload/autoloadModel.php");
 	require_once("php/autoload/autoloadView.php");
+	require_once("php/autoload/autoloadDAO.php");	
 	use excessao\CNPJinvalidoException;
 	use excessao\CPFinvalidoException;
 
@@ -32,6 +33,10 @@
 				if(!Validador::validarCNPJ($empresa->getCNPJ())){
 					throw new CNPJinvalidoException("O CNPJ inserido não é válido", 1);												
 				}
+
+				$enderecoDAO = new EnderecoDAO($endereco);
+				$enderecoDAO->cadastrar();
+				
 				Mensagem::exibirMensagem("A Empresa foi cadastrada com sucesso!");
 			} catch (CNPJinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());

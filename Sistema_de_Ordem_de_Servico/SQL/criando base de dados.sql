@@ -43,6 +43,7 @@ create table estado(
 
 create table cidade(
 	idCidade int not null auto_increment primary key,
+    nome varchar(50) not null,
     cepInicial int not null,
     cepFinal int not null,
     idEstado int references estado(idEstado)
