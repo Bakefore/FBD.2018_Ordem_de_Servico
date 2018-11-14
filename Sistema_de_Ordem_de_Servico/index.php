@@ -21,23 +21,25 @@
 	</head>
 	<body>
 		<div class="sessao">
-			<div class="linha">
-				<div class="coluna col12">
-					<h2>Realizar Login</h2>
+			<div class="linha">			
+				<div class="coluna areacolorida">
+					<div class="coluna col12">
+						<h2>Realizar Login</h2>
+					</div>
+					<form action="php/view/principal.php" method="post">										
+						<div class="coluna col12">
+							<label for="input-login">Login</label>
+							<input type="text" name="input-login" id="input-login" required>
+						</div>
+						<div class="coluna col12">
+							<label for="input-senha">Senha</label>
+							<input type="password" name="input-senha" id="input-senha" required>
+						</div>					
+						<div class="coluna col12">
+							<input type="submit" value="Entrar" class="botao-cadastro">
+						</div>
+					</form>
 				</div>
-				<form action="php/view/principal.php" method="post">										
-					<div class="coluna col12">
-						<label for="input-login">Login</label>
-						<input type="text" name="input-login" id="input-login" required>
-					</div>
-					<div class="coluna col12">
-						<label for="input-senha">Senha</label>
-						<input type="password" name="input-senha" id="input-senha" required>
-					</div>					
-					<div class="coluna col12">
-						<input type="submit" value="Entrar" class="botao-cadastro">
-					</div>
-				</form>
 			</div>
 		</div>
 	</body>

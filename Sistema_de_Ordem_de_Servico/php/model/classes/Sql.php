@@ -10,25 +10,31 @@
 			$this->conexao = new PDO("mysql:host=localhost:3306;dbname=sistemaOrdemDeServico", "root", "");
 		}
 
-		private function definirParametros($statement, $parametros = array()){
+		/*private function definirParametros($statement, $parametros = array()){
 			foreach ($parametros as $key => $value) {
 				$statement->bindParam($key, $value);
 			}
+		}*/
+
+		private function setParams($statement, $parameters = array()){
+			foreach ($parameters as $key => $value) {
+				$this->setParam($statement, $key, $value);
+			}
 		}
-		/*
+
 		private function setParam($statement, $key, $value){
 			$statement->bindParam($key, $value);
 		}
-		*/
-		public function query($linhaDaQuery, $parametros = array()){
-			$stmt = $this->conexao->prepare($linhaDaQuery);
-			$this->definirParametros($stmt, $parametros);
+
+		public function query($linha, $parametros = array()){
+			$stmt = $this->conexao->prepare($linha);
+			$this->setParams($stmt, $parametros);
 			$stmt->execute();
 			return $stmt;
 		}
 
-		public function select($linhaDaQuery, $parametros = array()){
-			$stmt = $this->query($linhaDaQuery, $parametros);
+		public function select($linha, $parametros = array()):array{
+			$stmt = $this->query($linha, $parametros);
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}

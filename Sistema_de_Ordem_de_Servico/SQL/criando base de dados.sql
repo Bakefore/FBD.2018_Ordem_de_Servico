@@ -44,8 +44,8 @@ create table estado(
 create table cidade(
 	idCidade int not null auto_increment primary key,
     nome varchar(50) not null,
-    cepInicial int not null,
-    cepFinal int not null,
+    /*cepInicial int not null,
+    cepFinal int not null,*/
     idEstado int references estado(idEstado)
 )default charset = 'utf8';
 
@@ -62,7 +62,7 @@ create table empresa(
 	idEmpresa int not null auto_increment primary key,
     razaoSocial varchar(255) not null,
     nomeFantasia varchar(255) not null,
-    cnpj int not null,
+    cnpj varchar(18) not null,
     idEndereco int references endereco(idEndereco)
 )default charset = 'utf8';
 

@@ -5,25 +5,31 @@
 body{
     font-family: 'Roboto', sans-serif;                
     font-weight: 300;
-    background: #191970;
+    background-color: #E8E8E8;
 }
 .linha{
-	width: 360px;
+	width: 540px;
 	margin: 0 auto;
 }
 .coluna{
 	float: left;
-	padding: 0 10px;
+	padding: 0;/*20px 50px;*/
+}
+.areacolorida{
+	width: 340;
+	padding: 100px 100px;
+	background: #191970;
+	border-radius: 15px;
 }
 .col12{
-	width: 340px;
+	width: 340px;	
 }
 .logo h1{
 	font-weight: 100;
 	margin-top: 15px;
 }
 .sessao{
-	padding-top: 15%;
+	padding-top: 11%;
 }
 label{
 	font-size: 16px;
