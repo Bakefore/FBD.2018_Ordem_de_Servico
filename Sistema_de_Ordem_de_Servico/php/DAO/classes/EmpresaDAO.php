@@ -34,7 +34,10 @@
 					":cnpj"=>$this->empresa->getCNPJ(), 
 					":idEndereco"=>$this->getIdEndereco()
 				));	
-			}			
+				return true;//Retorna true caso tenha cadastrado
+			}
+			
+			return false;//Retorna false caso não tenha cadastrado			
 		}
 	}
 ?>

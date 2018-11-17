@@ -54,6 +54,25 @@
 	    </script>
 	</head>
 	<body>
+		<!--Menu Drop-down-->
+		<div id="menu-dropdown" onblur="tirarDropdown()">			
+			<ul>
+				<?php  
+					//faz a requisição da página que contém o menu superior do sistema
+					require_once("menu.php");
+
+					verificarMenuEmpresa();
+					verificarMenuAcesso();
+					verficarMenuFuncionario();
+					verficarMenuCliente();	
+					verficarMenuServico();	
+					verficarMenuProduto();								
+					verficarMenuOrdemDeServico();
+					verficarMenuFinanceiro();	
+				?>
+			</ul>			
+		</div>
+		
 		<!-- Menu Superior -->
 		<div class="header">
 			<div class="linha">
@@ -62,7 +81,7 @@
 						<h1>Adônis</h1>
 					</div>	    			
 					<div class="coluna col9">
-						<ul class="menu">
+						<ul class="menu" id="menu-superior">
 							<?php  
 								//faz a requisição da página que contém o menu superior do sistema
 								require_once("menu.php");
@@ -76,7 +95,8 @@
 								verficarMenuOrdemDeServico();
 								verficarMenuFinanceiro();	
 							?>                  
-						</ul>							    				
+						</ul>		
+						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>					    				
 					</div>
 				</header>
 			</div>

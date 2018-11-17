@@ -31,19 +31,23 @@
 
 			try {
 				if(!Validador::validarCNPJ($empresa->getCNPJ())){
-					throw new CNPJinvalidoException("O CNPJ inserido não é válido", 1);												
+					throw new CNPJinvalidoException("O CNPJ inserido não é válido", 1);										
 				}
 
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
 				$empresaDAO = new EmpresaDAO($empresa, $enderecoDAO->getId());
-				$empresaDAO->cadastrar();
-				
+				$operacao = $empresaDAO->cadastrar();
 
+				if($operacao == false){
+					throw new EntidadeJaCadastradaException("A empresa já está cadastrada!", 2);					
+				}
 
 				Mensagem::exibirMensagem("A Empresa foi cadastrada com sucesso!");
 			} catch (CNPJinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
+			} catch (EntidadeJaCadastradaException $e2){
+				Mensagem::exibirMensagem($e2->getMessage());
 			}			
 		}
 	}	
@@ -81,6 +85,25 @@
 	    <script src="../../common/js/buscar_cep.js"></script>
 	</head>
 	<body>
+		<!--Menu Drop-down-->
+		<div id="menu-dropdown" onblur="tirarDropdown()">			
+			<ul>
+				<?php  
+					//faz a requisição da página que contém o menu superior do sistema
+					require_once("menu.php");
+
+					verificarMenuEmpresa();
+					verificarMenuAcesso();
+					verficarMenuFuncionario();
+					verficarMenuCliente();	
+					verficarMenuServico();	
+					verficarMenuProduto();								
+					verficarMenuOrdemDeServico();
+					verficarMenuFinanceiro();	
+				?>
+			</ul>			
+		</div>
+		
 		<!-- Menu Superior -->
 		<div class="header">
 			<div class="linha">
@@ -89,7 +112,7 @@
 						<h1>Adônis</h1>
 					</div>	    			
 					<div class="coluna col9">
-						<ul class="menu">
+						<ul class="menu" id="menu-superior">
 							<?php  
 								//faz a requisição da página que contém o menu superior do sistema
 								require_once("menu.php");
@@ -103,7 +126,8 @@
 								verficarMenuOrdemDeServico();
 								verficarMenuFinanceiro();	
 							?>                  
-						</ul>							    				
+						</ul>
+						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>							    				
 					</div>
 				</header>
 			</div>

@@ -9,6 +9,9 @@
 		public function __construct($razaoSocial, $nomeFantasia, $cnpj, $endereco, $contatosArray = array()){
 			$this->razaoSocial = $razaoSocial;
 			$this->nomeFantasia = $nomeFantasia;
+
+			$cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);	//Deixa apenas os caracteres numéricos
+
 			$this->cnpj = $cnpj;
 			$this->contatosArray = $contatosArray;
 			$this->endereco = $endereco;

@@ -77,124 +77,248 @@
 			return $this->nome;
 		}
 
+		public function setNome($nome){
+			$this->nome = $nome;
+		}
+
 		public function getCadastrarEmpresa(){
 			return $this->cadastrarEmpresa;
+		}
+
+		public function setCadastrarEmpresa($cadastrarEmpresa){
+			$this->cadastrarEmpresa = $cadastrarEmpresa;
 		}
 
 		public function getPesquisarEmpresa(){
 			return $this->pesquisarEmpresa;
 		}
 
+		public function setPesquisarEmpresa($pesquisarEmpresa){
+			$this->pesquisarEmpresa = $pesquisarEmpresa;
+		}
+
 		public function getEditarEmpresa(){
 			return $this->editarEmpresa;
+		}
+
+		public function setEditarEmpresa($editarEmpresa){
+			$this->editarEmpresa = $editarEmpresa;
 		}
 
 		public function getExcluirEmpresa(){
 			return $this->excluirEmpresa;
 		}
 
+		public function setExcluirEmpresa($excluirEmpresa){
+			$this->excluirEmpresa = $excluirEmpresa;
+		}
+
 		public function getCriarAcesso(){
 			return $this->criarAcesso;
+		}
+
+		public function setCriarAcesso($criarAcesso){
+			$this->criarAcesso = $criarAcesso;	
 		}
 
 		public function getPesquisarAcesso(){
 			return $this->pesquisarAcesso;
 		}
 
+		public function setPesquisarAcesso($pesquisarAcesso){
+			$this->pesquisarAcesso = $pesquisarAcesso;
+		}
+
 		public function getEditarAcesso(){
 			return $this->editarAcesso;
+		}
+
+		public function setEditarAcesso($editarAcesso){
+			$this->editarAcesso = $editarAcesso;
 		}
 
 		public function getExcluirAcesso(){
 			return $this->excluirAcesso;
 		}
 
+		public function setExcluirAcesso($excluirAcesso){
+			$this->excluirAcesso = $excluirAcesso;
+		}
+
 		public function getCadastrarFuncionario(){
 			return $this->cadastrarFuncionario;
+		}
+
+		public function setCadastrarFuncionario($cadastrarFuncionario){
+			$this->cadastrarFuncionario = $cadastrarFuncionario;
 		}
 
 		public function getPesquisarFuncionario(){
 			return $this->pesquisarFuncionario;
 		}
 
+		public function setPesquisarFuncionario($pesquisarFuncionario){
+			$this->pesquisarFuncionario = $pesquisarFuncionario;
+		}
+
 		public function getEditarFuncionario(){
 			return $this->editarFuncionario;
+		}
+
+		public function setEditarFuncionario($editarFuncionario){
+			$this->editarFuncionario = $editarFuncionario;
 		}
 
 		public function getExcluirFuncionario(){
 			return $this->excluirFuncionario;
 		}
 
+		public function setExcluirFuncionario($excluirFuncionario){
+			$this->excluirFuncionario = $excluirFuncionario;
+		}
+
 		public function getCadastrarCliente(){
 			return $this->cadastrarCliente;
+		}
+
+		public function setCadastrarCliente($cadastrarCliente){
+			$this->cadastrarCliente = $cadastrarCliente;
 		}
 
 		public function getPesquisarCliente(){
 			return $this->pesquisarCliente;
 		}
 
+		public function setPesquisarCliente($pesquisarCliente){
+			$this->pesquisarCliente = $pesquisarCliente;
+		}
+
 		public function getEditarCliente(){
 			return $this->editarCliente;
+		}
+
+		public function setEditarCliente($editarCliente){
+			$this->editarCliente = $editarCliente;
 		}
 
 		public function getExcluirCliente(){
 			return $this->excluirCliente;
 		}
 
+		public function setExcluirCliente($excluirCliente){
+			$this->excluirCliente = $excluirCliente;
+		}
+
 		public function getCadastrarServico(){
 			return $this->cadastrarServico;
+		}
+
+		public function setCadastrarServico($cadastrarServico){
+			$this->cadastrarServico = $cadastrarServico;
 		}
 
 		public function getPesquisarServico(){
 			return $this->pesquisarServico;
 		}
 
+		public function setPesquisarServico($pesquisarServico){
+			$this->pesquisarServico = $pesquisarServico;
+		}
+
 		public function getEditarServico(){
 			return $this->editarServico;
+		}
+
+		public function setEditarServico($editarServico){
+			$this->editarServico = $editarServico;
 		}
 
 		public function getExcluirServico(){
 			return $this->excluirServico;
 		}
 
+		public function setExcluirServico($excluirServico){
+			$this->excluirServico = $excluirServico;
+		}
+
 		public function getCadastrarProduto(){
 			return $this->cadastrarProduto;
+		}
+
+		public function setCadastrarProduto($cadastrarProduto){
+			$this->cadastrarProduto = $cadastrarProduto;
 		}
 
 		public function getPesquisarProduto(){
 			return $this->pesquisarProduto;
 		}
 
+		public function setPesquisarProduto($pesquisarProduto){
+			$this->pesquisarProduto = $pesquisarProduto;
+		}
+
 		public function getEditarProduto(){
 			return $this->editarProduto;
+		}
+
+		public function setEditarProduto($editarProduto){
+			$this->editarProduto = $editarProduto;
 		}
 
 		public function getExcluirProduto(){
 			return $this->excluirProduto;
 		}
 
+		public function setExcluirProduto($excluirProduto){
+			$this->excluirProduto = $excluirProduto;
+		}
+
 		public function getCriarOrdemDeServico(){
 			return $this->criarOrdemDeServico;
+		}
+
+		public function setCriarOrdemDeServico($criarOrdemDeServico){
+			$this->criarOrdemDeServico = $criarOrdemDeServico;
 		}
 
 		public function getPesquisarOrdemDeServico(){
 			return $this->pesquisarOrdemDeServico;
 		}
 
+		public function setPesquisarOrdemDeServico($pesquisarOrdemDeServico){
+			$this->pesquisarOrdemDeServico = $pesquisarOrdemDeServico;
+		}
+
 		public function getEditarOrdemDeServico(){
 			return $this->editarOrdemDeServico;
+		}
+
+		public function setEditarOrdemDeServico($editarOrdemDeServico){
+			$this->editarOrdemDeServico = $editarOrdemDeServico;
 		}
 
 		public function getExcluirOrdemDeServico(){
 			return $this->excluirOrdemDeServico;
 		}
 
+		public function setExcluirOrdemDeServico($excluirOrdemDeServico){
+			$this->excluirOrdemDeServico = $excluirOrdemDeServico;
+		}
+
 		public function getExibirFinanceiro(){
 			return $this->exibirFinanceiro;
 		}
 
+		public function setExibirFinanceiro($exibirFinanceiro){
+			$this->exibirFinanceiro = $exibirFinanceiro;
+		}
+
 		public function getEditarFinanceiro(){
 			return $this->editarFinanceiro;
+		}
+
+		public function setEditarFinanceiro($editarFinanceiro){
+			$this->editarFinanceiro = $editarFinanceiro;
 		}
 	}
 ?>

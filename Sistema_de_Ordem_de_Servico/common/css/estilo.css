@@ -245,61 +245,11 @@ img{
 	.input-titulo-nome{
 		width: 300px;
 	}
-}
-/*
-@media (min-width: 1440px) {
-	.linha{
-		width: 1440px;
-		margin: 0 auto;
-	}
-	.col1{
-		width: 100px;
-	}
-	.col2{
-		width: 220px;
-	}
-	.col3{
-		width: 340px;
-	}
-	.col4{
-		width: 460px;
-	}
-	.col5{
-		width: 580px;
-	}
-	.col6{
-		width: 700px;
-	}
-	.col7{
-		width: 820px;
-	}
-	.col8{
-		width: 940px;
-	}
-	.col9{
-		width: 1060px;
-	}
-	.col10{
-		width: 1180px;
-	}
-	.col11{
-		width: 1300px;
-	}
-	.col12{
-		width: 1420px;
-	}
-	.div-centralizada{
-		width: 460px;
-		text-align: center;
-		margin: 0 auto;
-	}
-}*/	
-
+}	
 .coluna{
 	float: left;
 	padding: 0 10px;
 }
-
 .header{
 	position: fixed;
 	background-color: #df3a01;
@@ -329,38 +279,39 @@ img{
 }
 /*Classe do Menu Superior*/
 .menu{
-	list-style:none;  
-	float:right; 
+	list-style: none;  
+	float: right; 
 	margin-top: 25px;
 	font-size: 16px;
 	/*text-transform: capitalize;*/
 	font-weight: 300;
 }
 .menu li{
-	position:relative; 
-	float:left; 
+	position: relative; 
+	float: left; 
+	cursor: pointer;
 }
-.menu li a{
-	color:#fff; 
+.menu li{/*a*/
+	color: #fff; 
 	background-color: #df3a01;
-	text-decoration:none; 
-	padding:5px 10px; 
-	display:block;
+	text-decoration: none; 
+	padding: 5px 10px; 
+	display: block;
 }
-.menu li a:hover{
-	background:#fff; 
-	color:#df3a01; 
+.menu li:hover{/*a*/
+	background: #fff; 
+	color: #df3a01; 
 }
 .menu li ul{
-	position:absolute; 
-	top:29px; /*25*/ 
-	left:0; 
-	background-color:#fff; 
-	display:none; 
+	position: absolute; 
+	top: 29px; /*25*/ 
+	left: 0; 
+	background-color: #fff; 
+	display: none; 
 }
-.menu li:last-child ul{
-	/*left: -60.438055%;/*-75px; Ordem de Serviço*/
-}
+/*.menu li:last-child ul{
+	/*left: -60.438055%;/*-75px; Ordem de Serviço
+}*/
 .menu li:hover ul, .menu li.over ul{
 	display:block;
 }
@@ -368,6 +319,108 @@ img{
 	text-align: center;
 	display:block; 
 	width:220px;
+}
+#botao-menu{
+	display: none;
+}
+#menu-dropdown{
+	display: none;
+	/*margin-top: -100%;*/
+	position: fixed;
+}
+@media (min-width: 840px) and (max-width: 959px){
+	.linha{
+		width: 840px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 50px;/*70*/
+	}
+	.col2{
+		width: 120px;
+	}
+	.col3{
+		width: 190px;
+	}
+	.col4{
+		width: 260px;
+	}
+	.col5{
+		width: 330px;
+	}
+	.col6{
+		width: 400px;
+	}
+	.col7{
+		width: 470px;
+	}
+	.col8{
+		width: 540px;
+	}
+	.col9{
+		width: 610px;
+	}
+	.col10{
+		width: 680px;
+	}
+	.col11{
+		width: 750px;
+	}
+	.col12{
+		width: 820px;
+	}
+	.div-centralizada{
+		width: 260px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 190px;
+	}
+	.input-titulo-nome{
+		width: 260px;
+	}
+	#menu-superior{
+		display: none;
+	}
+	.menu{
+		display: block;
+	}
+	#menu-dropdown{
+		display: block;
+		z-index: 100;
+		margin-top: -100%;
+		text-align: center;
+		background-color: #df3a01;
+		font-size: 16px;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+	}
+	#menu-dropdown ul li{
+		margin: 0; 
+		padding: 5px;
+		cursor: pointer;		
+		color: white;	
+	}
+	#menu-dropdown ul li:hover{
+		background-color: white;
+		color: #df3a01;
+	}
+	#botao-menu{
+		display: inline;
+		float: right;
+		margin-top: 8px;
+		font-size: 50px;
+		font-weight: 100;
+	}
 }
 .footer{
     clear: both;
