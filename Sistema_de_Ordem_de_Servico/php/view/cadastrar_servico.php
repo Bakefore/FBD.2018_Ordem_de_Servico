@@ -129,12 +129,16 @@
 						<label for="textarea-servico-descricao">Descrição *</label>
 						<textarea class="descricao-servico" id="textarea-servico-descricao" required></textarea>
 					</div>	
-					<div class="div-centralizada">
-						<input type="submit" value="Cadastrar Serviço" class="botao-cadastro">
-					</div>								
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="submit" value="Cadastrar Serviço" class="botao-cadastro">
+						</div>	
+					</div>							
 				</form>
-				<div class="div-centralizada">
-					<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+					</div>
 				</div>
 			</div>
 		</div>				

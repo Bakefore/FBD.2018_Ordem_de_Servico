@@ -47,6 +47,8 @@
 				if($operacao == false){
 					throw new EntidadeJaCadastradaException("Já existe um acesso com o mesmo nome!", 1);
 				}
+
+				Mensagem::exibirMensagem("O acesso foi cadastrado com sucesso!");
 			} catch (EntidadeJaCadastradaException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
 			}
@@ -269,12 +271,16 @@
 						<input type="checkbox" value="editar-financas" name="input-editar-financas" id="input-editar-financas" />
 					    <label for="input-editar-financas" onclick="marcarCheckbox('input-exibir-financas', 'input-editar-financas')">Editar Finanças</label>			    			
 					</div>
-					<div class="div-centralizada">
-						<input type="submit" value="Criar Acesso" class="botao-cadastro">
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="submit" value="Criar Acesso" class="botao-cadastro">
+						</div>
 					</div>
 				</form>
-				<div class="div-centralizada">
-					<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+					</div>
 				</div>
 			</div>
 		</div>				

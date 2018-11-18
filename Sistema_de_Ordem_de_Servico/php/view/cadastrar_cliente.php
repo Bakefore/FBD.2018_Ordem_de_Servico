@@ -110,19 +110,7 @@
 						<select name="select-cliente-empresa" id="select-cliente-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
 					</div>					
-					<!--Linha 2-->
-					<div class="coluna col4">
-						<label for="input-cliente-email">E-mail</label>
-						<input type="email" name="input-cliente-email" id="input-cliente-email">
-					</div>
-					<div class="coluna col2">
-						<label for="input-cliente-telefone">Telefone</label>
-						<input type="text" name="input-cliente-telefone" id="input-cliente-telefone">
-					</div>
-					<div class="coluna col2">
-						<label for="input-cliente-celular">Celular *</label>
-						<input type="text" name="input-cliente-celular" id="input-cliente-celular" required>
-					</div>
+					<!--Linha 2-->					
 					<div class="coluna col2">
 						<label for="input-cliente-cep">CEP *</label>
 						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-cliente-rua', 'input-cliente-bairro', 'input-cliente-cidade', 'select-cliente-uf');" type="text" name="input-cliente-cep" id="input-cliente-cep" required>
@@ -130,8 +118,7 @@
 					<div class="coluna col2">
 						<label for="select-cliente-uf">UF *</label>
 						<select name="select-cliente-uf" id="select-cliente-uf" required></select>
-					</div>
-					<!--Linha 3-->
+					</div>					
 					<div class="coluna col2">
 						<label for="input-cliente-cidade">Cidade *</label>
 						<input type="text" name="input-cliente-cidade" id="input-cliente-cidade" required>
@@ -144,6 +131,7 @@
 						<label for="input-cliente-rua">Rua *</label>
 						<input type="text" name="input-cliente-rua" id="input-cliente-rua" required>
 					</div>
+					<!--Linha 3-->
 					<div class="coluna col2">
 						<label for="input-cliente-numero">Número *</label>
 						<input type="text" name="input-cliente-numero" id="input-cliente-numero" required>
@@ -152,12 +140,16 @@
 						<label for="input-cliente-complemento">Complemento</label>
 						<input type="text" name="input-cliente-complemento" id="input-cliente-complemento">
 					</div>
-					<div class="div-centralizada">
-						<input type="submit" value="Cadastrar Cliente" class="botao-cadastro">
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="submit" value="Cadastrar Cliente" class="botao-cadastro">
+						</div>
 					</div>					
 				</form>
-				<div class="div-centralizada">
-					<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+					</div>
 				</div>
 			</div>
 		</div>		

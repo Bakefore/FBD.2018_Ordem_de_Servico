@@ -15,12 +15,24 @@
 			return $this->login;
 		}
 
+		public function setLogin($login){
+			$this->login = $login;	
+		}
+
 		public function getSenha(){
 			return $this->senha;
 		}
 
+		public function setSenha($senha){
+			$this->senha = $senha;	
+		}
+
 		public function getAcesso(){
 			return $this->acesso;
+		}
+
+		public function setAcesso($acesso){
+			$this->acesso = $acesso;	
 		}
 	}
 ?>

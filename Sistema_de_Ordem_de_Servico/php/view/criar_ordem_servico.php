@@ -185,12 +185,16 @@
 						<label for="textarea-os-descricao">Descrição</label>
 						<textarea class="descricao-servico" id="textarea-os-descricao" required></textarea>
 					</div>
-					<div class="div-centralizada">
-						<input type="submit" value="Criar Ordem de Serviço" class="botao-cadastro">
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="submit" value="Criar Ordem de Serviço" class="botao-cadastro">
+						</div>
 					</div>
 				</form>
-				<div class="div-centralizada">
-					<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+					</div>
 				</div>
 			</div>
 		</div>				

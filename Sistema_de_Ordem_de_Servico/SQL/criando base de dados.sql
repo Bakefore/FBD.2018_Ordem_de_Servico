@@ -135,6 +135,8 @@ create table funcionario(
     idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';
 
+/*Alterar regra e fazer com que existam 3 tabelas de contato, uma para Cliente, 
+outra para funcionário  outra para fonrcedor e outra para emprsa*/
 create table contato(
 	idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
