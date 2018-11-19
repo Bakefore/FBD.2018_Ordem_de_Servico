@@ -1,3 +1,14 @@
+<?php  
+	require_once("php/view/classes/Mensagem.php");
+	if(isset($_GET['erro'])){
+		if($_GET['erro'] == 1){
+			Mensagem::exibirMensagem("Realize o login para acessar a página!");
+		}
+		else if($_GET['erro'] == 2){
+			Mensagem::exibirMensagem("Senha e/ou login incorreto(s)!");
+		}
+	}
+?>
 <!DOCTYPE html>
 <html>
 	<head>

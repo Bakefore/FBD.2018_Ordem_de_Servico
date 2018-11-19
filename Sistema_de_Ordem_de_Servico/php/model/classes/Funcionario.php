@@ -5,6 +5,7 @@
 		private $acesso;
 
 		public function __construct($nome, $cpf, $nasciemnto, $sexo, $login, $senha, $empresa, $acesso, $contatosArray, $endereco){
+			$cpf = preg_replace('/[^0-9]/', '', (string) $cpf);		//Tira todos os caracteres não numéricos do CPF
 			$this->super($nome, $cpf, $nasciemnto, $sexo, $contatosArray, $endereco, $empresa);
 			$this->login = $login;
 			$this->senha = $senha;

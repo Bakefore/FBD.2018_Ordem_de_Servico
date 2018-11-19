@@ -5,6 +5,22 @@
 	require_once("../autoload/autoloadDAO.php");
 	use excessao\CPFinvalidoException;
 	use excessao\EntidadeJaCadastradaException;
+	use excessao\SenhasDiferentesException;
+
+	if((isset($_SESSION['login']))){
+		//Caso o usuário já esteja logado, continua na mesma página
+		if($_SESSION['acesso']['cadastrarFuncionario']){
+			//Continua na página caso tenha permissão para utilizar
+		}
+		else{
+			//Caso o usuário não tenha permissão, é redirecionado para a página principal
+			header("Location: principal.php?erro=1");	
+		}
+	}
+	else{
+		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
+		header("Location: ../../index.php?erro=1");	
+	}
 
 	function cadastrarFuncionario(){
 		if((isset($_POST['input-funcionario-nome'])) && (isset($_POST['input-funcionario-cpf'])) 
@@ -24,14 +40,32 @@
 				$_POST['input-funcionario-nascimento'], $_POST['select-funcionario-sexo'], $_POST['input-funcionario-login'], 
 				$_POST['password-funcionario-senha'], $_POST['select-funcionario-empresa'], $_POST['select-funcionario-acesso'], null, $endereco);
 
+
 			try {
 				if(!Validador::validarCPF($funcionario->getCPF())){
-					throw new CPFinvalidoException("O CPF inserido não é válido", 1);								
+					throw new CPFinvalidoException("O CPF inserido não é válido", 3);								
+				}
+
+				if(($_POST['password-funcionario-confirmar-senha'] != $_POST['password-funcionario-senha'])){
+					throw new SenhasDiferentesException("As senhas devem estar iguais!", 4);					
+				}
+
+				$enderecoDAO = new EnderecoDAO($endereco);
+				$enderecoDAO->cadastrar();
+				$funcionarioDAO = new FuncionarioDAO($funcionario, $enderecoDAO->getId());
+				$operacao = $funcionarioDAO->cadastrar();
+
+				if($operacao == false){
+					throw new EntidadeJaCadastradaException("Já existe um funcionário com este login!", 5);					
 				}
 
 				Mensagem::exibirMensagem("Funcionário cadastrado com sucesso!");
 			} catch (CPFinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
+			} catch (SenhasDiferentesException $e2) {
+				Mensagem::exibirMensagem($e2->getMessage());
+			} catch (EntidadeJaCadastradaException $e3) {
+				Mensagem::exibirMensagem($e3->getMessage());
 			}
 		}
 	}
@@ -154,7 +188,7 @@
 						<label for="input-funcionario-nome">Nome *</label>
 						<input type="text" name="input-funcionario-nome" id="input-funcionario-nome" required>
 					</div>					
-					<div class="coluna col2">
+					<div class="coluna col4">
 						<label for="input-funcionario-cpf">CPF *</label>
 						<input type="text" name="input-funcionario-cpf" id="input-funcionario-cpf" required>
 					</div>
@@ -169,7 +203,7 @@
 							<option value="F">Feminino</option>
 						</select>
 					</div>					
-					<div class="coluna col2">
+					<div class="coluna col4">
 						<label for="input-funcionario-login">Login *</label>
 						<input type="text" name="input-funcionario-login" id="input-funcionario-login" required>
 					</div>
@@ -219,14 +253,18 @@
 					<div class="coluna col2">
 						<label for="input-funcionario-complemento">Complemento</label>
 						<input type="text" name="input-funcionario-complemento" id="input-funcionario-complemento">
-					</div>
+					</div>					
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="submit" value="Cadastrar Funcionário" class="botao-cadastro">
+						</div>
+					</div>					
+				</form>					
+				<div class="coluna col12">
 					<div class="div-centralizada">
-						<input type="submit" value="Cadastrar Funcionário" class="botao-cadastro">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
 					</div>
-				</form>
-				<div class="div-centralizada">
-					<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
-				</div>
+				</div>			
 			</div>
 		</div>		
 

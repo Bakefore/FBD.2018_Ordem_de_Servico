@@ -1,3 +1,40 @@
+<?php  
+	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+
+	if((isset($_POST['input-login'])) && (isset($_POST['input-senha']))){
+		$sql = new Sql();
+		$usuario = $sql->select("select * from funcionario where login = :login and senha = :senha", array(
+			":login"=>$_POST['input-login'],
+			":senha"=>$_POST['input-senha']
+		));
+
+		if($usuario == null){
+			//Caso a senha e/ou o login esteja incorreto o usuário é reencaminhado para a página de login
+			header("Location: ../../index.php?erro=2");
+		}
+
+		$acesso = $sql->select("select * from acesso where idAcesso = :idAcesso", array(
+			":idAcesso"=>$usuario[0]['idAcesso']
+		));
+		
+		$_SESSION['login'] = $_POST['input-login'];		
+		$_SESSION['acesso'] = $acesso[0];
+	}
+	else if((isset($_SESSION['login']))){
+		//Caso o usuário já esteja logado, continua na mesma página
+		if(isset($_GET['erro'])){
+			if($_GET['erro'] == 1){
+				Mensagem::exibirMensagem("O usuário não tem permissão para acessar este conteúdo!");
+			}
+		}
+	}
+	else{
+		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
+		header("Location: ../../index.php?erro=1");	
+	}	
+?>
 <!DOCTYPE html>
 <html>
 	<head>

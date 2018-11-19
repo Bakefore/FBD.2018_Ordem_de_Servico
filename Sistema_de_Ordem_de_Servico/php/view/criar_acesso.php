@@ -5,6 +5,21 @@
 	require_once("../autoload/autoloadDAO.php");
 	use excessao\EntidadeJaCadastradaException;
 
+	if((isset($_SESSION['login']))){
+		//Caso o usuário já esteja logado, continua na mesma página
+		if($_SESSION['acesso']['criarAcesso']){
+			//Continua na página caso tenha permissão para utilizar
+		}
+		else{
+			//Caso o usuário não tenha permissão, é redirecionado para a página principal
+			header("Location: principal.php?erro=1");	
+		}
+	}
+	else{
+		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
+		header("Location: ../../index.php?erro=1");	
+	}
+
 	//Verifica os dados passados para então fazer a criação de um acesso	
 	function criarAcesso(){
 		if(isset($_POST['input-acesso-nome'])){
