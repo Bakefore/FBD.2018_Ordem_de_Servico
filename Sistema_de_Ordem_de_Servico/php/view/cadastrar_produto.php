@@ -1,18 +1,7 @@
 <?php  
-	if((isset($_SESSION['login']))){
-		//Caso o usuário já esteja logado, continua na mesma página
-		if($_SESSION['acesso']['cadastrarProduto']){
-			//Continua na página caso tenha permissão para utilizar
-		}
-		else{
-			//Caso o usuário não tenha permissão, é redirecionado para a página principal
-			header("Location: principal.php?erro=1");	
-		}
-	}
-	else{
-		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
-		header("Location: ../../index.php?erro=1");	
-	}
+	require_once("../config/config.php");
+
+	verificarPermissao('cadastrarProduto');
 ?>
 <!DOCTYPE html>
 <html>
@@ -75,16 +64,17 @@
 			<ul>
 				<?php  
 					//faz a requisição da página que contém o menu superior do sistema
-					require_once("menu.php");
+					require_once("menu.php");	
 
 					verificarMenuEmpresa();
 					verificarMenuAcesso();
 					verficarMenuFuncionario();
 					verficarMenuCliente();	
 					verficarMenuServico();	
+					verificarMenuFornecedor();
 					verficarMenuProduto();								
 					verficarMenuOrdemDeServico();
-					verficarMenuFinanceiro();	
+					verficarMenuFinanceiro();
 				?>
 			</ul>			
 		</div>
@@ -100,16 +90,17 @@
 						<ul class="menu" id="menu-superior">
 							<?php  
 								//faz a requisição da página que contém o menu superior do sistema
-								require_once("menu.php");
+								require_once("menu.php");	
 
 								verificarMenuEmpresa();
 								verificarMenuAcesso();
 								verficarMenuFuncionario();
 								verficarMenuCliente();	
 								verficarMenuServico();	
+								verificarMenuFornecedor();
 								verficarMenuProduto();								
 								verficarMenuOrdemDeServico();
-								verficarMenuFinanceiro();	
+								verficarMenuFinanceiro();
 							?>                  
 						</ul>			
 						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>				    				
@@ -184,7 +175,7 @@
 					</div>
 					<div class="coluna col2">
 						<label for="input-produto-quantidade">Quantidade Inicial *</label>
-						<input type="text" name="input-produto-quantidade" id="input-produto-quantidade">
+						<input type="number" name="input-produto-quantidade" id="input-produto-quantidade">
 
 						<label for="input-produto-atacado">Atacado</label>
 						<input type="text" name="input-produto-atacado" id="input-produto-atacado" required>

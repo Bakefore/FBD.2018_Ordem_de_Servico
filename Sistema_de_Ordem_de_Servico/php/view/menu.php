@@ -1,6 +1,4 @@
 <?php
-	session_start();
-
 	function verificarMenuEmpresa(){
 		if ($_SESSION['acesso']['pesquisarEmpresa']) {//editar condição para verificar acesso do usuário
 			echo "<li onclick=encaminharPagina('pesquisar_empresa.php')>Empresa</li>";
@@ -29,6 +27,13 @@
 	function verficarMenuServico(){
 		if ($_SESSION['acesso']['pesquisarServico']) {//editar condição para verificar acesso do usuário
 			echo "<li onclick=encaminharPagina('pesquisar_servico.php')>Serviço</li>";
+		}
+	}
+
+	function verificarMenuFornecedor(){
+		if ($_SESSION['acesso']['pesquisarFornecedor']) {//editar condição para verificar acesso do usuário
+			echo "<li onclick=encaminharPagina('pesquisar_fornecedor.php')>Fornecedor</li>";
+			//<a href='pesquisar_empresa.php' id='link-empresa'>Empresa</a>
 		}
 	}
 

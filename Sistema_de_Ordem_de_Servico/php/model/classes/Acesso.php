@@ -21,6 +21,10 @@
 		private $pesquisarServico;
 		private $editarServico;
 		private $excluirServico;
+		private $cadastrarFornecedor;
+		private $pesquisarFornecedor;
+		private $editarFornecedor;
+		private $excluirFornecedor;
 		private $cadastrarProduto;
 		private $pesquisarProduto;
 		private $editarProduto;
@@ -36,7 +40,8 @@
 			$excluirEmpresa = false, $criarAcesso = false, $pesquisarAcesso = false, $editarAcesso = false, $excluirAcesso = false,
 			$cadastrarFuncionario = false, $pesquisarFuncionario = false, $editarFuncionario = false, $excluirFuncionario = false,
 			$cadastrarCliente = false, $pesquisarCliente = false, $editarCliente = false, $excluirCliente = false, $cadastrarServico = false,
-			$pesquisarServico = false, $editarServico = false, $excluirServico = false, $cadastrarProduto = false, $pesquisarProduto = false,
+			$pesquisarServico = false, $editarServico = false, $excluirServico = false, $cadastrarFornecedor = false, $pesquisarFornecedor = false,
+			$editarFornecedor = false, $excluirFornecedor = false, $cadastrarProduto = false, $pesquisarProduto = false,
 			$editarProduto = false, $excluirProduto = false, $criarOrdemDeServico = false, $pesquisarOrdemDeServico = false,
 			$editarOrdemDeServico = false, $excluirOrdemDeServico = false, $exibirFinanceiro = false, $editarFinanceiro = false){
 
@@ -61,6 +66,10 @@
 			$this->pesquisarServico = $pesquisarServico;
 			$this->editarServico = $editarServico;
 			$this->excluirServico = $excluirServico;
+			$this->cadastrarFornecedor = $cadastrarFornecedor;
+			$this->pesquisarFornecedor = $pesquisarFornecedor;
+			$this->editarFornecedor = $editarFornecedor;
+			$this->excluirFornecedor = $excluirFornecedor;
 			$this->cadastrarProduto = $cadastrarProduto;
 			$this->pesquisarProduto = $pesquisarProduto;
 			$this->editarProduto = $editarProduto;
@@ -239,6 +248,38 @@
 
 		public function setExcluirServico($excluirServico){
 			$this->excluirServico = $excluirServico;
+		}
+
+		public function getCadastrarFornecedor(){
+			return $this->cadastrarFornecedor;
+		}
+
+		public function setCadastrarFornecedor($cadastrarFornecedor){
+			$this->cadastrarFornecedor = $cadastrarFornecedor;
+		}
+
+		public function getPesquisarFornecedor(){
+			return $this->pesquisarFornecedor;
+		}
+
+		public function setPesquisarFornecedor($pesquisarFornecedor){
+			$this->pesquisarFornecedor = $pesquisarFornecedor;
+		}
+
+		public function getEditarFornecedor(){
+			return $this->editarFornecedor;
+		}
+
+		public function setEditarFornecedor($editarFornecedor){
+			$this->editarFornecedor = $editarFornecedor;
+		}
+
+		public function getExcluirFornecedor(){
+			return $this->excluirFornecedor;
+		}
+
+		public function setExcluirFornecedor($excluirFornecedor){
+			$this->excluirFornecedor = $excluirFornecedor;
 		}
 
 		public function getCadastrarProduto(){

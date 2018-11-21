@@ -2,48 +2,51 @@
 	require_once("../config/config.php");
 	require_once("../autoload/autoloadModel.php");
 	require_once("../autoload/autoloadView.php");
-	require_once("../autoload/autoloadDAO.php");	
-	use excessao\CPFinvalidoException;
-	use excessao\EntidadeJaCadastradaException;
-	
-	verificarPermissao('cadastrarCliente');
+	require_once("../autoload/autoloadDAO.php");
+	use excessao\CNPJinvalidoException;	
+	use excessao\EntidadeJaCadastradaException;	
 
-	function cadastrarcliente(){
-		if((isset($_POST['input-cliente-nome'])) && (isset($_POST['input-cliente-cpf'])) && (isset($_POST['input-cliente-nascimento'])) 
-			&& (isset($_POST['select-cliente-sexo'])) && (isset($_POST['select-cliente-empresa'])) && (isset($_POST['input-cliente-cep'])) 
-			&& (isset($_POST['select-cliente-uf'])) && (isset($_POST['input-cliente-cidade'])) && (isset($_POST['input-cliente-bairro'])) 
-			&& (isset($_POST['input-cliente-rua'])) && (isset($_POST['input-cliente-numero'])) && (isset($_POST['input-cliente-complemento']))){
+	verificarPermissao('cadastrarFornecedor');	
 
-			$endereco = new Endereco($_POST['input-cliente-cep'], $_POST['select-cliente-uf'], $_POST['input-cliente-cidade'], 
-				$_POST['input-cliente-bairro'], $_POST['input-cliente-rua'], $_POST['input-cliente-numero'], 
-				(isset($_POST['input-cliente-complemento']))?$_POST['input-cliente-complemento']:"");
+	//Verifica os dados passados para então fazer o cadastro de uma Empresa
+	function cadastrarFornecedor(){
+		if((isset($_POST['input-fornecedor-razao-social'])) && (isset($_POST['input-fornecedor-nome-fantasia'])) 
+			&& (isset($_POST['input-fornecedor-cnpj'])) && (isset($_POST['select-fornecedor-empresa']))
+			&& (isset($_POST['input-fornecedor-cep'])) && (isset($_POST['select-fornecedor-uf'])) 
+			&& (isset($_POST['input-fornecedor-cidade'])) && (isset($_POST['input-fornecedor-bairro'])) 
+			&& (isset($_POST['input-fornecedor-rua'])) && (isset($_POST['input-fornecedor-numero']))){
 
-			$cliente = new Cliente($_POST['input-cliente-nome'], $_POST['input-cliente-cpf'], $_POST['input-cliente-nascimento'], 
-				$_POST['select-cliente-sexo'], null, $endereco, $_POST['select-cliente-empresa']); 
+			$endereco = new Endereco($_POST['input-fornecedor-cep'], $_POST['select-fornecedor-uf'], $_POST['input-fornecedor-cidade'], 
+				$_POST['input-fornecedor-bairro'], $_POST['input-fornecedor-rua'], $_POST['input-fornecedor-numero'], 
+				(isset($_POST['input-fornecedor-complemento']))?$_POST['input-fornecedor-complemento']:"");
+
+			$fornecedor = new Fornecedor($_POST['input-fornecedor-razao-social'], $_POST['input-fornecedor-nome-fantasia'], $_POST['input-fornecedor-cnpj'], 
+				$endereco, null, $_POST['select-fornecedor-empresa']);			
 
 			try {
-				if(!Validador::validarCPF($cliente->getCPF())){
-					throw new CPFinvalidoException("O CPF inserido não é válido", 1);								
+				if(!Validador::validarCNPJ($fornecedor->getCNPJ())){
+					throw new CNPJinvalidoException("O CNPJ inserido não é válido", 1);								
 				}
 
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
-				$clienteDAO = new ClienteDAO($cliente, $enderecoDAO->getId());
-				$operacao = $clienteDAO->cadastrar();
+				//$empresaDAO = new EmpresaDAO($empresa, $enderecoDAO->getId());
+				//$operacao = $empresaDAO->cadastrar();
 
 				if($operacao == false){
-					throw new EntidadeJaCadastradaException("A empresa já está cadastrada!", 2);					
+					throw new EntidadeJaCadastradaException("O Fornecedor já está cadastrado!", 2);					
 				}
 
-				Mensagem::exibirMensagem("O Cliente foi cadastrado com sucesso!");
-			} catch (CPFinvalidoException $e) {
+				Mensagem::exibirMensagem("O Fornecedor foi cadastrado com sucesso!");
+			} catch (CNPJinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
 			} catch (EntidadeJaCadastradaException $e2){
 				Mensagem::exibirMensagem($e2->getMessage());
 			}			
 		}
-	}
-	cadastrarcliente();
+	}	
+
+	cadastrarFornecedor();
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,7 +77,6 @@
 
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
-
 	</head>
 	<body>
 		<!--Menu Drop-down-->
@@ -108,7 +110,7 @@
 						<ul class="menu" id="menu-superior">
 							<?php  
 								//faz a requisição da página que contém o menu superior do sistema
-								require_once("menu.php");
+								require_once("menu.php");	
 
 								verificarMenuEmpresa();
 								verificarMenuAcesso();
@@ -120,80 +122,72 @@
 								verficarMenuOrdemDeServico();
 								verficarMenuFinanceiro();
 							?>                  
-						</ul>	
-						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>			
+						</ul>
+						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>							    				
 					</div>
 				</header>
 			</div>
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="cadastrar-cliente">
+		<div class="sessao" id="cadastrar-fornecedor">
 			<div class="linha">
 				<div class="coluna col12">
-					<h2>Cadastrar Cliente</h2>
-				</div>	
+					<h2>Cadastrar Fornecedor</h2>
+				</div>
 				<form action="" method="post">
 					<!--Linha 1-->					
 					<div class="coluna col4">
-						<label for="input-cliente-nome">Nome *</label>
-						<input type="text" name="input-cliente-nome" id="input-cliente-nome" required>
-					</div>					
-					<div class="coluna col2">
-						<label for="input-cliente-cpf">CPF *</label>
-						<input type="text" name="input-cliente-cpf" id="input-cliente-cpf" required>
+						<label for="input-fornecedor-razao-social">Razão Social *</label>
+						<input type="text" name="input-fornecedor-razao-social" id="input-fornecedor-razao-social" required>
 					</div>
 					<div class="coluna col2">
-						<label for="input-cliente-nascimento">Nascimento *</label>
-						<input type="date" name="input-cliente-nascimento" id="input-cliente-nascimento" required>
+						<label for="input-fornecedor-nome-fantasia">Nome Fantasia</label>
+						<input type="text" name="input-fornecedor-nome-fantasia" id="input-fornecedor-nome-fantasia">
 					</div>
 					<div class="coluna col2">
-						<label for="select-cliente-sexo">Sexo *</label>
-						<select name="select-cliente-sexo" id="select-cliente-sexo" required>
-							<option value="M">Masculino</option>
-							<option value="F">Feminino</option>
-						</select>
+						<label for="input-fornecedor-cnpj">CNPJ *</label>
+						<input type="text" name="input-fornecedor-cnpj" id="input-fornecedor-cnpj" required>
 					</div>
 					<div class="coluna col2">
-						<label for="select-cliente-empresa">Empresa *</label>
-						<select name="select-cliente-empresa" id="select-cliente-empresa" required></select>
+						<label for="select-fornecedor-empresa">Empresa *</label>
+						<select name="select-fornecedor-empresa" id="select-fornecedor-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
-					</div>					
-					<!--Linha 2-->					
+					</div>										
 					<div class="coluna col2">
-						<label for="input-cliente-cep">CEP *</label>
-						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-cliente-rua', 'input-cliente-bairro', 'input-cliente-cidade', 'select-cliente-uf');" type="text" name="input-cliente-cep" id="input-cliente-cep" required>
+						<label for="input-fornecedor-cep">CEP *</label>
+						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-fornecedor-rua', 'input-fornecedor-bairro', 'input-fornecedor-cidade', 'select-fornecedor-uf');" type="text" name="input-fornecedor-cep" id="input-fornecedor-cep" required>
 					</div>
 					<div class="coluna col2">
-						<label for="select-cliente-uf">UF *</label>
-						<select name="select-cliente-uf" id="select-cliente-uf" required></select>
-					</div>					
+						<label for="select-fornecedor-uf">UF *</label>
+						<select name="select-fornecedor-uf" id="select-fornecedor-uf" required></select>
+					</div>
+					<!--Linha 2-->
 					<div class="coluna col2">
-						<label for="input-cliente-cidade">Cidade *</label>
-						<input type="text" name="input-cliente-cidade" id="input-cliente-cidade" required>
+						<label for="input-fornecedor-cidade">Cidade *</label>
+						<input type="text" name="input-fornecedor-cidade" id="input-fornecedor-cidade" required>
 					</div>
 					<div class="coluna col2">
-						<label for="input-cliente-bairro">Bairro *</label>
-						<input type="text" name="input-cliente-bairro" id="input-cliente-bairro" required>
+						<label for="input-fornecedor-bairro">Bairro *</label>
+						<input type="text" name="input-fornecedor-bairro" id="input-fornecedor-bairro" required>
 					</div>
 					<div class="coluna col4">
-						<label for="input-cliente-rua">Rua *</label>
-						<input type="text" name="input-cliente-rua" id="input-cliente-rua" required>
-					</div>
-					<!--Linha 3-->
-					<div class="coluna col2">
-						<label for="input-cliente-numero">Número *</label>
-						<input type="text" name="input-cliente-numero" id="input-cliente-numero" required>
+						<label for="input-fornecedor-rua">Rua *</label>
+						<input type="text" name="input-fornecedor-rua" id="input-fornecedor-rua" required>
 					</div>
 					<div class="coluna col2">
-						<label for="input-cliente-complemento">Complemento</label>
-						<input type="text" name="input-cliente-complemento" id="input-cliente-complemento">
+						<label for="input-fornecedor-numero">Número *</label>
+						<input type="text" name="input-fornecedor-numero" id="input-fornecedor-numero" required>
+					</div>
+					<div class="coluna col2">
+						<label for="input-fornecedor-complemento">Complemento</label>
+						<input type="text" name="input-fornecedor-complemento" id="input-fornecedor-complemento">
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Cadastrar Cliente" class="botao-cadastro">
+							<input type="submit" value="Cadastrar fornecedor" class="botao-cadastro">
 						</div>
-					</div>					
+					</div>
 				</form>
 				<div class="coluna col12">
 					<div class="div-centralizada">
@@ -217,7 +211,7 @@
 	    <script src="../../common/js/preencher_uf.js"></script>
 
 	    <script type="text/javascript">
-	    	inserirEstados('select-cliente-uf');
+	    	inserirEstados('select-fornecedor-uf');
 	    </script>   	 
 	</body>
 </html>
@@ -234,7 +228,7 @@
 						var option = document.createElement('option');
 						option.text = '$valor';
 						option.value = '$valor';
-						document.getElementById('select-cliente-empresa').appendChild(option);
+						document.getElementById('select-fornecedor-empresa').appendChild(option);
 					</script>";
 				}				
 			}
@@ -250,3 +244,5 @@
 		</script>";
 	}
 ?>
+
+				

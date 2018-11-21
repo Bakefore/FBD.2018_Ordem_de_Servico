@@ -2,27 +2,33 @@ create database sistemaOrdemDeServico;
 use sistemaOrdemDeServico;
 
 #Tabelas Fortes
-#Tabelas criadas 16/16
+#Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
 
+select * from estado;
+select * from cidade;
+select * from endereco;
+select * from empresa;
+select * from funcionario;
+select * from acesso;
+select * from cliente;
+select * from  servico;
+truncate estado;
+truncate cidade;
+truncate endereco;
+truncate empresa;
+
 create table produto(
-	idProduto int not null auto_increment primary key,
+    idProduto int not null auto_increment primary key,
     descricao varchar(255) null,
     marca varchar(50) not null,
     modelo varchar(50) null,
     tipo varchar(50) not null
 )default charset = 'utf8';
 
-create table fornecedor(
-	idFornecedor int not null auto_increment primary key,
-    razaoSocial varchar(255) not null,
-    cnpj int not null,
-    idEndereco int references endereco(idEndereco)
-)default charset = 'utf8';
-
 create table itemProduto(
-	idItemProduto int not null auto_increment primary key,
-	promocao boolean not null,
+    idItemProduto int not null auto_increment primary key,
+    promocao boolean not null,
     desconto float null,
     dataCompra date not null,
     dataValidade date not null,
@@ -37,12 +43,12 @@ create table itemProduto(
 )default charset = 'utf8';
 
 create table estado(
-	idEstado int not null auto_increment primary key,
-	uf char(2) not null 
+    idEstado int not null auto_increment primary key,
+    uf char(2) not null 
 )default charset = 'utf8';
 
 create table cidade(
-	idCidade int not null auto_increment primary key,
+    idCidade int not null auto_increment primary key,
     nome varchar(50) not null,
     /*cepInicial int not null,
     cepFinal int not null,*/
@@ -50,7 +56,7 @@ create table cidade(
 )default charset = 'utf8';
 
 create table endereco(
-	idEndereco int not null auto_increment primary key,
+    idEndereco int not null auto_increment primary key,
     bairro varchar(50) not null,
     rua varchar(50) not null,
     numero int not null,
@@ -59,15 +65,23 @@ create table endereco(
 )default charset = 'utf8';
 
 create table empresa(
-	idEmpresa int not null auto_increment primary key,
+    idEmpresa int not null auto_increment primary key,
     razaoSocial varchar(255) not null,
     nomeFantasia varchar(255) not null,
     cnpj varchar(18) not null,
     idEndereco int references endereco(idEndereco)
 )default charset = 'utf8';
 
+create table fornecedor(
+    idFornecedor int not null auto_increment primary key,
+    razaoSocial varchar(255) not null,
+    cnpj int not null,
+    idEndereco int references endereco(idEndereco),
+    idEmpresa int references empresa(idEmpresa)
+)default charset = 'utf8';
+
 create table servico(
-	idServico int not null auto_increment primary key,
+    idServico int not null auto_increment primary key,
     nome varchar(50) not null,
     tipo varchar(50) not null,
     descricao varchar(255) not null,
@@ -76,12 +90,10 @@ create table servico(
 )default charset = 'utf8';
 
 create table cliente(
-	idCliente int not null auto_increment primary key,
-    tipoDePessoa char(1) not null,
+    idCliente int not null auto_increment primary key,
     sexo char(1) not null,
     nome varchar(50) not null,
-    nomeFantasia varchar(50) null,
-    cpf_cnpj int not null,
+    cpf varchar(11) not null,
     dataNascimento date null,
     idEmpresa int references empresa(idEmpresa),
     idEndereco int references endereco(idEndereco)
@@ -109,7 +121,11 @@ create table acesso(
     adicionarServico boolean not null,
     editarServico boolean not null,
     pesquisarServico boolean not null,
-    excluirServico boolean not null,        
+    excluirServico boolean not null,    
+    cadastrarFornecedor boolean not null,
+    pesquisarFornecedor boolean not null,
+    editarFornecedor boolean not null,
+    excluirFornecedor boolean not null,
     cadastrarProduto boolean not null,
     editarProduto boolean not null,
     pesquisarProduto boolean not null,
@@ -123,11 +139,11 @@ create table acesso(
 )default charset = 'utf8';
 
 create table funcionario(
-	idFuncionario int not null auto_increment primary key,
+    idFuncionario int not null auto_increment primary key,
     sexo char(1) not null,
     nome varchar(50) not null,
-    cpf int not null,
-    dataNascimento date not null,
+    cpf varchar(11) not null,
+    dataNascimento date not null,/*date*/
     login varchar(255) not null,
     senha varchar(255) not null,
     idAcesso int references acesso(idAcesso),   /*Verificar se a tabela de Acesso está OK*/
@@ -135,58 +151,88 @@ create table funcionario(
     idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';
 
-/*Alterar regra e fazer com que existam 3 tabelas de contato, uma para Cliente, 
-outra para funcionário  outra para fonrcedor e outra para emprsa*/
-create table contato(
-	idContato int not null auto_increment primary key,
+
+
+insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario,
+    pesquisarFuncionario, excluirFuncionario, criarAcesso, editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, 
+    pesquisarCliente, excluirCliente, adicionarServico, editarServico, pesquisarServico, excluirServico, cadastrarFornecedor, 
+    pesquisarFornecedor, editarFornecedor, excluirFornecedor, cadastrarProduto, editarProduto,  pesquisarProduto, excluirProduto, 
+    criarOrdemDeServico, editarOrdemDeServico, pesquisarOrdemDeServico, excluirOrdemDeServico,    
+    exibirFinanceiro, editarFinanceiro) values ('superadmin', true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, 
+    true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+    
+insert into funcionario (sexo, nome, cpf, dataNascimento, login, senha, idAcesso, idEndereco, idEmpresa) 
+values ('M', 'admin', '10619029439', '1998-08-29', 'admin', 'admin', '1', '2', '1');
+    
+
+create table contatoCliente(
+    idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
     tipo varchar(50) not null,
-    idCliente int references cliente(idCliente),
-    idFuncionario int references funcionario(idFuncionario),
-    idFornecedor int references fornecedor(idFornecedor),
+    idCliente int references cliente(idCliente)
+)default charset = 'utf8';
+
+create table contatoFuncionario(
+    idContato int not null auto_increment primary key,
+    descricao varchar(255) not null,
+    tipo varchar(50) not null,
+    idFuncionario int references funcionario(idFuncionario)
+)default charset = 'utf8';
+
+create table contatoFornecedor(
+    idContato int not null auto_increment primary key,
+    descricao varchar(255) not null,
+    tipo varchar(50) not null,
+    idFornecedor int references fornecedor(idFornecedor)
+)default charset = 'utf8';
+
+create table contatoEmpresa(
+    idContato int not null auto_increment primary key,
+    descricao varchar(255) not null,
+    tipo varchar(50) not null,
     idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';
 
 create table ordemDeServico(
-	idOrdemDeServico int not null auto_increment primary key,
-	dataDeSolicitacao date not null,
-	descricao varchar(255) not null,
-	dataDeExecucao date not null,
-	formaDePagamento varchar(20) not null,
-	desconto float null,
-	quantidadeParcelas int not null,
-	valorFinal float not null,
-	tipo varchar(50) not null,
-	idEmpresa int references empresa(idEmpresa),
-	idCliente int references cliente(idCliente),
-	idFuncionarioAtendente int references funcionario(idFuncionario),
-	idFuncionarioTecnico int references funcionario(idFuncionario)
+    idOrdemDeServico int not null auto_increment primary key,
+    dataDeSolicitacao date not null,
+    descricao varchar(255) not null,
+    dataDeExecucao date not null,
+    formaDePagamento varchar(20) not null,
+    desconto float null,
+    quantidadeParcelas int not null,
+    valorFinal float not null,
+    tipo varchar(50) not null,
+    idEmpresa int references empresa(idEmpresa),
+    idCliente int references cliente(idCliente),
+    idFuncionarioAtendente int references funcionario(idFuncionario),
+    idFuncionarioTecnico int references funcionario(idFuncionario)
 )default charset = 'utf8';
 
 create table parcela(
-	idParcela int not null auto_increment primary key,
-	codigo int not null,
-	quantidadeTotal int not null,
-	ativo boolean not null,
-	valor float not null,
-	parcelaAtual int not null,
-	idOrdemDeServico int references ordemDeServico(idOrdemDeServico),
-	idCliente int references cliente(idCliente) 
+    idParcela int not null auto_increment primary key,
+    codigo int not null,
+    quantidadeTotal int not null,
+    ativo boolean not null,
+    valor float not null,
+    parcelaAtual int not null,
+    idOrdemDeServico int references ordemDeServico(idOrdemDeServico),
+    idCliente int references cliente(idCliente) 
 )default charset = 'utf8';
 
 create table itemVenda(
-	idItemVenda int not null auto_increment primary key,
-	quantidade int not null,
-	promocao boolean not null,
-	valorDesconto float null,
-	tipo varchar(50) not null,
-	porcentagemPromocao float not null,
-	idItemProduto int references itemProduto(idItemProduto),
-	idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
+    idItemVenda int not null auto_increment primary key,
+    quantidade int not null,
+    promocao boolean not null,
+    valorDesconto float null,
+    tipo varchar(50) not null,
+    porcentagemPromocao float not null,
+    idItemProduto int references itemProduto(idItemProduto),
+    idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
 )default charset = 'utf8';
 
 create table servico_ordemDeServico(
-	idServico_ordemDeServico int not null auto_increment primary key,
+    idServico_ordemDeServico int not null auto_increment primary key,
     idServico int references servico(idServico),
-	idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
+    idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
 )default charset = 'utf8';

@@ -21,7 +21,7 @@
 
 			//Caso não exista nenhum acesso com este nome, poderá cadastrar o acesso
 			if($resultadoAcesso == null){
-				$sql->query("insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario, pesquisarFuncionario, excluirFuncionario, criarAcesso,    editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, pesquisarCliente,     excluirCliente, adicionarServico, editarServico, pesquisarServico, excluirServico, cadastrarProduto, 	    editarProduto, pesquisarProduto, excluirProduto, criarOrdemDeServico, editarOrdemDeServico, 	    pesquisarOrdemDeServico, excluirOrdemDeServico, exibirFinanceiro, editarFinanceiro) values (:nome, :cadastrarEmpresa, :editarEmpresa, :pesquisarEmpresa, :excluirEmpresa, :cadastrarFuncionario, :editarFuncionario, :pesquisarFuncionario, :excluirFuncionario, :criarAcesso, :editarAcesso, :pesquisarAcesso, :excluirAcesso, :cadastrarCliente, :editarCliente, :pesquisarCliente, :excluirCliente, :adicionarServico, :editarServico, :pesquisarServico, :excluirServico, :cadastrarProduto, :editarProduto, :pesquisarProduto, :excluirProduto, :criarOrdemDeServico, :editarOrdemDeServico, :pesquisarOrdemDeServico, :excluirOrdemDeServico, :exibirFinanceiro, :editarFinanceiro)", array(
+				$sql->query("insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario, pesquisarFuncionario, excluirFuncionario, criarAcesso,    editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, pesquisarCliente,     excluirCliente, adicionarServico, editarServico, pesquisarServico, excluirServico, cadastrarFornecedor, pesquisarFornecedor, editarFornecedor, excluirFornecedor, cadastrarProduto, 	    editarProduto, pesquisarProduto, excluirProduto, criarOrdemDeServico, editarOrdemDeServico, 	    pesquisarOrdemDeServico, excluirOrdemDeServico, exibirFinanceiro, editarFinanceiro) values (:nome, :cadastrarEmpresa, :editarEmpresa, :pesquisarEmpresa, :excluirEmpresa, :cadastrarFuncionario, :editarFuncionario, :pesquisarFuncionario, :excluirFuncionario, :criarAcesso, :editarAcesso, :pesquisarAcesso, :excluirAcesso, :cadastrarCliente, :editarCliente, :pesquisarCliente, :excluirCliente, :adicionarServico, :editarServico, :pesquisarServico, :excluirServico, :cadastrarFornecedor, :pesquisarFornecedor, :editarFornecedor, :excluirFornecedor, :cadastrarProduto, :editarProduto, :pesquisarProduto, :excluirProduto, :criarOrdemDeServico, :editarOrdemDeServico, :pesquisarOrdemDeServico, :excluirOrdemDeServico, :exibirFinanceiro, :editarFinanceiro)", array(
 
 					":nome"=>$this->acesso->getNome(), 
 					":cadastrarEmpresa"=>$this->acesso->getCadastrarEmpresa(), 
@@ -43,7 +43,11 @@
 					":adicionarServico"=>$this->acesso->getCadastrarServico(), 
 					":editarServico"=>$this->acesso->getEditarServico(), 
 					":pesquisarServico"=>$this->acesso->getPesquisarServico(), 
-					":excluirServico"=>$this->acesso->getExcluirServico(), 
+					":excluirServico"=>$this->acesso->getExcluirServico(),
+					":cadastrarFornecedor"=>$this->acesso->getCadastrarFornecedor(), 
+					":pesquisarFornecedor"=>$this->acesso->getPesquisarFornecedor(), 
+					":editarFornecedor"=>$this->acesso->getEditarFornecedor(), 
+					":excluirFornecedor"=>$this->acesso->getExcluirFornecedor(),
 					":cadastrarProduto"=>$this->acesso->getCadastrarProduto(), 
 					":editarProduto"=>$this->acesso->getEditarProduto(), 
 					":pesquisarProduto"=>$this->acesso->getPesquisarProduto(), 

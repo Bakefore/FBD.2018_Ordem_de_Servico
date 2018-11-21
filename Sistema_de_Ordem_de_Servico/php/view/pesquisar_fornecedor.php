@@ -1,44 +1,7 @@
 <?php  
 	require_once("../config/config.php");
-	require_once("../autoload/autoloadModel.php");
-	require_once("../autoload/autoloadView.php");
 
-	if((isset($_POST['input-login'])) && (isset($_POST['input-senha']))){
-		$sql = new Sql();
-		$usuario = $sql->select("select * from funcionario where login = :login and senha = :senha", array(
-			":login"=>$_POST['input-login'],
-			":senha"=>$_POST['input-senha']
-		));
-
-		if($usuario == null){
-			//Caso a senha e/ou o login esteja incorreto o usuário é reencaminhado para a página de login
-			header("Location: ../../index.php?erro=2");
-		}
-
-		$acesso = $sql->select("select * from acesso where idAcesso = :idAcesso", array(
-			":idAcesso"=>$usuario[0]['idAcesso']
-		));
-
-		$empresa = $sql->select("select * from empresa where idEmpresa = :idEmpresa", array(
-			":idEmpresa"=>$usuario[0]['idEmpresa']
-		));
-		
-		$_SESSION['login'] = $_POST['input-login'];	
-		$_SESSION['empresa'] = $empresa[0];	
-		$_SESSION['acesso'] = $acesso[0];
-	}
-	else if((isset($_SESSION['login']))){
-		//Caso o usuário já esteja logado, continua na mesma página
-		if(isset($_GET['erro'])){
-			if($_GET['erro'] == 1){
-				Mensagem::exibirMensagem("O usuário não tem permissão para acessar este conteúdo!");
-			}
-		}
-	}
-	else{
-		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
-		header("Location: ../../index.php?erro=1");	
-	}	
+	verificarPermissao('pesquisarFornecedor');
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,13 +28,17 @@
 		<script src="../../common/js/jquery/jquery-3.2.1.min.js"></script> 
 
 		<!--Configurações Gerais-->
-		<script src="../../common/js/configuracoes.js"></script>	    
+		<script src="../../common/js/configuracoes.js"></script>
+
+		<!-- Adicionando ViaCEP -->
+	    <script src="../../common/js/buscar_cep.js"></script>
+
 	</head>
 	<body>
 		<!--Menu Drop-down-->
 		<div id="menu-dropdown" onblur="tirarDropdown()">			
 			<ul>
-				<?php 
+				<?php  
 					//faz a requisição da página que contém o menu superior do sistema
 					require_once("menu.php");
 
@@ -87,7 +54,7 @@
 				?>
 			</ul>			
 		</div>
-
+		
 		<!-- Menu Superior -->
 		<div class="header">
 			<div class="linha">
@@ -110,16 +77,34 @@
 								verficarMenuProduto();								
 								verficarMenuOrdemDeServico();
 								verficarMenuFinanceiro();
-							?>
-						</ul>	
-						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>		
+							?>                  
+						</ul>		
+						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>					    				
 					</div>
 				</header>
 			</div>
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-				
+		<div class="sessao" id="cadastrar-cliente">
+			<div class="linha">
+				<div class="coluna col12">
+					<h2>Fornecedor</h2>
+				</div>	
+				<form action="" method="">
+					<!--Linha 1-->						
+					<div class="coluna col8">
+						<input type="text" name="input-cliente-nome" id="input-cliente-nome" placeholder="Pesquisar" required>
+					</div>							
+					<div class="coluna col2">
+						<input type="submit" value="Buscar" class="botao-cadastro">
+					</div>					
+				</form>
+				<div class="coluna col2">
+					<input type="submit" value="Cadastrar" class="botao-cadastro" onclick="encaminharPagina('cadastrar_fornecedor.php')">
+				</div>
+			</div>
+		</div>			
 
 		<div class="footer absolute-bottom">
 			<div class="linha">
@@ -129,6 +114,6 @@
 					</div>
 				</footer>
 			</div>
-		</div>	 	 
+		</div>	
 	</body>
 </html>

@@ -5,20 +5,7 @@
 	require_once("../autoload/autoloadDAO.php");
 	use excessao\EntidadeJaCadastradaException;
 
-	if((isset($_SESSION['login']))){
-		//Caso o usuário já esteja logado, continua na mesma página
-		if($_SESSION['acesso']['criarAcesso']){
-			//Continua na página caso tenha permissão para utilizar
-		}
-		else{
-			//Caso o usuário não tenha permissão, é redirecionado para a página principal
-			header("Location: principal.php?erro=1");	
-		}
-	}
-	else{
-		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
-		header("Location: ../../index.php?erro=1");	
-	}
+	verificarPermissao('criarAcesso');
 
 	//Verifica os dados passados para então fazer a criação de um acesso	
 	function criarAcesso(){
@@ -43,7 +30,11 @@
 			$acesso->setCadastrarServico(isset($_POST['input-servico-cadastrar-servico']))?true:false;						
 			$acesso->setPesquisarServico(isset($_POST['input-servico-pesquisar-servico']))?true:false;						
 			$acesso->setEditarServico(isset($_POST['input-servico-editar-servico']))?true:false;						
-			$acesso->setExcluirServico(isset($_POST['input-servico-excluir-servico']))?true:false;						
+			$acesso->setExcluirServico(isset($_POST['input-servico-excluir-servico']))?true:false;
+			$acesso->setCadastrarFornecedor(isset($_POST['input-fornecedor-cadastrar-fornecedor']))?true:false;
+			$acesso->setPesquisarFornecedor(isset($_POST['input-fornecedor-pesquisar-fornecedor']))?true:false;
+			$acesso->setEditarFornecedor(isset($_POST['input-fornecedor-editar-fornecedor']))?true:false;
+			$acesso->setExcluirFornecedor(isset($_POST['input-fornecedor-excluir-fornecedor']))?true:false;
 			$acesso->setCadastrarProduto(isset($_POST['input-produto-cadastrar-produto']))?true:false;						
 			$acesso->setPesquisarProduto(isset($_POST['input-produto-pesquisar-produto']))?true:false;						
 			$acesso->setEditarProduto(isset($_POST['input-produto-editar-produto']))?true:false;						
@@ -140,9 +131,10 @@
 					verficarMenuFuncionario();
 					verficarMenuCliente();	
 					verficarMenuServico();	
+					verificarMenuFornecedor();
 					verficarMenuProduto();								
 					verficarMenuOrdemDeServico();
-					verficarMenuFinanceiro();	
+					verficarMenuFinanceiro();
 				?>
 			</ul>			
 		</div>
@@ -158,16 +150,17 @@
 						<ul class="menu" id="menu-superior">
 							<?php  
 								//faz a requisição da página que contém o menu superior do sistema
-								require_once("menu.php");
+								require_once("menu.php");	
 
 								verificarMenuEmpresa();
 								verificarMenuAcesso();
 								verficarMenuFuncionario();
 								verficarMenuCliente();	
 								verficarMenuServico();	
+								verificarMenuFornecedor();
 								verficarMenuProduto();								
 								verficarMenuOrdemDeServico();
-								verficarMenuFinanceiro();	
+								verficarMenuFinanceiro();
 							?>                  
 						</ul>			
 						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>				    				
@@ -253,6 +246,28 @@
 					    <input type="checkbox" value="excluir-servico" name="input-servico-excluir-servico" id="input-servico-excluir-servico" />
 					    <label for="input-servico-excluir-servico" onclick="marcarCheckbox('input-servico-pesquisar-servico', 'input-servico-excluir-servico')">Excluir Serviço</label>				
 					</div>
+
+
+
+
+					<div class="div-criar-acesso">						
+					    <input type="checkbox" value="cadastrar-fornecedor" name="input-fornecedor-cadastrar-fornecedor" id="input-fornecedor-cadastrar-fornecedor" />
+					    <label for="input-fornecedor-cadastrar-fornecedor">Cadastrar Fornecedor</label>
+						</br></br>
+					    <input type="checkbox" value="pesquisar-fornecedor" name="input-fornecedor-pesquisar-fornecedor" id="input-fornecedor-pesquisar-fornecedor" />
+					    <label for="input-fornecedor-pesquisar-fornecedor" onclick="desmarcarEditarExcluir('input-fornecedor-pesquisar-fornecedor', 'input-fornecedor-editar-fornecedor', 'input-fornecedor-excluir-fornecedor')">Pesquisar Fornecedor</label>		
+					    </br></br>
+					    <input type="checkbox" value="editar-fornecedor" name="input-fornecedor-editar-fornecedor" id="input-fornecedor-editar-fornecedor" />
+					    <label for="input-fornecedor-editar-fornecedor" onclick="marcarCheckbox('input-fornecedor-pesquisar-fornecedor', 'input-fornecedor-editar-fornecedor')">Editar Fornecedor</label>		
+					    </br></br>
+					    <input type="checkbox" value="excluir-fornecedor" name="input-fornecedor-excluir-fornecedor" id="input-fornecedor-excluir-fornecedor" />
+					    <label for="input-fornecedor-excluir-fornecedor" onclick="marcarCheckbox('input-fornecedor-pesquisar-fornecedor', 'input-fornecedor-excluir-fornecedor')">Excluir Fornecedor</label>				
+					</div>
+
+
+
+
+
 					<div class="div-criar-acesso">						
 					    <input type="checkbox" value="cadastrar-produto" name="input-produto-cadastrar-produto" id="input-produto-cadastrar-produto" />
 					    <label for="input-produto-cadastrar-produto">Cadastrar Produto</label>

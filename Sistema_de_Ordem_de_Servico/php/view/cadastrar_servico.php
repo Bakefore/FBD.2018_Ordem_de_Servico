@@ -1,18 +1,41 @@
 <?php  
-	if((isset($_SESSION['login']))){
-		//Caso o usuário já esteja logado, continua na mesma página
-		if($_SESSION['acesso']['adicionarServico']){
-			//Continua na página caso tenha permissão para utilizar
-		}
-		else{
-			//Caso o usuário não tenha permissão, é redirecionado para a página principal
-			header("Location: principal.php?erro=1");	
+	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
+	use excessao\EntidadeJaCadastradaException;
+	use excessao\ValorNaoNumericoException;
+
+	verificarPermissao('adicionarServico');
+
+	function cadastrarServico(){
+		if((isset($_POST['input-servico-nome'])) && (isset($_POST['select-servico-empresa'])) && (isset($_POST['input-servico-valor'])) 
+			&& (isset($_POST['select-servico-tipo']))  && (isset($_POST['textarea-servico-descricao']))){
+
+			$servico = new Servico($_POST['input-servico-nome'], $_POST['input-servico-valor'], $_POST['select-servico-empresa'], 
+				$_POST['select-servico-tipo'], $_POST['textarea-servico-descricao']);
+
+			try {
+				if(!is_numeric($_POST['input-servico-valor'])){
+					throw new ValorNaoNumericoException("Insira um valor numérico no campo valor!", 2);					
+				}
+
+				$servicoDAO = new ServicoDAO($servico);
+				$operacao = $servicoDAO->cadastrar();
+
+				if($operacao == false){
+					throw new EntidadeJaCadastradaException("Já existe um serviço com o mesmo nome!", 1);					
+				}
+
+				Mensagem::exibirMensagem("O Serviço foi inserido com sucesso!");
+			} catch (EntidadeJaCadastradaException $e) {
+				Mensagem::exibirMensagem($e->getMessage());
+			} catch (ValorNaoNumericoException $e2) {
+				Mensagem::exibirMensagem($e2->getMessage());
+			}
 		}
 	}
-	else{
-		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
-		header("Location: ../../index.php?erro=1");	
-	}
+	cadastrarServico();
 ?>
 <!DOCTYPE html>
 <html>
@@ -75,16 +98,17 @@
 			<ul>
 				<?php  
 					//faz a requisição da página que contém o menu superior do sistema
-					require_once("menu.php");
+					require_once("menu.php");	
 
 					verificarMenuEmpresa();
 					verificarMenuAcesso();
 					verficarMenuFuncionario();
 					verficarMenuCliente();	
 					verficarMenuServico();	
+					verificarMenuFornecedor();
 					verficarMenuProduto();								
 					verficarMenuOrdemDeServico();
-					verficarMenuFinanceiro();	
+					verficarMenuFinanceiro();
 				?>
 			</ul>			
 		</div>
@@ -107,9 +131,10 @@
 								verficarMenuFuncionario();
 								verficarMenuCliente();	
 								verficarMenuServico();	
+								verificarMenuFornecedor();
 								verficarMenuProduto();								
 								verficarMenuOrdemDeServico();
-								verficarMenuFinanceiro();	
+								verficarMenuFinanceiro();
 							?>                  
 						</ul>	
 						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>						    				
@@ -124,7 +149,7 @@
 				<div class="coluna col12">
 					<h2>Cadastrar Serviço</h2>
 				</div>	
-				<form action="" method="">
+				<form action="" method="post">
 					<div class="coluna col4">
 						<label for="input-servico-nome">Nome *</label>
 						<input type="text" name="input-servico-nome" id="input-servico-nome" required>
@@ -143,7 +168,7 @@
 					</div>	
 					<div class="coluna col6">
 						<label for="textarea-servico-descricao">Descrição *</label>
-						<textarea class="descricao-servico" id="textarea-servico-descricao" required></textarea>
+						<textarea class="descricao-servico" id="textarea-servico-descricao" name="textarea-servico-descricao" required></textarea>
 					</div>	
 					<div class="coluna col12">
 						<div class="div-centralizada">
@@ -177,3 +202,32 @@
 	    </script>   	 
 	</body>
 </html>
+<?php  
+	//Editar esta condição para que fique da seguinte forma: caso o usuário logado for um superadmin, todas as empresas serão exibidas no combobox, mas caso não seja, deve aparecer apenas a empresa pelo qual aquele funcionário foi cadastrado
+	if($_SESSION['acesso']['nome'] == 'superadmin'){		//Caso for um superadmin, mostra todas as empresas possíveis
+		$sql = new Sql();
+		$empresas = $sql->select("select * from empresa", array());
+		foreach ($empresas as $empresa) {				
+			foreach ($empresa as $campo => $valor) {
+				if($campo == 'razaoSocial'){
+					echo "
+					<script>
+						var option = document.createElement('option');
+						option.text = '$valor';
+						option.value = '$valor';
+						document.getElementById('select-servico-empresa').appendChild(option);
+					</script>";
+				}				
+			}
+		}		
+	}
+	else{
+		echo "
+		<script>
+			var option = document.createElement('option');
+			option.text = '$_SESSION[empresa][razaoSocial]';
+			option.value = '$_SESSION[empresa][razaoSocial]';
+			document.getElementById('select-funcionario-empresa').appendChild(option);
+		</script>";
+	}
+?>

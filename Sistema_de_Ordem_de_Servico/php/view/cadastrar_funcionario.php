@@ -7,20 +7,7 @@
 	use excessao\EntidadeJaCadastradaException;
 	use excessao\SenhasDiferentesException;
 
-	if((isset($_SESSION['login']))){
-		//Caso o usuário já esteja logado, continua na mesma página
-		if($_SESSION['acesso']['cadastrarFuncionario']){
-			//Continua na página caso tenha permissão para utilizar
-		}
-		else{
-			//Caso o usuário não tenha permissão, é redirecionado para a página principal
-			header("Location: principal.php?erro=1");	
-		}
-	}
-	else{
-		//Caso não tenha dado inserido no login, o usuário é reencaminhado para fazer o login
-		header("Location: ../../index.php?erro=1");	
-	}
+	verificarPermissao('cadastrarFuncionario');
 
 	function cadastrarFuncionario(){
 		if((isset($_POST['input-funcionario-nome'])) && (isset($_POST['input-funcionario-cpf'])) 
@@ -133,16 +120,17 @@
 			<ul>
 				<?php  
 					//faz a requisição da página que contém o menu superior do sistema
-					require_once("menu.php");
+					require_once("menu.php");	
 
 					verificarMenuEmpresa();
 					verificarMenuAcesso();
 					verficarMenuFuncionario();
 					verficarMenuCliente();	
 					verficarMenuServico();	
+					verificarMenuFornecedor();
 					verficarMenuProduto();								
 					verficarMenuOrdemDeServico();
-					verficarMenuFinanceiro();	
+					verficarMenuFinanceiro();
 				?>
 			</ul>			
 		</div>
@@ -165,9 +153,10 @@
 								verficarMenuFuncionario();
 								verficarMenuCliente();	
 								verficarMenuServico();	
+								verificarMenuFornecedor();
 								verficarMenuProduto();								
 								verficarMenuOrdemDeServico();
-								verficarMenuFinanceiro();	
+								verficarMenuFinanceiro();
 							?>                  
 						</ul>		
 						<label onclick="mudarMenuDropdown()" id="botao-menu">&equiv;</label>					    				
@@ -288,7 +277,7 @@
 </html>
 <?php   
 	//Editar esta condição para que fique da seguinte forma: caso o usuário logado for um superadmin, todas as empresas serão exibidas no combobox, mas caso não seja, deve aparecer apenas a empresa pelo qual aquele funcionário foi cadastrado
-	if(true){		//Este TRUE simula um usuário superadmin
+	if($_SESSION['acesso']['nome'] == 'superadmin'){		//Caso for um superadmin, mostra todas as empresas possíveis
 		$sql = new Sql();
 		$empresas = $sql->select("select * from empresa", array());
 		foreach ($empresas as $empresa) {				
@@ -305,9 +294,19 @@
 			}
 		}		
 	}
+	else{
+		echo "
+		<script>
+			var option = document.createElement('option');
+			option.text = '$_SESSION[empresa][razaoSocial]';
+			option.value = '$_SESSION[empresa][razaoSocial]';
+			document.getElementById('select-funcionario-empresa').appendChild(option);
+		</script>";
+	}
 
 	//Pega todos os acesos existentes no banco de dados
 	//Passa apenas os acessos que não forem superadmin, de forma que não seja possível criar um usuário superadmin
+	$sql = new Sql();
 	$acessos = $sql->select("select * from acesso", array());
 	foreach ($acessos as $acesso) {
 		foreach ($acesso as $campo => $valor) {
