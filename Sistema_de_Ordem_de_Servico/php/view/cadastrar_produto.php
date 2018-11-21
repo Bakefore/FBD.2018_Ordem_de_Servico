@@ -1,7 +1,29 @@
 <?php  
 	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('cadastrarProduto');
+
+	function cadastrarProduto(){
+		if((isset($_POST['input-produto-nome'])) && (isset($_POST['select-produto-tipo'])) && (isset($_POST['input-produto-marca'])) 
+			&& (isset($_POST['input-produto-modelo'])) && (isset($_POST['input-produto-validade'])) 
+			&& (isset($_POST['select-produto-empresa'])) && (isset($_POST['select-produto-fornecedor'])) 
+			&& (isset($_POST['input-produto-custo-compra'])) && (isset($_POST['input-produto-preco'])) 
+			&& (isset($_POST['input-produto-codigo'])) && (isset($_POST['select-produto-status'])) 
+			&& (isset($_POST['input-produto-varejo'])) && (isset($_POST['input-produto-quantidade'])) 
+			&& (isset($_POST['input-produto-atacado'])) && (isset($_POST['textarea-produto-descricao']))){
+
+			$produto = new Produto($_POST['input-produto-nome'], $_POST['select-produto-tipo'], $_POST['input-produto-marca'], 
+				$_POST['input-produto-modelo'], $_POST['input-produto-validade'], $_POST['select-produto-fornecedor'], 
+				$_POST['select-produto-empresa'], $_POST['input-produto-custo-compra'], $_POST['input-produto-preco'], 
+				$_POST['input-produto-codigo'], $_POST['input-produto-quantidade'], $_POST['select-produto-status'], 
+				$_POST['input-produto-varejo'], $_POST['input-produto-atacado'], $_POST['textarea-produto-descricao']);
+		}
+	}
+
+	cadastrarProduto();
 ?>
 <!DOCTYPE html>
 <html>
@@ -142,13 +164,13 @@
 						<input type="date" name="input-produto-validade" id="input-produto-validade" required>
 					</div>
 					<div class="coluna col4">
-						<label for="select-produto-fornecedor">Fornecedor *</label>
-						<select name="select-produto-fornecedor" id="select-produto-fornecedor" required></select>		
+						<label for="select-produto-empresa">Empresa *</label>
+						<select name="select-produto-empresa" id="select-produto-empresa" onclick="alterarFornecedores()" required></select>
 					</div>
 					<div class="coluna col4">
-						<label for="select-produto-empresa">Empresa *</label>
-						<select name="select-produto-empresa" id="select-produto-empresa" required></select>
-					</div>
+						<label for="select-produto-fornecedor">Fornecedor *</label>
+						<select name="select-produto-fornecedor" id="select-produto-fornecedor" required></select>		
+					</div>					
 					<div class="coluna col2">
 						<label for="input-produto-custo-compra">Custo de Compra *</label>
 						<input type="text" name="input-produto-custo-compra" id="input-produto-custo-compra" required>
@@ -217,3 +239,71 @@
 	    </script>   	 
 	</body>
 </html>
+<?php  
+	//Editar esta condição para que fique da seguinte forma: caso o usuário logado for um superadmin, todas as empresas serão exibidas no combobox, mas caso não seja, deve aparecer apenas a empresa pelo qual aquele funcionário foi cadastrado
+	if($_SESSION['acesso']['nome'] == 'superadmin'){		//Caso for um superadmin, mostra todas as empresas possíveis
+		$sql = new Sql();
+		$empresas = $sql->select("select * from empresa", array());
+		foreach ($empresas as $empresa) {				
+			foreach ($empresa as $campo => $valor) {
+				if($campo == 'razaoSocial'){
+					echo "
+					<script>
+						var option = document.createElement('option');
+						option.text = '$valor';
+						option.value = '$valor';
+						document.getElementById('select-produto-empresa').appendChild(option);
+					</script>";
+				}				
+			}
+		}		
+	}
+	else{
+		$empresa = $_SESSION['empresa']['razaoSocial'];
+		echo "
+		<script>
+			var option = document.createElement('option');
+			option.text = '$empresa';
+			option.value = '$empresa';
+			document.getElementById('select-produto-empresa').appendChild(option);
+		</script>";
+	}		
+
+	//Preenche os fornecedores que estão cadastrados no sistema, caso entre como um superadmin, preenche com todos os fornecedores possíveis, caso seja um funcionário de uma empresa, irá mostrar apenas os fornecedores daquela empresa
+	if($_SESSION['acesso']['nome'] == 'superadmin'){		//Caso for um superadmin, mostra todas as empresas possíveis
+		$sql = new Sql();
+		$fornecedores = $sql->select("select * from fornecedor", array());
+		foreach ($fornecedores as $fornecedor) {				
+			foreach ($fornecedor as $campo => $valor) {
+				if($campo == 'razaoSocial'){
+					echo "
+					<script>
+						var option = document.createElement('option');
+						option.text = '$valor';
+						option.value = '$valor';
+						document.getElementById('select-produto-fornecedor').appendChild(option);
+					</script>";
+				}				
+			}
+		}		
+	}
+	else{
+		$sql = new Sql();
+		$fornecedores = $sql->select("select * from fornecedor where idEmpresa = :idEmpresa", array(
+			":idEmpresa"=>$_SESSION['empresa']['idEmpresa']
+		));
+		foreach ($fornecedores as $fornecedor) {				
+			foreach ($fornecedor as $campo => $valor) {
+				if($campo == 'razaoSocial'){
+					echo "
+					<script>
+						var option = document.createElement('option');
+						option.text = '$valor';
+						option.value = '$valor';
+						document.getElementById('select-produto-fornecedor').appendChild(option);
+					</script>";
+				}				
+			}
+		}	
+	}		
+?>

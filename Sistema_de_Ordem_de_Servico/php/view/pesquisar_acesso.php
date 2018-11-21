@@ -101,7 +101,7 @@
 					</div>					
 				</form>
 				<div class="coluna col2">
-					<input type="submit" value="Cadastrar" class="botao-cadastro" onclick="encaminharPagina('criar_acesso.php')">
+					<input type="submit" value="Criar" class="botao-cadastro" onclick="encaminharPagina('criar_acesso.php')">
 				</div>
 			</div>
 		</div>			

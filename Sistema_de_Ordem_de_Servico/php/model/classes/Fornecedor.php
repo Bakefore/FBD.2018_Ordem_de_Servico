@@ -3,7 +3,7 @@
 		private $empresa;
 
 		public function __construct($razaoSocial, $nomeFantasia, $cnpj, $endereco, $contatosArray = array(), $empresa){
-			super($razaoSocial, $nomeFantasia, $cnpj, $endereco, $contatosArray);
+			$this->super($razaoSocial, $nomeFantasia, $cnpj, $endereco, $contatosArray);
 			$this->empresa = $empresa;
 		}
 

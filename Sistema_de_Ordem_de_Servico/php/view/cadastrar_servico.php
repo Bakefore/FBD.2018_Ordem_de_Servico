@@ -222,12 +222,13 @@
 		}		
 	}
 	else{
+		$empresa = $_SESSION['empresa']['razaoSocial'];
 		echo "
 		<script>
 			var option = document.createElement('option');
-			option.text = '$_SESSION[empresa][razaoSocial]';
-			option.value = '$_SESSION[empresa][razaoSocial]';
-			document.getElementById('select-funcionario-empresa').appendChild(option);
+			option.text = '$empresa';
+			option.value = '$empresa';
+			document.getElementById('select-servico-empresa').appendChild(option);
 		</script>";
 	}
 ?>

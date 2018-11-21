@@ -24,16 +24,20 @@
 				":razaoSocial"=>$this->fornecedor->getRazaoSocial(),
 				":nomeFantasia"=>$this->fornecedor->getNomeFantasia(),
 				":cnpj"=>$this->fornecedor->getCNPJ()
-			));
+			));			
 
 			if($resultadoFornecedor == null){
+				$resultadoEmpresa = $sql->select("select * from empresa where razaoSocial = :razaoSocial", array(
+					":razaoSocial"=>$this->fornecedor->getEmpresa()
+				));
+
 				$sql->query("insert into fornecedor (razaoSocial, nomeFantasia, cnpj, idEndereco, idEmpresa) values (:razaoSocial, :nomeFantasia, :cnpj, :idEndereco, :idEmpresa)", array(
 
 					":razaoSocial"=>$this->fornecedor->getRazaoSocial(), 
 					":nomeFantasia"=>$this->fornecedor->getNomeFantasia(), 
 					":cnpj"=>$this->fornecedor->getCNPJ(), 
 					":idEndereco"=>$this->getIdEndereco(),
-					":idEmpresa"=>
+					":idEmpresa"=>$resultadoEmpresa[0]['idEmpresa']
 				));	
 				return true;//Retorna true caso tenha cadastrado
 			}

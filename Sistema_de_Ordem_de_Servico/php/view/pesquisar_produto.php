@@ -1,7 +1,18 @@
 <?php  
 	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('pesquisarProduto');
+
+	function pesquisarProduto(){
+		if(isset($_POST['input-pesquisar-produto'])){
+			Mensagem::exibirMensagem("Pesquisa teste!");
+		}
+	}
+
+	pesquisarProduto();
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,15 +97,15 @@
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="cadastrar-cliente">
+		<div class="sessao" id="pesquisar-produto">
 			<div class="linha">
 				<div class="coluna col12">
 					<h2>Produto</h2>
 				</div>	
-				<form action="" method="">
+				<form action="" method="post">
 					<!--Linha 1-->						
 					<div class="coluna col8">
-						<input type="text" name="input-cliente-nome" id="input-cliente-nome" placeholder="Pesquisar" required>
+						<input type="text" name="input-pesquisar-produto" id="input-pesquisar-produto" placeholder="Pesquisar" required>
 					</div>							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">

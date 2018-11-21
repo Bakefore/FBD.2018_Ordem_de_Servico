@@ -1,5 +1,8 @@
 <?php  
 	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('criarOrdemDeServico');
 ?>
@@ -120,11 +123,26 @@
 						<div class="coluna col12">
 							<h3>Serviços</h3>
 						</div>
-						<!--Exemplo de Como os produtos devem ser inseridos por php-->						
+						<!--Exemplo de Como os produtos devem ser inseridos por php						
 						<div class="div-criar-acesso">						
 						    <input type="checkbox" value="0" name="input-os-servico-1" id="input-os-servico-1" />
 						    <label for="input-os-servico-1">Cadastrar Serviço</label>
-						</div>			
+						</div>-->
+						<?php  
+							$sql = new Sql();
+							$servicos = $sql->select("select * from servico", array());
+							foreach ($servicos as $servico) {				
+								foreach ($servico as $campo => $valor) {
+									if($campo == 'nome'){
+										echo "
+										<div class='div-criar-acesso'>						
+										    <input type='checkbox' value='$valor' name='$valor' id='$valor' />
+										    <label for='$valor'>$valor</label>
+										</div>";
+									}				
+								}
+							}	
+						?>			
 					</div>
 					<div class="coluna col12 sem-padding-right sem-padding-left">
 						<div class="coluna col12">
@@ -135,6 +153,11 @@
 							<label for="input-os-data-solicitacao">Data de Solitação *</label>
 							<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
 						</div-->
+						<div class="coluna col12">
+							<div class="div-centralizada">
+								<input type="button" value="Adicionar produto ao carrinho" class="botao-cadastro" onclick="encaminharPagina('pesquisar_produto.php')">
+							</div>
+						</div>
 					</div>					
 					<div class="coluna col4">
 						<label for="select-os-empresa">Empresa *</label>

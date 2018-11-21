@@ -30,8 +30,8 @@
 
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
-				//$empresaDAO = new EmpresaDAO($empresa, $enderecoDAO->getId());
-				//$operacao = $empresaDAO->cadastrar();
+				$fornecedorDAO = new FornecedorDAO($fornecedor, $enderecoDAO->getId());
+				$operacao = $fornecedorDAO->cadastrar();
 
 				if($operacao == false){
 					throw new EntidadeJaCadastradaException("O Fornecedor já está cadastrado!", 2);					
@@ -149,7 +149,7 @@
 						<label for="input-fornecedor-cnpj">CNPJ *</label>
 						<input type="text" name="input-fornecedor-cnpj" id="input-fornecedor-cnpj" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col4">
 						<label for="select-fornecedor-empresa">Empresa *</label>
 						<select name="select-fornecedor-empresa" id="select-fornecedor-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
@@ -185,7 +185,7 @@
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Cadastrar fornecedor" class="botao-cadastro">
+							<input type="submit" value="Cadastrar Fornecedor" class="botao-cadastro">
 						</div>
 					</div>
 				</form>
@@ -235,12 +235,13 @@
 		}		
 	}
 	else{
+		$empresa = $_SESSION['empresa']['razaoSocial'];
 		echo "
 		<script>
 			var option = document.createElement('option');
-			option.text = '$_SESSION[empresa][razaoSocial]';
-			option.value = '$_SESSION[empresa][razaoSocial]';
-			document.getElementById('select-funcionario-empresa').appendChild(option);
+			option.text = '$empresa';
+			option.value = '$empresa';
+			document.getElementById('select-fornecedor-empresa').appendChild(option);
 		</script>";
 	}
 ?>
