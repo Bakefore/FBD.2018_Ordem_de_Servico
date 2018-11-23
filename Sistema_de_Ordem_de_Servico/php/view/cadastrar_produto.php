@@ -3,23 +3,42 @@
 	require_once("../autoload/autoloadModel.php");
 	require_once("../autoload/autoloadView.php");
 	require_once("../autoload/autoloadDAO.php");
+	use excessao\EntidadeJaCadastradaException;
 
 	verificarPermissao('cadastrarProduto');
 
 	function cadastrarProduto(){
 		if((isset($_POST['input-produto-nome'])) && (isset($_POST['select-produto-tipo'])) && (isset($_POST['input-produto-marca'])) 
-			&& (isset($_POST['input-produto-modelo'])) && (isset($_POST['input-produto-validade'])) 
-			&& (isset($_POST['select-produto-empresa'])) && (isset($_POST['select-produto-fornecedor'])) 
-			&& (isset($_POST['input-produto-custo-compra'])) && (isset($_POST['input-produto-preco'])) 
-			&& (isset($_POST['input-produto-codigo'])) && (isset($_POST['select-produto-status'])) 
-			&& (isset($_POST['input-produto-varejo'])) && (isset($_POST['input-produto-quantidade'])) 
-			&& (isset($_POST['input-produto-atacado'])) && (isset($_POST['textarea-produto-descricao']))){
+			&& (isset($_POST['input-produto-validade'])) && (isset($_POST['select-produto-empresa'])) 
+			&& (isset($_POST['select-produto-fornecedor'])) && (isset($_POST['input-produto-custo-compra'])) 
+			&& (isset($_POST['input-produto-preco'])) && (isset($_POST['input-produto-codigo'])) 
+			&& (isset($_POST['select-produto-status'])) && (isset($_POST['input-produto-varejo'])) 
+			&& (isset($_POST['input-produto-quantidade'])) && (isset($_POST['input-produto-atacado'])) 
+			&& (isset($_POST['textarea-produto-descricao']))){//(isset($_POST['input-produto-modelo']))
 
+			$modelo = null;
+			if(isset($_POST['input-produto-modelo'])){
+				$modelo = $_POST['input-produto-modelo'];
+			}
+			
 			$produto = new Produto($_POST['input-produto-nome'], $_POST['select-produto-tipo'], $_POST['input-produto-marca'], 
-				$_POST['input-produto-modelo'], $_POST['input-produto-validade'], $_POST['select-produto-fornecedor'], 
+				$modelo, $_POST['input-produto-validade'], $_POST['select-produto-fornecedor'], 
 				$_POST['select-produto-empresa'], $_POST['input-produto-custo-compra'], $_POST['input-produto-preco'], 
 				$_POST['input-produto-codigo'], $_POST['input-produto-quantidade'], $_POST['select-produto-status'], 
 				$_POST['input-produto-varejo'], $_POST['input-produto-atacado'], $_POST['textarea-produto-descricao']);
+
+			try {
+				$produtoDAO = new ProdutoDAO($produto);
+				$operacao = $produtoDAO->cadastrar();
+
+				if($operacao == false){
+					throw new EntidadeJaCadastradaException("Já existe um produto cadastrado!", 1);					
+				}
+
+				Mensagem::exibirMensagem("Produto cadastrado com sucesso!");
+			} catch (EntidadeJaCadastradaException $e) {
+				Mensagem::exibirMensagem($e->getMessage());
+			}
 		}
 	}
 
@@ -137,75 +156,83 @@
 				<div class="coluna col12">
 					<h2>Cadastrar Produto</h2>
 				</div>	
-				<form action="" method="">
-					<div class="coluna col4">
-						<label for="input-produto-nome">Nome *</label>
-						<input type="text" name="input-produto-nome" id="input-produto-nome" required>
+				<form action="" method="post">
+					<div class="coluna col12">
+						<div class="coluna col4 sem-padding-left">
+							<label for="input-produto-nome">Nome *</label>
+							<input type="text" name="input-produto-nome" id="input-produto-nome" required>
+						</div>
+						<div class="coluna col2">
+							<label for="select-produto-tipo">Tipo de Produto *</label>
+							<select name="select-produto-tipo" id="select-produto-tipo" required>
+								<option value="alimenticio">Alimentício</option>
+								<option value="movel">Móvel</option>
+								<option value="eletronico">Eletrônico</option>
+								<option value="veiculo">Veículo</option>
+							</select>
+						</div>
+						<div class="coluna col2">
+							<label for="input-produto-marca">Marca *</label>
+							<input type="text" name="input-produto-marca" id="input-produto-marca" required>
+						</div>
+						<div class="coluna col2">
+							<label for="input-produto-modelo">Modelo</label>
+							<input type="text" name="input-produto-modelo" id="input-produto-modelo">
+						</div>
+						<div class="coluna col2 sem-padding-right">
+							<label for="input-produto-validade">Data de Validade *</label>
+							<input type="date" name="input-produto-validade" id="input-produto-validade" required>
+						</div>
 					</div>
-					<div class="coluna col2">
-						<label for="select-produto-tipo">Tipo de Produto *</label>
-						<select name="select-produto-tipo" id="select-produto-tipo" required>
-							<option value="alimenticio">Alimentício</option>
-							<option value="movel">Móvel</option>
-							<option value="eletronico">Eletrônico</option>
-							<option value="veiculo">Veículo</option>
-						</select>
-					</div>
-					<div class="coluna col2">
-						<label for="input-produto-marca">Marca *</label>
-						<input type="text" name="input-produto-marca" id="input-produto-marca" required>
-					</div>
-					<div class="coluna col2">
-						<label for="input-produto-modelo">Modelo</label>
-						<input type="text" name="input-produto-modelo" id="input-produto-modelo">
-					</div>
-					<div class="coluna col2">
-						<label for="input-produto-validade">Data de Validade *</label>
-						<input type="date" name="input-produto-validade" id="input-produto-validade" required>
-					</div>
-					<div class="coluna col4">
-						<label for="select-produto-empresa">Empresa *</label>
-						<select name="select-produto-empresa" id="select-produto-empresa" onclick="alterarFornecedores()" required></select>
-					</div>
-					<div class="coluna col4">
-						<label for="select-produto-fornecedor">Fornecedor *</label>
-						<select name="select-produto-fornecedor" id="select-produto-fornecedor" required></select>		
-					</div>					
-					<div class="coluna col2">
-						<label for="input-produto-custo-compra">Custo de Compra *</label>
-						<input type="text" name="input-produto-custo-compra" id="input-produto-custo-compra" required>
-					</div>
-					<div class="coluna col2">
-						<label for="input-produto-preco">Preço de Venda *</label>
-						<input type="text" name="input-produto-preco" id="input-produto-preco" required>
-					</div>
-					<div class="coluna col4">
-						<label for="input-produto-codigo">Código de Barras *</label>
-						<input type="text" name="input-produto-codigo" id="input-produto-codigo">	
 
-						<div class="coluna col2 sem-padding-left">
+					<div class="coluna col12">
+						<div class="coluna col4 sem-padding-left">
+							<label for="select-produto-empresa">Empresa *</label>
+							<select name="select-produto-empresa" id="select-produto-empresa" onclick="alterarFornecedores()" required></select>
+						</div>
+						<div class="coluna col4">
+							<label for="select-produto-fornecedor">Fornecedor *</label>
+							<select name="select-produto-fornecedor" id="select-produto-fornecedor" required></select>		
+						</div>					
+						<div class="coluna col2">
+							<label for="input-produto-custo-compra">Custo de Compra *</label>
+							<input type="text" name="input-produto-custo-compra" id="input-produto-custo-compra" required>
+						</div>
+						<div class="coluna col2 sem-padding-right">
+							<label for="input-produto-preco">Preço de Venda *</label>
+							<input type="text" name="input-produto-preco" id="input-produto-preco" required>
+						</div>
+					</div>
+
+					<div class="coluna col12">
+						<div class="coluna col4 sem-padding-left">
+							<label for="input-produto-codigo">Código de Barras *</label>
+							<input type="text" name="input-produto-codigo" id="input-produto-codigo">										
+						</div>
+						<div class="coluna col2"><!--sem-padding-left-->
 							<label for="select-produto-status">Status *</label>
 							<select name="select-produto-status" id="select-produto-status" required>
 								<option value="ativo">Ativo</option>
 								<option value="inativo">Inativo</option>
 							</select>
 						</div>	
-						<div class="coluna col2 sem-padding-right">
+						<div class="coluna col2"><!--sem-padding-right-->
 							<label for="input-produto-varejo">Varejo</label>
 							<input type="text" name="input-produto-varejo" id="input-produto-varejo" required>
-						</div>				
+						</div>	
+						<div class="coluna col2">
+							<label for="input-produto-quantidade">Quantidade Inicial *</label>
+							<input type="number" name="input-produto-quantidade" id="input-produto-quantidade">						
+						</div>
+						<div class="coluna col2 sem-padding-right">
+							<label for="input-produto-atacado">Atacado</label>
+							<input type="text" name="input-produto-atacado" id="input-produto-atacado" required>
+						</div>
 					</div>
-					<div class="coluna col2">
-						<label for="input-produto-quantidade">Quantidade Inicial *</label>
-						<input type="number" name="input-produto-quantidade" id="input-produto-quantidade">
 
-						<label for="input-produto-atacado">Atacado</label>
-						<input type="text" name="input-produto-atacado" id="input-produto-atacado" required>
-					</div>
-					
 					<div class="coluna col6">
 						<label for="textarea-produto-descricao">Descrição *</label>
-						<textarea class="descricao-servico" id="textarea-produto-descricao" required></textarea>
+						<textarea class="descricao-servico" id="textarea-produto-descricao" name="textarea-produto-descricao" required></textarea>
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">

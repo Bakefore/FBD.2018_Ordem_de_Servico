@@ -109,11 +109,105 @@
 					</div>							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">
-					</div>					
-				</form>
+					</div>		
+				</form>				
 				<div class="coluna col2">
 					<input type="submit" value="Cadastrar" class="botao-cadastro" onclick="encaminharPagina('cadastrar_produto.php')">
 				</div>
+				<!--Listar Abaixo todos os produtos que foram pesquisados    Nome | Data de Validade | Marca | Modelo | Quantidade-->
+				<div class="coluna col12 centralizado">
+					<div class="coluna col3 sem-padding-left linhaTabela">
+						<strong>Nome</strong>						
+					</div>
+					<div class="coluna col2 linhaTabela">
+						<strong>Marca</strong>
+					</div>
+					<div class="coluna col2 linhaTabela">
+						<strong>Data de Validade</strong>
+					</div>					
+					<div class="coluna col2 linhaTabela">
+						<strong>Quantidade</strong>
+					</div>
+					<div class="coluna col3 linhaTabela sem-padding-right">
+						<!--strong>Ações</strong-->
+					</div>
+				</div>
+				<!-- Exemplo de como deve ser feita a listagem de objetos
+				<div class="coluna col12 centralizado linhaTabelaPar">
+					<div class="coluna col3 sem-padding-left linhaTabela">Nome</div>
+					<div class="coluna col2 linhaTabela">Marca</div>
+					<div class="coluna col2 linhaTabela">Data de Validade</div>					
+					<div class="coluna col2 sem-padding-right linhaTabela">Quantidade</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Carrinho">
+					</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Editar">
+					</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Excluir">
+					</div>
+				</div>
+				<div class="coluna col12 centralizado linhaTabelaImpar">
+					<div class="coluna col3 sem-padding-left linhaTabela">Nome</div>
+					<div class="coluna col2 linhaTabela">Marca</div>
+					<div class="coluna col2 linhaTabela">Data de Validade</div>					
+					<div class="coluna col2 sem-padding-right linhaTabela">Quantidade</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Carrinho">
+					</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Editar">
+					</div>
+					<div class="coluna col1">
+						<input type="button" class="botao-cadastro" value="Excluir">
+					</div>
+				</div>
+				-->
+				<?php  
+					$sql = new Sql();
+					$resultadoItemProduto = $sql->select("select * from itemproduto", array());
+					$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
+					foreach ($resultadoItemProduto as $itemProduto) {				
+						foreach ($itemProduto as $campo => $valor) {							
+							if($campo == 'nome'){								
+								echo "<div class='coluna col12 centralizado $impaPar'>";
+								echo "<div class='coluna col3 sem-padding-left linhaTabela'>$valor</div>";
+
+								if($impaPar == "linhaTabelaImpar"){
+									$impaPar = "linhaTabelaPar";
+								}
+								else{
+									$impaPar = "linhaTabelaImpar";
+								}
+							}
+							if($campo == 'marca'){
+								echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+							}
+							if($campo == 'dataValidade'){
+								$valor = date('d/m/Y',  strtotime($valor));
+								echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+							}
+							if($campo == 'quantidadeEstoque'){
+								echo "<div class='coluna col2 sem-padding-right linhaTabela'>$valor</div>";
+
+								echo "<div class='coluna col1'>
+										<input type='button' class='botao-cadastro' value='Carrinho'>
+									</div>";
+
+								echo "<div class='coluna col1'>
+										<input type='button' class='botao-cadastro' value='Editar'>
+									</div>";
+
+								echo "<div class='coluna col1'>
+										<input type='button' class='botao-cadastro' value='Excluir'>
+									</div>";
+										
+								echo "</div>";
+							}		
+						}
+					}
+				?>
 			</div>
 		</div>			
 

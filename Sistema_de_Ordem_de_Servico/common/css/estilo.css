@@ -543,3 +543,15 @@ textarea{
 .sem-padding-right{
 	padding-right: 0;
 }
+.linhaTabela{
+	margin: 18px 0;
+}
+.centralizado{
+	text-align: center;
+}
+.linhaTabelaPar{
+	background-color: white;
+}
+.linhaTabelaImpar{
+	/*background-color: blue;*/
+}

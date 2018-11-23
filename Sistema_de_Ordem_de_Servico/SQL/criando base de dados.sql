@@ -13,27 +13,34 @@ select * from funcionario;
 select * from acesso;
 select * from cliente;
 select * from  servico;
+select * from fornecedor;
+select * from produto;
+select * from itemproduto;
 truncate estado;
 truncate cidade;
 truncate endereco;
 truncate empresa;
 
+
 create table produto(
     idProduto int not null auto_increment primary key,
-    descricao varchar(255) null,
-    marca varchar(50) not null,
-    modelo varchar(50) null,
-    tipo varchar(50) not null
+    nome varchar(255) not null,    
+    tipo varchar(50) not null,
+    descricao varchar(255) null
 )default charset = 'utf8';
 
-create table itemProduto(
+create table itemproduto(
     idItemProduto int not null auto_increment primary key,
+    nome varchar(255) not null,
+    marca varchar(50) not null,
+    modelo varchar(50) null,    
     promocao boolean not null,
     desconto float null,
-    dataCompra date not null,
+    dataCompra timestamp default current_timestamp(),
     dataValidade date not null,
     codigoDeBarra int not null,
-    quantidadeVenda int not null,
+    quantidadeEstoque int not null,
+    quantidadeVenda int null,
     ativo boolean not null,
     valorCompra float not null,
     porcentagemAtacado float not null,
@@ -151,8 +158,6 @@ create table funcionario(
     idEndereco int references endereco(idEndereco),
     idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';
-
-
 
 insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario,
     pesquisarFuncionario, excluirFuncionario, criarAcesso, editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, 

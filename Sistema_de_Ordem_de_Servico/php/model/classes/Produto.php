@@ -13,7 +13,7 @@
 		private $quantidade;
 		private $status;
 		private $porcentagemVarejo;
-		private $porcentagemAtacado
+		private $porcentagemAtacado;
 		private $descricao;
 
 		public function __construct($nome, $tipo, $marca, $modelo, $validade, $fornecedor, $empresa, $custoCompra, $precoVenda, $codigoBarras, $quantidade, $status, $porcentagemVarejo, $porcentagemAtacado, $descricao){
