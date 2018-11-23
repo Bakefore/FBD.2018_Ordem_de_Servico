@@ -29,7 +29,7 @@
 			$this->precoVenda = $precoVenda;
 			$this->codigoBarras = $codigoBarras;
 			$this->quantidade = $quantidade;
-			$this->status = $status;
+			$this->setStatus($status);
 			$this->porcentagemVarejo = $porcentagemVarejo;
 			$this->porcentagemAtacado = $porcentagemAtacado;
 			$this->descricao = $descricao;
@@ -123,12 +123,17 @@
 			$this->quantidade = $quantidade;
 		}
 
-		public function getStatus(){
+		public function getStatus():bool{
 			return $this->status;
 		}
 
-		public function setStatus($status){
-			$this->status = $status;
+		public function setStatus($status){		
+			if($status == 'Ativo'){
+				$this->status = true;
+			}
+			else{
+				$this->status = false;
+			}
 		}
 
 		public function getPorcentagemVarejo(){

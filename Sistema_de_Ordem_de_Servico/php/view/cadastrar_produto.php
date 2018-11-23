@@ -212,8 +212,8 @@
 						<div class="coluna col2"><!--sem-padding-left-->
 							<label for="select-produto-status">Status *</label>
 							<select name="select-produto-status" id="select-produto-status" required>
-								<option value="ativo">Ativo</option>
-								<option value="inativo">Inativo</option>
+								<option value="Ativo">Ativo</option>
+								<option value="Inativo">Inativo</option>
 							</select>
 						</div>	
 						<div class="coluna col2"><!--sem-padding-right-->

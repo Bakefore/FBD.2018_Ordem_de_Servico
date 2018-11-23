@@ -6,13 +6,72 @@
 
 	verificarPermissao('pesquisarProduto');
 
-	function pesquisarProduto(){
+	function pesquisar(){
 		if(isset($_POST['input-pesquisar-produto'])){
-			Mensagem::exibirMensagem("Pesquisa teste!");
+			echo "
+			<div class='coluna col12 centralizado'>
+				<div class='coluna col3 sem-padding-left linhaTabela'>
+					<strong>Nome</strong>						
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Marca</strong>
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Data de Validade</strong>
+				</div>					
+				<div class='coluna col2 linhaTabela'>
+					<strong>Quantidade</strong>
+				</div>
+				<div class='coluna col3 linhaTabela sem-padding-right'>				
+				</div>
+			</div>";
+
+			$sql = new Sql();
+			$resultadoItemProduto = $sql->select("select * from itemproduto where nome like :busca or marca like :busca or modelo like :busca or desconto like :busca or dataCompra like :busca or dataValidade like :busca or codigoDeBarra like :busca or quantidadeEstoque like :busca or valorCompra like :busca or porcentagemAtacado like :busca or porcentagemVarejo like :busca", array(
+				":busca"=>"%".$_POST['input-pesquisar-produto']."%"
+			));
+			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
+			foreach ($resultadoItemProduto as $itemProduto) {				
+				foreach ($itemProduto as $campo => $valor) {							
+					if($campo == 'nome'){								
+						echo "<div class='coluna col12 centralizado $impaPar'>";
+						echo "<div class='coluna col3 sem-padding-left linhaTabela'>$valor</div>";
+
+						if($impaPar == "linhaTabelaImpar"){
+							$impaPar = "linhaTabelaPar";
+						}
+						else{
+							$impaPar = "linhaTabelaImpar";
+						}
+					}
+					if($campo == 'marca'){
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+					if($campo == 'dataValidade'){
+						$valor = date('d/m/Y',  strtotime($valor));
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+					if($campo == 'quantidadeEstoque'){
+						echo "<div class='coluna col2 sem-padding-right linhaTabela'>$valor</div>";
+
+						echo "<div class='coluna col1'>
+								<input type='button' class='botao-cadastro' value='Carrinho'>
+							</div>";
+
+						echo "<div class='coluna col1'>
+								<input type='button' class='botao-cadastro' value='Editar'>
+							</div>";
+
+						echo "<div class='coluna col1'>
+								<input type='button' class='botao-cadastro' value='Excluir'>
+							</div>";
+								
+						echo "</div>";
+					}		
+				}
+			}
 		}
 	}
-
-	pesquisarProduto();
 ?>
 <!DOCTYPE html>
 <html>
@@ -113,105 +172,14 @@
 				</form>				
 				<div class="coluna col2">
 					<input type="submit" value="Cadastrar" class="botao-cadastro" onclick="encaminharPagina('cadastrar_produto.php')">
-				</div>
-				<!--Listar Abaixo todos os produtos que foram pesquisados    Nome | Data de Validade | Marca | Modelo | Quantidade-->
-				<div class="coluna col12 centralizado">
-					<div class="coluna col3 sem-padding-left linhaTabela">
-						<strong>Nome</strong>						
-					</div>
-					<div class="coluna col2 linhaTabela">
-						<strong>Marca</strong>
-					</div>
-					<div class="coluna col2 linhaTabela">
-						<strong>Data de Validade</strong>
-					</div>					
-					<div class="coluna col2 linhaTabela">
-						<strong>Quantidade</strong>
-					</div>
-					<div class="coluna col3 linhaTabela sem-padding-right">
-						<!--strong>Ações</strong-->
-					</div>
-				</div>
-				<!-- Exemplo de como deve ser feita a listagem de objetos
-				<div class="coluna col12 centralizado linhaTabelaPar">
-					<div class="coluna col3 sem-padding-left linhaTabela">Nome</div>
-					<div class="coluna col2 linhaTabela">Marca</div>
-					<div class="coluna col2 linhaTabela">Data de Validade</div>					
-					<div class="coluna col2 sem-padding-right linhaTabela">Quantidade</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Carrinho">
-					</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Editar">
-					</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Excluir">
-					</div>
-				</div>
-				<div class="coluna col12 centralizado linhaTabelaImpar">
-					<div class="coluna col3 sem-padding-left linhaTabela">Nome</div>
-					<div class="coluna col2 linhaTabela">Marca</div>
-					<div class="coluna col2 linhaTabela">Data de Validade</div>					
-					<div class="coluna col2 sem-padding-right linhaTabela">Quantidade</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Carrinho">
-					</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Editar">
-					</div>
-					<div class="coluna col1">
-						<input type="button" class="botao-cadastro" value="Excluir">
-					</div>
-				</div>
-				-->
-				<?php  
-					$sql = new Sql();
-					$resultadoItemProduto = $sql->select("select * from itemproduto", array());
-					$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
-					foreach ($resultadoItemProduto as $itemProduto) {				
-						foreach ($itemProduto as $campo => $valor) {							
-							if($campo == 'nome'){								
-								echo "<div class='coluna col12 centralizado $impaPar'>";
-								echo "<div class='coluna col3 sem-padding-left linhaTabela'>$valor</div>";
-
-								if($impaPar == "linhaTabelaImpar"){
-									$impaPar = "linhaTabelaPar";
-								}
-								else{
-									$impaPar = "linhaTabelaImpar";
-								}
-							}
-							if($campo == 'marca'){
-								echo "<div class='coluna col2 linhaTabela'>$valor</div>";
-							}
-							if($campo == 'dataValidade'){
-								$valor = date('d/m/Y',  strtotime($valor));
-								echo "<div class='coluna col2 linhaTabela'>$valor</div>";
-							}
-							if($campo == 'quantidadeEstoque'){
-								echo "<div class='coluna col2 sem-padding-right linhaTabela'>$valor</div>";
-
-								echo "<div class='coluna col1'>
-										<input type='button' class='botao-cadastro' value='Carrinho'>
-									</div>";
-
-								echo "<div class='coluna col1'>
-										<input type='button' class='botao-cadastro' value='Editar'>
-									</div>";
-
-								echo "<div class='coluna col1'>
-										<input type='button' class='botao-cadastro' value='Excluir'>
-									</div>";
-										
-								echo "</div>";
-							}		
-						}
-					}
+				</div>				
+				<?php  					
+					pesquisar();					
 				?>
 			</div>
 		</div>			
 
-		<div class="footer absolute-bottom">
+		<div class="footer"><!--absolute-bottom-->
 			<div class="linha">
 				<footer>
 					<div class="coluna col12">
