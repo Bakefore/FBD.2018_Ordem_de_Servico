@@ -7,7 +7,7 @@
 	verificarPermissao('pesquisarEmpresa');
 
 	function pesquisar(){
-		if(isset($_POST['input-pesquisar-cliente'])){
+		if(isset($_POST['input-pesquisar-empresa'])){
 			echo "
 			<div class='coluna col12 centralizado'>
 				<div class='coluna col4 sem-padding-left linhaTabela'>
@@ -25,7 +25,7 @@
 
 			$sql = new Sql();
 			$resultadoItemProduto = $sql->select("select * from empresa where razaoSocial like :busca or nomeFantasia like :busca or cnpj like :busca", array(
-				":busca"=>"%".$_POST['input-pesquisar-cliente']."%"
+				":busca"=>"%".$_POST['input-pesquisar-empresa']."%"
 			));
 			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
 			foreach ($resultadoItemProduto as $itemProduto) {				
@@ -45,13 +45,14 @@
 						echo "<div class='coluna col3 linhaTabela'>$valor</div>";
 					}
 					if($campo == 'cnpj'){
-						echo "<div class='coluna col3 sem-padding-right linhaTabela'>$valor</div>";
+						$valor = preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/','$1.$2.$3/$4-$5',$valor); //formatando o CNPJ
+						echo "<div class='coluna col3 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
 								<input type='button' class='botao-cadastro' value='Editar'>
 							</div>";
 
-						echo "<div class='coluna col1'>
+						echo "<div class='coluna col1 sem-padding-right'>
 								<input type='button' class='botao-cadastro' value='Excluir'>
 							</div>";
 								
@@ -145,7 +146,7 @@
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="cadastrar-cliente">
+		<div class="sessao" id="pesquisar-empresa">
 			<div class="linha">
 				<div class="coluna col12">
 					<h2>Empresa</h2>
@@ -153,7 +154,7 @@
 				<form action="" method="post">
 					<!--Linha 1-->						
 					<div class="coluna col8">
-						<input type="text" name="input-pesquisar-cliente" id="input-cliente-nome" placeholder="Pesquisar" required>
+						<input type="text" name="input-pesquisar-empresa" id="input-pesquisar-empresa" placeholder="Pesquisar" required>
 					</div>							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">

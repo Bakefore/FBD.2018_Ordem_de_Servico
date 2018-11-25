@@ -26,6 +26,7 @@
 		$_SESSION['login'] = $_POST['input-login'];	
 		$_SESSION['empresa'] = $empresa[0];	
 		$_SESSION['acesso'] = $acesso[0];
+		$_SESSION['carrinho'] = array();
 	}
 	else if((isset($_SESSION['login']))){
 		//Caso o usuário já esteja logado, continua na mesma página

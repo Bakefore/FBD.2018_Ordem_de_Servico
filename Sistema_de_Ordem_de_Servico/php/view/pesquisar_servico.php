@@ -1,7 +1,72 @@
 <?php  
 	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('pesquisarServico');
+
+	function pesquisar(){
+		if(isset($_POST['input-pesquisar-servico'])){
+			echo "
+			<div class='coluna col12 centralizado'>
+				<div class='coluna col2 sem-padding-left linhaTabela'>
+					<strong>Nome</strong>						
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Tipo</strong>
+				</div>
+				<div class='coluna col4 linhaTabela'>
+					<strong>Descrição</strong>
+				</div>					
+				<div class='coluna col2 linhaTabela'>
+					<strong>Valor</strong>
+				</div>
+				<div class='coluna col2 linhaTabela sem-padding-right'>				
+				</div>
+			</div>";
+
+			$sql = new Sql();
+			$resultadoItemProduto = $sql->select("select * from servico where nome like :busca or tipo like :busca or descricao like :busca or valor like :busca", array(
+				":busca"=>"%".$_POST['input-pesquisar-servico']."%"
+			));
+			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
+			foreach ($resultadoItemProduto as $itemProduto) {				
+				foreach ($itemProduto as $campo => $valor) {							
+					if($campo == 'nome'){								
+						echo "<div class='coluna col12 centralizado $impaPar'>";
+						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
+
+						if($impaPar == "linhaTabelaImpar"){
+							$impaPar = "linhaTabelaPar";
+						}
+						else{
+							$impaPar = "linhaTabelaImpar";
+						}
+					}
+					if($campo == 'tipo'){
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+					if($campo == 'descricao'){
+						echo "<div class='coluna col4 linhaTabela'>$valor</div>";
+					}
+					if($campo == 'valor'){
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+
+						echo "<div class='coluna col1'>
+								<input type='button' class='botao-cadastro' value='Editar'>
+							</div>";
+
+						echo "<div class='coluna col1 sem-padding-right'>
+								<input type='button' class='botao-cadastro' value='Excluir'>
+							</div>";
+								
+						echo "</div>";
+					}		
+				}
+			}
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,15 +151,15 @@
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="cadastrar-cliente">
+		<div class="sessao" id="pesquisar-servico">
 			<div class="linha">
 				<div class="coluna col12">
 					<h2>Serviço</h2>
 				</div>	
-				<form action="" method="">
+				<form action="" method="post">
 					<!--Linha 1-->						
 					<div class="coluna col8">
-						<input type="text" name="input-cliente-nome" id="input-cliente-nome" placeholder="Pesquisar" required>
+						<input type="text" name="input-pesquisar-servico" id="input-pesquisar-servico" placeholder="Pesquisar" required>
 					</div>							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">
@@ -103,10 +168,13 @@
 				<div class="coluna col2">
 					<input type="submit" value="Criar" class="botao-cadastro" onclick="encaminharPagina('cadastrar_servico.php')">
 				</div>
+				<?php  					
+					pesquisar();					
+				?>
 			</div>
 		</div>			
 
-		<div class="footer absolute-bottom">
+		<div class="footer"><!--absolute-bottom-->
 			<div class="linha">
 				<footer>
 					<div class="coluna col12">

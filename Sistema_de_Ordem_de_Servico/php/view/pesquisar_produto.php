@@ -7,7 +7,7 @@
 	verificarPermissao('pesquisarProduto');
 
 	function pesquisar(){
-		if(isset($_POST['input-pesquisar-produto'])){
+		if(isset($_GET['input-pesquisar-produto'])){
 			echo "
 			<div class='coluna col12 centralizado'>
 				<div class='coluna col3 sem-padding-left linhaTabela'>
@@ -28,11 +28,15 @@
 
 			$sql = new Sql();
 			$resultadoItemProduto = $sql->select("select * from itemproduto where nome like :busca or marca like :busca or modelo like :busca or desconto like :busca or dataCompra like :busca or dataValidade like :busca or codigoDeBarra like :busca or quantidadeEstoque like :busca or valorCompra like :busca or porcentagemAtacado like :busca or porcentagemVarejo like :busca", array(
-				":busca"=>"%".$_POST['input-pesquisar-produto']."%"
+				":busca"=>"%".$_GET['input-pesquisar-produto']."%"
 			));
 			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
+			
+			$valorPesquisa = $_GET['input-pesquisar-produto'];
+
 			foreach ($resultadoItemProduto as $itemProduto) {				
-				foreach ($itemProduto as $campo => $valor) {							
+				foreach ($itemProduto as $campo => $valor) {		
+					$idItemProduto = $itemProduto['idItemProduto'];
 					if($campo == 'nome'){								
 						echo "<div class='coluna col12 centralizado $impaPar'>";
 						echo "<div class='coluna col3 sem-padding-left linhaTabela'>$valor</div>";
@@ -52,17 +56,17 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 					}
 					if($campo == 'quantidadeEstoque'){
-						echo "<div class='coluna col2 sem-padding-right linhaTabela'>$valor</div>";
-
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+						
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' value='Carrinho'>
+								<input type='button' class='botao-cadastro' onclick='adicionarAoCarrinho($idItemProduto)' value='Carrinho'>
 							</div>";
 
 						echo "<div class='coluna col1'>
 								<input type='button' class='botao-cadastro' value='Editar'>
 							</div>";
 
-						echo "<div class='coluna col1'>
+						echo "<div class='coluna col1 sem-padding-right'>
 								<input type='button' class='botao-cadastro' value='Excluir'>
 							</div>";
 								
@@ -79,8 +83,8 @@
 		<meta charset="utf-8" />
 		<title>Sistema de Ordem de Serviço</title>
 
-		<!--Normalize-->
-		<link rel="stylesheet" type="text/css" href="../../css/normalize.css" />
+		<!--Normalize
+		<link rel="stylesheet" type="text/css" href="../../css/normalize.css" />-->
 
 		<!--Fontes-->
    		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
@@ -102,6 +106,12 @@
 
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
+
+	    <script type="text/javascript">
+	    	function adicionarAoCarrinho(idProduto){
+				window.location.href = "../controller/carrinho.php?id=" + idProduto;
+			}
+	    </script>
 
 	</head>
 	<body>
@@ -161,7 +171,7 @@
 				<div class="coluna col12">
 					<h2>Produto</h2>
 				</div>	
-				<form action="" method="post">
+				<form action="" method="get">
 					<!--Linha 1-->						
 					<div class="coluna col8">
 						<input type="text" name="input-pesquisar-produto" id="input-pesquisar-produto" placeholder="Pesquisar" required>

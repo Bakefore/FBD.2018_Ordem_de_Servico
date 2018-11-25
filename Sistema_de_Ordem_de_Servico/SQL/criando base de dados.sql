@@ -83,7 +83,7 @@ create table fornecedor(
     idFornecedor int not null auto_increment primary key,
     razaoSocial varchar(255) not null,
     nomeFantasia varchar(255) not null,
-    cnpj int not null,
+    cnpj varchar(18) not null,
     idEndereco int references endereco(idEndereco),
     idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';

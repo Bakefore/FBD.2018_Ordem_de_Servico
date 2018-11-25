@@ -147,12 +147,37 @@
 					<div class="coluna col12 sem-padding-right sem-padding-left">
 						<div class="coluna col12">
 							<h3>Produtos</h3>
-						</div>
-						<!--Exemplo de Como os produtos devem ser inseridos por php-->						
-						<!--div class="coluna col2">
-							<label for="input-os-data-solicitacao">Data de Solitação *</label>
-							<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
-						</div-->
+						</div>											
+						<?php  
+							//Listar todos os produtos que foram adicionados ao carrinho
+							foreach ($_SESSION['carrinho'] as $valor) {
+								$sql = new Sql();
+								$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
+									":idItemProduto"=>intval($valor)
+								));
+								$nomeItemProduto = $produto[0]['nome'];
+								$marcaItemProduto = $produto[0]['marca'];
+								//$precoItemProduto = $produto[0]['quantidadeEstoque'];//Ajustar o banco de dados itemProduto, ta faltando inserir no banco o preço de venda
+								echo "
+								<div class='coluna col2'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<p>Nome: $nomeItemProduto</p>
+									</div>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<p>Marca: $marcaItemProduto</p>
+									</div>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<p>Preço: 10.22</p>
+									</div>
+									<!--<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<p>Quantidade: quantidade</p>
+									</div>-->
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<input type='button' value='Remover' class='botao-cadastro'>
+									</div>
+								</div>";
+							}
+						?>
 						<div class="coluna col12">
 							<div class="div-centralizada">
 								<input type="button" value="Adicionar produto ao carrinho" class="botao-cadastro" onclick="encaminharPagina('pesquisar_produto.php')">
