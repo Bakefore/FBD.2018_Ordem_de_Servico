@@ -38,26 +38,8 @@
 
 	    <!--  -->
 	    <script type="text/javascript">
-	    	//Para Marcar o checkbox de pesquisa que estiver relacionado
-	    	function marcarCheckbox(idPesquisar, idIntercalador){
-	    		var pesquisar = document.getElementById(idPesquisar);
-	    		var intercalador = document.getElementById(idIntercalador);	    		
-
-	    		if(intercalador.checked == false){
-	    			pesquisar.checked = true;	
-	    		}
-	    	}
-
-	    	//Para desmarcar os checkbox de editar e excluir que estiverem relacionados com o checkbox de pesquisa que foi desselecionado
-	    	function desmarcarEditarExcluir(idPesquisar, idEditar, idExcluir){
-	    		var pesquisar = document.getElementById(idPesquisar);
-	    		var editar = document.getElementById(idEditar);
-	    		var excluir = document.getElementById(idExcluir);
-
-	    		if(pesquisar.checked == true){
-	    			editar.checked = false;
-	    			excluir.checked = false;
-	    		}
+	    	function removerProdutoDoCarrinho(idProduto){
+	    		window.location.href = "../controller/carrinho.php?deletar=" + idProduto;
 	    	}
 	    </script>
 	</head>
@@ -118,16 +100,11 @@
 				<div class="coluna col12">
 					<h2>Criar Ordem de Serviço</h2>
 				</div>
-				<form action="" method="">
+				<form action="" method="post">
 					<div class="coluna col12 sem-padding-right sem-padding-left">
 						<div class="coluna col12">
 							<h3>Serviços</h3>
 						</div>
-						<!--Exemplo de Como os produtos devem ser inseridos por php						
-						<div class="div-criar-acesso">						
-						    <input type="checkbox" value="0" name="input-os-servico-1" id="input-os-servico-1" />
-						    <label for="input-os-servico-1">Cadastrar Serviço</label>
-						</div>-->
 						<?php  
 							$sql = new Sql();
 							$servicos = $sql->select("select * from servico", array());
@@ -153,11 +130,11 @@
 							foreach ($_SESSION['carrinho'] as $valor) {
 								$sql = new Sql();
 								$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
-									":idItemProduto"=>intval($valor)
+									":idItemProduto"=>intval($valor['id'])
 								));
 								$nomeItemProduto = $produto[0]['nome'];
 								$marcaItemProduto = $produto[0]['marca'];
-								//$precoItemProduto = $produto[0]['quantidadeEstoque'];//Ajustar o banco de dados itemProduto, ta faltando inserir no banco o preço de venda
+								$precoItemProduto = $produto[0]['precoVenda'];
 								echo "
 								<div class='coluna col2'>
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
@@ -167,13 +144,13 @@
 										<p>Marca: $marcaItemProduto</p>
 									</div>
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Preço: 10.22</p>
+										<p>Preço: $precoItemProduto</p>
 									</div>
-									<!--<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Quantidade: quantidade</p>
-									</div>-->
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<input type='button' value='Remover' class='botao-cadastro'>
+										<p>Quantidade: $valor[quantidade]</p>
+									</div>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+										<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($valor[id])'>
 									</div>
 								</div>";
 							}

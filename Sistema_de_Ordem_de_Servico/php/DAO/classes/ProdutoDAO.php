@@ -43,7 +43,7 @@
 					":razaoSocial"=>$this->produto->getFornecedor()
 				));
 
-				$sql->query("insert into itemproduto (nome, marca, modelo, promocao, desconto, dataValidade, codigoDeBarra, quantidadeEstoque, ativo, valorCompra, porcentagemAtacado, porcentagemVarejo, idProduto, idFornecedor) values (:nome, :marca, :modelo, :promocao, :desconto, :dataValidade, :codigoDeBarra, :quantidadeEstoque, :ativo, :valorCompra, :porcentagemAtacado, :porcentagemVarejo, :idProduto, :idFornecedor)", array(
+				$sql->query("insert into itemproduto (nome, marca, modelo, promocao, desconto, dataValidade, codigoDeBarra, quantidadeEstoque, ativo, valorCompra, precoVenda, porcentagemAtacado, porcentagemVarejo, idProduto, idFornecedor) values (:nome, :marca, :modelo, :promocao, :desconto, :dataValidade, :codigoDeBarra, :quantidadeEstoque, :ativo, :valorCompra, :precoVenda, :porcentagemAtacado, :porcentagemVarejo, :idProduto, :idFornecedor)", array(
 
 					":nome"=>$this->produto->getNome(), 
 					":marca"=>$this->produto->getMarca(), 
@@ -55,6 +55,7 @@
 					":quantidadeEstoque"=>$this->produto->getQuantidade(), 
 					":ativo"=>$this->produto->getStatus(), 
 					":valorCompra"=>$this->produto->getCustoCompra(), 
+					":precoVenda"=>$this->produto->getPrecoVenda(),
 					":porcentagemAtacado"=>$this->produto->getPorcentagemVarejo(), 
 					":porcentagemVarejo"=>$this->produto->getPorcentagemAtacado(),
 					":idProduto"=>$resultadoProduto[0]['idProduto'], 

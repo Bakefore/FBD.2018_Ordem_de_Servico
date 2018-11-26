@@ -217,7 +217,7 @@
 							</select>
 						</div>	
 						<div class="coluna col2"><!--sem-padding-right-->
-							<label for="input-produto-varejo">Varejo</label>
+							<label for="input-produto-varejo">Varejo *</label>
 							<input type="text" name="input-produto-varejo" id="input-produto-varejo" required>
 						</div>	
 						<div class="coluna col2">
@@ -225,7 +225,7 @@
 							<input type="number" name="input-produto-quantidade" id="input-produto-quantidade">						
 						</div>
 						<div class="coluna col2 sem-padding-right">
-							<label for="input-produto-atacado">Atacado</label>
+							<label for="input-produto-atacado">Atacado *</label>
 							<input type="text" name="input-produto-atacado" id="input-produto-atacado" required>
 						</div>
 					</div>

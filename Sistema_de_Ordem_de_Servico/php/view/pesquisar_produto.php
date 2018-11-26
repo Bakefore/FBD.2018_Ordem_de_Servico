@@ -10,7 +10,7 @@
 		if(isset($_GET['input-pesquisar-produto'])){
 			echo "
 			<div class='coluna col12 centralizado'>
-				<div class='coluna col3 sem-padding-left linhaTabela'>
+				<div class='coluna col2 sem-padding-left linhaTabela'>
 					<strong>Nome</strong>						
 				</div>
 				<div class='coluna col2 linhaTabela'>
@@ -18,10 +18,13 @@
 				</div>
 				<div class='coluna col2 linhaTabela'>
 					<strong>Data de Validade</strong>
-				</div>					
-				<div class='coluna col2 linhaTabela'>
+				</div>								
+				<div class='coluna col1 linhaTabela'>
 					<strong>Quantidade</strong>
 				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Preço</strong>
+				</div>				
 				<div class='coluna col3 linhaTabela sem-padding-right'>				
 				</div>
 			</div>";
@@ -39,7 +42,7 @@
 					$idItemProduto = $itemProduto['idItemProduto'];
 					if($campo == 'nome'){								
 						echo "<div class='coluna col12 centralizado $impaPar'>";
-						echo "<div class='coluna col3 sem-padding-left linhaTabela'>$valor</div>";
+						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
 
 						if($impaPar == "linhaTabelaImpar"){
 							$impaPar = "linhaTabelaPar";
@@ -56,8 +59,11 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 					}
 					if($campo == 'quantidadeEstoque'){
+						echo "<div class='coluna col1 linhaTabela'>$valor</div>";						
+					}
+					if($campo == 'precoVenda'){
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
-						
+
 						echo "<div class='coluna col1'>
 								<input type='button' class='botao-cadastro' onclick='adicionarAoCarrinho($idItemProduto)' value='Carrinho'>
 							</div>";
@@ -109,7 +115,19 @@
 
 	    <script type="text/javascript">
 	    	function adicionarAoCarrinho(idProduto){
-				window.location.href = "../controller/carrinho.php?id=" + idProduto;
+	    		var quantidade = prompt("Digite a Quantidade a ser inserida");
+	    		if(verificarNumero(quantidade)){
+	    			quantidade = parseInt(quantidade);
+	    			alert("Item adicionado ao carrinho!");
+	    			window.location.href = "../controller/carrinho.php?id=" + idProduto + "&quantidade="+quantidade;
+	    		}
+	    		else{
+	    			alert("Insira um valor numérico para quantidade!");
+	    		}				
+			}
+			
+			function verificarNumero(n) {
+			    return !isNaN(parseFloat(n)) && isFinite(n);
 			}
 	    </script>
 
