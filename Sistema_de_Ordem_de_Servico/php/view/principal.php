@@ -24,6 +24,7 @@
 		));
 		
 		$_SESSION['login'] = $_POST['input-login'];	
+		$_SESSION['nomeCompleto'] = $usuario[0]['nome'];
 		$_SESSION['empresa'] = $empresa[0];	
 		$_SESSION['acesso'] = $acesso[0];
 		$_SESSION['carrinho'] = array();

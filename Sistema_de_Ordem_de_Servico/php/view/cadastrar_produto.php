@@ -166,8 +166,9 @@
 							<label for="select-produto-tipo">Tipo de Produto *</label>
 							<select name="select-produto-tipo" id="select-produto-tipo" required>
 								<option value="alimenticio">Alimentício</option>
-								<option value="movel">Móvel</option>
+								<option value="brinquedo">Brinquedo</option>
 								<option value="eletronico">Eletrônico</option>
+								<option value="movel">Móvel</option>								
 								<option value="veiculo">Veículo</option>
 							</select>
 						</div>

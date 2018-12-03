@@ -5,6 +5,40 @@
 	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('criarOrdemDeServico');
+
+	function criarOrdemDeServico(){
+		if((isset($_POST['select-os-empresa'])) && (isset($_POST['input-os-data-solicitacao'])) && (isset($_POST['input-os-atendente'])) 
+			&& (isset($_POST['select-os-tipo'])) && (isset($_POST['select-os-cliente'])) && (isset($_POST['select-os-tecnico'])) 
+			&& (isset($_POST['input-os-data-data-execucao'])) && (isset($_POST['select-os-forma-pagamento'])) 
+			&& (isset($_POST['input-os-desconto'])) && (isset($_POST['input-os-valor-parcela'])) && (isset($_POST['input-os-quantidade-parcelas'])) 
+			&& (isset($_POST['input-os-valor-total'])) && (isset($_POST['textarea-os-descricao']))){
+
+			//Verifica os serviços selecionados
+			$sql = new Sql();
+			$quantidadeServico = $sql->select("select count(idServico) from servico", array());
+			$servicosSelecionados = array();
+
+			for ($i=0; $i < $quantidadeServico[0]['count(idServico)']; $i++) { 	
+				//Define o name do servico que será passado por post
+				$caminho = 'servico-'.$i;
+				if(isset($_POST[$caminho])){
+					array_push($servicosSelecionados, $_POST[$caminho]);	
+				}
+			}
+
+			$ordemDeServico = new OrdemDeServico($servicosSelecionados, array(), $_POST['select-os-empresa'], $_POST['input-os-data-solicitacao'], 
+				$_POST['input-os-atendente'], $_POST['select-os-tipo'], $_POST['select-os-cliente'], $_POST['select-os-tecnico'], 
+				$_POST['input-os-data-data-execucao'], $_POST['select-os-forma-pagamento'], $_POST['input-os-desconto'], 
+				$_POST['input-os-quantidade-parcelas'], $_POST['textarea-os-descricao'], $_POST['input-os-valor-parcela'], 
+				$_POST['input-os-valor-total']);
+
+			$ordemDeServicoDAO = new OrdemDeServicoDAO($ordemDeServico);
+			$ordemDeServicoDAO->cadastrar();
+			Mensagem::exibirMensagem("Ordem de Serviço criada com Sucesso!");
+		}
+	}
+
+	criarOrdemDeServico();
 ?>
 <!DOCTYPE html>
 <html>
@@ -108,16 +142,18 @@
 						<?php  
 							$sql = new Sql();
 							$servicos = $sql->select("select * from servico", array());
+							$ordem = 0;
 							foreach ($servicos as $servico) {				
-								foreach ($servico as $campo => $valor) {
+								foreach ($servico as $campo => $valor) {									
 									if($campo == 'nome'){
 										echo "
 										<div class='div-criar-acesso'>						
-										    <input type='checkbox' value='$valor' name='$valor' id='$valor' />
-										    <label for='$valor'>$valor</label>
-										</div>";
-									}				
-								}
+										    <input type='checkbox' value='$valor' name='servico-$ordem' id='servico-$ordem' />
+										    <label for='servico-$ordem'>$valor</label>
+										</div>";		
+										$ordem++;								
+									}											
+								}								
 							}	
 						?>			
 					</div>
@@ -126,15 +162,23 @@
 							<h3>Produtos</h3>
 						</div>											
 						<?php  
-							//Listar todos os produtos que foram adicionados ao carrinho
-							foreach ($_SESSION['carrinho'] as $valor) {
+							for ($i=0; $i < count($_SESSION['carrinho']); $i++) { 
 								$sql = new Sql();
 								$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
-									":idItemProduto"=>intval($valor['id'])
+									":idItemProduto"=>intval($_SESSION['carrinho'][$i]['id'])
 								));
+
+								if ($produto[0]['quantidadeEstoque'] < $_SESSION['carrinho'][$i]['quantidade']) {
+									$_SESSION['carrinho'][$i]['quantidade'] = $produto[0]['quantidadeEstoque'];
+									Mensagem::exibirMensagem("O produto ".$produto[0]['nome']." só tem ".$produto[0]['quantidadeEstoque']." unidades!");
+								}
+
+								$quantidadeProduto = $_SESSION['carrinho'][$i]['quantidade'];
+								$produtoID = $_SESSION['carrinho'][$i]['id'];
 								$nomeItemProduto = $produto[0]['nome'];
 								$marcaItemProduto = $produto[0]['marca'];
 								$precoItemProduto = $produto[0]['precoVenda'];
+
 								echo "
 								<div class='coluna col2'>
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
@@ -147,13 +191,14 @@
 										<p>Preço: $precoItemProduto</p>
 									</div>
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Quantidade: $valor[quantidade]</p>
+										<p>Quantidade: $quantidadeProduto</p>
 									</div>
 									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($valor[id])'>
+										<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($produtoID)'>
 									</div>
 								</div>";
 							}
+							
 						?>
 						<div class="coluna col12">
 							<div class="div-centralizada">
@@ -170,8 +215,8 @@
 						<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
 					</div>
 					<div class="coluna col4">
-						<label for="select-os-atendente">Atendente *</label>
-						<select name="select-os-atendente" id="select-os-atendente" required></select>
+						<label for="input-os-atendente">Atendente *</label>
+						<input type="text" name="input-os-atendente" id="input-os-atendente" readonly="readonly">
 					</div>
 					<div class="coluna col2">
 						<label for="select-os-tipo">Tipo *</label>
@@ -200,22 +245,22 @@
 						</select>
 					</div>
 					<div class="coluna col2">
-						<label for="input-os-desconto">Desconto</label>
-						<input type="text" name="input-os-desconto" id="input-os-desconto" required>
+						<label for="input-os-desconto">Desconto *</label>
+						<input type="text" name="input-os-desconto" id="input-os-desconto" onblur="calcularValorTotal()" required>
 
-						<label for="input-os-valor-parcela">Valor da Parcela</label>
-						<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" required>
+						<label for="input-os-valor-parcela">Valor da Parcela *</label>
+						<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" onblur="calcularValorTotal()" required>
 					</div>
 					<div class="coluna col2">
-						<label for="input-os-quantidade-parcelas">Parcelas</label>
-						<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" required>
+						<label for="input-os-quantidade-parcelas">Parcelas *</label>
+						<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" onblur="calcularValorTotal()" required>
 
 						<label for="input-os-valor-total">Valor Total</label>
-						<input type="text" name="input-os-valor-total" id="input-os-valor-total" required>
+						<input type="text" name="input-os-valor-total" id="input-os-valor-total" readonly="readonly">
 					</div>
 					<div class="coluna col8">
-						<label for="textarea-os-descricao">Descrição</label>
-						<textarea class="descricao-servico" id="textarea-os-descricao" required></textarea>
+						<label for="textarea-os-descricao">Descrição *</label>
+						<textarea class="descricao-servico" id="textarea-os-descricao" name="textarea-os-descricao" required></textarea>
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
@@ -245,7 +290,83 @@
 	    <script src="../../common/js/preencher_uf.js"></script>
 
 	    <script type="text/javascript">
-	    	inserirEstados('select-empresa-uf');
+	    	function calcularValorTotal(){
+	    		//Calcula o valor total da Ordem de Serviço de forma automática
+	    		var valorParcela = parseFloat(document.getElementById('input-os-valor-parcela').value);
+	    		var quantidade = parseFloat(document.getElementById('input-os-quantidade-parcelas').value);
+	    		var desconto = parseFloat(document.getElementById('input-os-desconto').value);
+	    		var valorTotal = (valorParcela * quantidade) - desconto;
+	    		document.getElementById('input-os-valor-total').value = valorTotal;		
+	    	}
+
+	    	inserirEstados('select-empresa-uf');	    	
 	    </script>   	 
 	</body>
 </html>
+<?php  
+	//Editar esta condição para que fique da seguinte forma: caso o usuário logado for um superadmin, todas as empresas serão exibidas no combobox, mas caso não seja, deve aparecer apenas a empresa pelo qual aquele funcionário foi cadastrado
+	if($_SESSION['acesso']['nome'] == 'superadmin'){		//Caso for um superadmin, mostra todas as empresas possíveis
+		$sql = new Sql();
+		$empresas = $sql->select("select * from empresa", array());
+		foreach ($empresas as $empresa) {				
+			foreach ($empresa as $campo => $valor) {
+				if($campo == 'razaoSocial'){
+					echo "
+					<script>
+						var option = document.createElement('option');
+						option.text = '$valor';
+						option.value = '$valor';
+						document.getElementById('select-os-empresa').appendChild(option);
+					</script>";
+				}				
+			}
+		}		
+	}
+	else{
+		$empresa = $_SESSION['empresa']['razaoSocial'];
+		echo "
+		<script>
+			var option = document.createElement('option');
+			option.text = '$empresa';
+			option.value = '$empresa';
+			document.getElementById('select-os-empresa').appendChild(option);
+		</script>";
+	}
+
+	//Deve executar uma função que vai listar todos os clientes cadastrados no sistema		
+	$sql = new Sql();
+	$empresas = $sql->select("select * from cliente", array());
+	foreach ($empresas as $empresa) {				
+		foreach ($empresa as $campo => $valor) {
+			if($campo == 'nome'){
+				echo "
+				<script>
+					var option = document.createElement('option');
+					option.text = '$valor';
+					option.value = '$valor';
+					document.getElementById('select-os-cliente').appendChild(option);
+				</script>";
+			}				
+		}
+	}	
+
+	//Deve executar uma função que vai listar todos os funcionários cadastrados no sistema		
+	$sql = new Sql();
+	$empresas = $sql->select("select * from funcionario", array());
+	foreach ($empresas as $empresa) {				
+		foreach ($empresa as $campo => $valor) {
+			if($campo == 'nome'){
+				echo "
+				<script>
+					var option = document.createElement('option');
+					option.text = '$valor';
+					option.value = '$valor';
+					document.getElementById('select-os-tecnico').appendChild(option);
+				</script>";
+			}				
+		}
+	}	
+
+	//Preenche o nome d atendente de acordo com o atendente que está lpgado
+	echo "<script>document.getElementById('input-os-atendente').value = '$_SESSION[nomeCompleto]';</script>";		
+?>

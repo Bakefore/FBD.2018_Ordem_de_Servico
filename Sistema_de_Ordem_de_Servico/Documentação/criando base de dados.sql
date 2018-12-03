@@ -4,7 +4,7 @@ use sistemaOrdemDeServico;
 #Tabelas Fortes
 #Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
-/*
+
 select * from estado;
 select * from cidade;
 select * from endereco;
@@ -12,17 +12,22 @@ select * from empresa;
 select * from funcionario;
 select * from acesso;
 select * from cliente;
-select * from  servico;
+select * from servico;
 select * from fornecedor;
 select * from produto;
 select * from itemproduto;
-*/
+select * from ordemDeServico;
+select * from itemProdutoVenda;
+select * from servicoordemdeservico;
+
 /*
 truncate estado;
 truncate cidade;
 truncate endereco;
 truncate empresa;
+truncate servico;
 */
+
 
 create table produto(
     idProduto int not null auto_increment primary key,
@@ -40,7 +45,7 @@ create table itemproduto(
     desconto float null,
     dataCompra timestamp default current_timestamp(),
     dataValidade date not null,
-    codigoDeBarra int not null,
+    codigoDeBarra long not null,
     quantidadeEstoque int not null,
     quantidadeVenda int null,
     ativo boolean not null,
@@ -160,19 +165,7 @@ create table funcionario(
     idAcesso int references acesso(idAcesso),   /*Verificar se a tabela de Acesso está OK*/
     idEndereco int references endereco(idEndereco),
     idEmpresa int references empresa(idEmpresa)
-)default charset = 'utf8';
-
-insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario,
-    pesquisarFuncionario, excluirFuncionario, criarAcesso, editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, 
-    pesquisarCliente, excluirCliente, adicionarServico, editarServico, pesquisarServico, excluirServico, cadastrarFornecedor, 
-    pesquisarFornecedor, editarFornecedor, excluirFornecedor, cadastrarProduto, editarProduto,  pesquisarProduto, excluirProduto, 
-    criarOrdemDeServico, editarOrdemDeServico, pesquisarOrdemDeServico, excluirOrdemDeServico,    
-    exibirFinanceiro, editarFinanceiro) values ('superadmin', true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, 
-    true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
-    
-insert into funcionario (sexo, nome, cpf, dataNascimento, login, senha, idAcesso, idEndereco, idEmpresa) 
-values ('M', 'admin', '10619029439', '1998-08-29', 'admin', 'admin', '1', '2', '1');
-    
+)default charset = 'utf8';    
 
 create table contatoCliente(
     idContato int not null auto_increment primary key,
@@ -229,19 +222,67 @@ create table parcela(
     idCliente int references cliente(idCliente) 
 )default charset = 'utf8';
 
-create table itemVenda(
+create table itemProdutoVenda(
     idItemVenda int not null auto_increment primary key,
+    nome varchar(255) not null,
+    marca varchar(50) not null,
+    modelo varchar(50) null, 
+    dataVenda timestamp default current_timestamp(),
+    dataValidade date not null,
+    codigoDeBarra long not null,
     quantidade int not null,
-    promocao boolean not null,
-    valorDesconto float null,
-    tipo varchar(50) not null,
-    porcentagemPromocao float not null,
+    precoVenda float not null,
     idItemProduto int references itemProduto(idItemProduto),
     idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
 )default charset = 'utf8';
-
+/*
+create table itemServicovenda(
+    idItemServicovenda int not null auto_increment primary key,
+    nome varchar(50) not null,
+    dataVenda timestamp default current_timestamp(),
+    tipo varchar(50) not null,
+    descricao varchar(255) not null,
+    valor float not null,
+    idServico int references servico(idServico),
+    idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
+)default charset = 'utf8';
+*/
 create table servicoordemdeservico(
     idServico_ordemDeServico int not null auto_increment primary key,
     idServico int references servico(idServico),
     idOrdemDeServico int references ordemDeServico(idOrdemDeServico)
 )default charset = 'utf8';
+
+/*Inserindo cadastros iniciais*/
+insert into estado (uf) values ('PE');
+insert into cidade (nome, idEstado) values ('Serra Talhada', '1');
+insert into endereco (bairro, rua, numero, complemento, idCidade) values ('Nossa Senhora da Penha', 'Rua Padre Romão Ferraz', '123', '', 1);
+insert into empresa (razaoSocial, nomeFantasia, cnpj, idEndereco) values ('Empresa', 'Empresa', '80149485000119', 1);
+
+insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario,
+    pesquisarFuncionario, excluirFuncionario, criarAcesso, editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, 
+    pesquisarCliente, excluirCliente, adicionarServico, editarServico, pesquisarServico, excluirServico, cadastrarFornecedor, 
+    pesquisarFornecedor, editarFornecedor, excluirFornecedor, cadastrarProduto, editarProduto,  pesquisarProduto, excluirProduto, 
+    criarOrdemDeServico, editarOrdemDeServico, pesquisarOrdemDeServico, excluirOrdemDeServico,    
+    exibirFinanceiro, editarFinanceiro) values ('superadmin', true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, 
+    true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+    
+insert into funcionario (sexo, nome, cpf, dataNascimento, login, senha, idAcesso, idEndereco, idEmpresa) 
+values ('M', 'admin', '10619029439', '1998-08-29', 'admin', 'admin', '1', '2', '1');
+
+insert into funcionario (sexo, nome, cpf, dataNascimento, login, senha, idAcesso, idEndereco, idEmpresa) 
+values ('M', 'Pietro', '10619029439', '1998-08-29', 'pietro', '123', '1', '2', '1');
+
+insert into fornecedor (razaoSocial, nomeFantasia, cnpj, idEndereco, idEmpresa) values ('Fornecedor', 'Fornecedor', '80149485000119', 1, 1);
+
+insert into cliente (sexo, nome, cpf, dataNascimento, idEmpresa, idEndereco) values ('M', 'Cliente', '10619029439', '1998-08-29', 1, 1);
+
+insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('FormataÃ§Ã£o de PC', 'Tecnico', 'Formato teu PC', 40.52, 1);
+insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('Limpar PC', 'Tecnico', 'Limpo teu PC', 10.52, 1);
+
+/*insert into produto (nome, tipo, descricao) values ('Carro de controle remoto', 'Brinquedo', 'Carrinho de controle remoto');
+
+#Por algum motivo esta de baixo não está funcionando
+insert into produto (nome, marca, modelo, promocao, desconto, dataCompra, dataValidade, codigoDeBarra, quantidadeEstoque, 
+quantidadeVenda, ativo, valorCompra, precoVenda, porcentagemAtacado, porcentagemVarejo, idProduto, idFornecedor) values
+('Carrinho de controle remoto', 'Estrela', '', false, null, '1998-08-29', '1998-08-29', 'codigodebarras', 40, null, true, 40.50, 70.00, 0, 0, 1, 1);*/

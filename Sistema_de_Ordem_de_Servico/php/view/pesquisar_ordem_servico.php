@@ -1,7 +1,91 @@
 <?php  
 	require_once("../config/config.php");
+	require_once("../autoload/autoloadModel.php");
+	require_once("../autoload/autoloadView.php");
+	require_once("../autoload/autoloadDAO.php");
 
 	verificarPermissao('pesquisarOrdemDeServico');
+
+	function pesquisar(){
+		if(isset($_POST['input-ordem-de-servico'])){
+			echo "
+			<div class='coluna col12 centralizado'>
+				<div class='coluna col2 sem-padding-left linhaTabela'>
+					<strong>Data de Solicitação</strong>						
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Forma de Pagamento</strong>
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Valor Total</strong>
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Cliente</strong>
+				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Atendente</strong>
+				</div>	
+				<div class='coluna col2 linhaTabela sem-padding-right'>				
+				</div>
+			</div>";
+
+			$sql = new Sql();
+			$resultadoItemProduto = $sql->select("select * from ordemDeServico where dataDeSolicitacao like :busca or descricao like :busca or dataDeExecucao like :busca or formaDePagamento like :busca or desconto like :busca or quantidadeParcelas like :busca or valorFinal like :busca or tipo like :busca", array(
+				":busca"=>"%".$_POST['input-ordem-de-servico']."%"
+			));
+			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
+			foreach ($resultadoItemProduto as $itemProduto) {				
+				foreach ($itemProduto as $campo => $valor) {						
+					if($campo == 'dataDeSolicitacao'){								
+						echo "<div class='coluna col12 centralizado $impaPar'>";
+						$valor = date('d/m/Y',  strtotime($valor));	//Converte a data para o formato brasileiro
+						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
+
+						if($impaPar == "linhaTabelaImpar"){
+							$impaPar = "linhaTabelaPar";
+						}
+						else{
+							$impaPar = "linhaTabelaImpar";
+						}
+					}
+
+					if($campo == 'formaDePagamento'){
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+
+					if($campo == 'valorFinal'){
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+
+					if($campo == 'idCliente'){
+						$resultadoCliente = $sql->select("select * from cliente where idCliente = :idCliente", array(
+							":idCliente"=>$valor
+						));
+						$valor = $resultadoCliente[0]['nome'];
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+					
+					if($campo == 'idFuncionarioAtendente'){
+						$resultadoAtendente = $sql->select("select * from funcionario where idFuncionario = :idFuncionario", array(
+							":idFuncionario"=>$valor
+						));
+						$valor = $resultadoAtendente[0]['nome'];
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+
+						echo "<div class='coluna col1'>
+								<input type='button' class='botao-cadastro' value='Editar'>
+							</div>";
+
+						echo "<div class='coluna col1 sem-padding-right'>
+								<input type='button' class='botao-cadastro' value='Excluir'>
+							</div>";
+								
+						echo "</div>";						
+					}	
+				}
+			}
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,15 +170,15 @@
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="cadastrar-cliente">
+		<div class="sessao" id="pesquisar-ordem-de-servico">
 			<div class="linha">
 				<div class="coluna col12">
 					<h2>Ordem de Serviço</h2>
 				</div>	
-				<form action="" method="">
+				<form action="" method="post">
 					<!--Linha 1-->						
 					<div class="coluna col8">
-						<input type="text" name="input-cliente-nome" id="input-cliente-nome" placeholder="Pesquisar" required>
+						<input type="text" name="input-ordem-de-servico" id="input-ordem-de-servico" placeholder="Pesquisar" required>
 					</div>							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">
@@ -103,10 +187,13 @@
 				<div class="coluna col2">
 					<input type="submit" value="Criar" class="botao-cadastro" onclick="encaminharPagina('criar_ordem_servico.php')">
 				</div>
+				<?php  					
+					pesquisar();					
+				?>
 			</div>
 		</div>			
 
-		<div class="footer absolute-bottom">
+		<div class="footer"><!--absolute-bottom-->
 			<div class="linha">
 				<footer>
 					<div class="coluna col12">
