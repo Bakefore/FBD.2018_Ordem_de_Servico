@@ -7,7 +7,7 @@
 	verificarPermissao('pesquisarOrdemDeServico');
 
 	function pesquisar(){
-		if(isset($_POST['input-ordem-de-servico'])){
+		if(isset($_GET['input-ordem-de-servico'])){
 			echo "
 			<div class='coluna col12 centralizado'>
 				<div class='coluna col2 sem-padding-left linhaTabela'>
@@ -30,12 +30,13 @@
 			</div>";
 
 			$sql = new Sql();
-			$resultadoItemProduto = $sql->select("select * from ordemDeServico where dataDeSolicitacao like :busca or descricao like :busca or dataDeExecucao like :busca or formaDePagamento like :busca or desconto like :busca or quantidadeParcelas like :busca or valorFinal like :busca or tipo like :busca", array(
-				":busca"=>"%".$_POST['input-ordem-de-servico']."%"
+			$resultadoOrdemServico = $sql->select("select * from ordemDeServico where dataDeSolicitacao like :busca or descricao like :busca or dataDeExecucao like :busca or formaDePagamento like :busca or desconto like :busca or quantidadeParcelas like :busca or valorFinal like :busca or tipo like :busca", array(
+				":busca"=>"%".$_GET['input-ordem-de-servico']."%"
 			));
 			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
-			foreach ($resultadoItemProduto as $itemProduto) {				
-				foreach ($itemProduto as $campo => $valor) {						
+			foreach ($resultadoOrdemServico as $ordemServico) {				
+				foreach ($ordemServico as $campo => $valor) {		
+				 	$idOrdemDeServico = $ordemServico['idOrdemDeServico'];				
 					if($campo == 'dataDeSolicitacao'){								
 						echo "<div class='coluna col12 centralizado $impaPar'>";
 						$valor = date('d/m/Y',  strtotime($valor));	//Converte a data para o formato brasileiro
@@ -77,7 +78,7 @@
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idOrdemDeServico)' value='Excluir'>
 							</div>";
 								
 						echo "</div>";						
@@ -117,6 +118,14 @@
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
 
+	    <script type="text/javascript">
+	    	function excluirEntidade(id){	
+				var tabela = 'ordemDeServico';
+				if(confirm("Deseja realmente excluir?")){					
+					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
+				}
+			}
+	    </script>
 	</head>
 	<body>
 		<!--Menu Drop-down-->
@@ -175,7 +184,7 @@
 				<div class="coluna col12">
 					<h2>Ordem de Serviço</h2>
 				</div>	
-				<form action="" method="post">
+				<form action="" method="get">
 					<!--Linha 1-->						
 					<div class="coluna col8">
 						<input type="text" name="input-ordem-de-servico" id="input-ordem-de-servico" placeholder="Pesquisar" required>

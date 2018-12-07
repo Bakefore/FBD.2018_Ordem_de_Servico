@@ -4,48 +4,56 @@
 	require_once("../autoload/autoloadView.php");
 	require_once("../autoload/autoloadDAO.php");
 
-	verificarPermissao('pesquisarAcesso');
+	verificarPermissao('exibirFinanceiro');
 
 	function setarIcone($valor){
-		if($valor == 1){
+		//Define o ícone com um X caso a parcela não tenha sido paga
+		if($valor == 0){
 			return "&#10004";
 		}
 		return "&#10008";
 	}
 
 	function pesquisar(){
-		if(isset($_GET['input-pesquisar-acesso'])){
+		if((isset($_GET['input-parcela']))){
 			echo "
 			<div class='coluna col12 centralizado'>
 				<div class='coluna col2 sem-padding-left linhaTabela'>
-					<strong>Nome</strong>						
+					<strong>Cliente</strong>						
 				</div>
 				<div class='coluna col2 linhaTabela'>
-					<strong>Cadastrar Funcionário</strong>
+					<strong>Data de Vencimento</strong>
 				</div>
 				<div class='coluna col2 linhaTabela'>
-					<strong>Cadastrar Cliente</strong>
+					<strong>Status</strong>
 				</div>
 				<div class='coluna col2 linhaTabela'>
-					<strong>Cadastrar Produto</strong>
-				</div>					
-				<div class='coluna col2 linhaTabela'>
-					<strong>Criar Ordem de Serviço</strong>
+					<strong>Valor</strong>
 				</div>
+				<div class='coluna col2 linhaTabela'>
+					<strong>Número da Parcela</strong>
+				</div>	
 				<div class='coluna col2 linhaTabela sem-padding-right'>				
 				</div>
 			</div>";
 
+
+
 			$sql = new Sql();
-			$resultadoAcesso = $sql->select("select * from acesso where nome like :busca", array(
-				":busca"=>"%".$_GET['input-pesquisar-acesso']."%"
+			$resultadoParcelas = $sql->select("select * from parcela where codigo like :busca or dataVencimento like :busca or quantidadeTotal like :busca or ativo like :busca or valor like :busca or parcelaAtual like :busca", array(
+				":busca"=>"%".$_GET['input-parcela']."%"
 			));
 			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
-			foreach ($resultadoAcesso as $acesso) {				
-				foreach ($acesso as $campo => $valor) {		
-					$idAcesso = $acesso['idAcesso'];					
-					if($campo == 'nome'){								
+			foreach ($resultadoParcelas as $parcelas) {				
+				foreach ($parcelas as $campo => $valor) {	
+					$idParcela = $parcelas['idParcela'];					
+					if($campo == 'codigo'){								
+						$resultadoCliente = $sql->select("select nome from cliente where idCliente = :idCliente", array(
+							":idCliente"=>$parcelas['idCliente']
+						));
+
 						echo "<div class='coluna col12 centralizado $impaPar'>";
+						$valor = $resultadoCliente[0]['nome'];
 						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
 
 						if($impaPar == "linhaTabelaImpar"){
@@ -55,20 +63,22 @@
 							$impaPar = "linhaTabelaImpar";
 						}
 					}
-					if($campo == 'cadastrarFuncionario'){
+
+					if($campo == 'dataVencimento'){
+						$valor = date('d/m/Y',  strtotime($valor));
+						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
+					}
+
+					if($campo == 'ativo'){
 						$valor = setarIcone($valor);
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 					}
-					if($campo == 'cadastrarCliente'){
-						$valor = setarIcone($valor);
+
+					if($campo == 'valor'){
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 					}
-					if($campo == 'cadastrarProduto'){
-						$valor = setarIcone($valor);
-						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
-					}
-					if($campo == 'criarOrdemDeServico'){
-						$valor = setarIcone($valor);
+					
+					if($campo == 'parcelaAtual'){
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
@@ -76,11 +86,11 @@
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idAcesso)' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idParcela)' value='Excluir'>
 							</div>";
 								
-						echo "</div>";
-					}		
+						echo "</div>";						
+					}	
 				}
 			}
 		}
@@ -118,7 +128,7 @@
 
 	    <script type="text/javascript">
 	    	function excluirEntidade(id){	
-				var tabela = 'acesso';
+				var tabela = 'parcela';
 				if(confirm("Deseja realmente excluir?")){					
 					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
 				}
@@ -131,7 +141,7 @@
 			<ul>
 				<?php  
 					//faz a requisição da página que contém o menu superior do sistema
-					require_once("menu.php");	
+					require_once("menu.php");
 
 					verificarMenuEmpresa();
 					verificarMenuAcesso();
@@ -177,23 +187,29 @@
 		</div>
 
 		<!-- Conteúdo do Sistema -->
-		<div class="sessao" id="pesquisar-acesso">
+		<div class="sessao" id="pesquisar-parcelas">
 			<div class="linha">
 				<div class="coluna col12">
-					<h2>Acesso</h2>
+					<h2>Financeiro</h2>
 				</div>	
 				<form action="" method="get">
 					<!--Linha 1-->						
-					<div class="coluna col8">
-						<input type="text" name="input-pesquisar-acesso" id="input-pesquisar-acesso" placeholder="Pesquisar" required>
-					</div>							
+					<div class="coluna col10">
+						<input type="text" name="input-parcela" id="input-parcela" placeholder="Pesquisar" required>
+					</div>	
+					<!--
+					<div class="coluna col2">
+						<select name="select-filtro-status" id="select-filtro-status" required>
+							<option value="Todos">Todos</option>
+							<option value="À Receber">À Receber</option>
+							<option value="Pago">Pago</option>
+						</select>
+					</div>	
+					-->							
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">
 					</div>					
-				</form>
-				<div class="coluna col2">
-					<input type="submit" value="Criar" class="botao-cadastro" onclick="encaminharPagina('criar_acesso.php')">
-				</div>
+				</form>				
 				<?php  					
 					pesquisar();					
 				?>

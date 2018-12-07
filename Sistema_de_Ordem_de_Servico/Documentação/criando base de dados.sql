@@ -4,7 +4,7 @@ use sistemaOrdemDeServico;
 #Tabelas Fortes
 #Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
-
+/*
 select * from estado;
 select * from cidade;
 select * from endereco;
@@ -19,7 +19,8 @@ select * from itemproduto;
 select * from ordemDeServico;
 select * from itemProdutoVenda;
 select * from servicoordemdeservico;
-
+select * from parcela;
+*/
 /*
 truncate estado;
 truncate cidade;
@@ -214,6 +215,7 @@ create table ordemDeServico(
 create table parcela(
     idParcela int not null auto_increment primary key,
     codigo int not null,
+    dataVencimento date null,
     quantidadeTotal int not null,
     ativo boolean not null,
     valor float not null,

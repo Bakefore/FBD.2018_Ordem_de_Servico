@@ -40,6 +40,7 @@
 			foreach ($resultadoItemProduto as $itemProduto) {				
 				foreach ($itemProduto as $campo => $valor) {		
 					$idItemProduto = $itemProduto['idItemProduto'];
+					
 					if($campo == 'nome'){								
 						echo "<div class='coluna col12 centralizado $impaPar'>";
 						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
@@ -58,7 +59,8 @@
 						$valor = date('d/m/Y',  strtotime($valor));
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 					}
-					if($campo == 'quantidadeEstoque'){
+					if($campo == 'quantidadeEstoque'){						
+						$valor = $itemProduto['quantidadeEstoque'] - $itemProduto['quantidadeVenda'];
 						echo "<div class='coluna col1 linhaTabela'>$valor</div>";						
 					}
 					if($campo == 'precoVenda'){
@@ -73,7 +75,7 @@
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idItemProduto)' value='Excluir'>
 							</div>";
 								
 						echo "</div>";
@@ -128,6 +130,13 @@
 			
 			function verificarNumero(n) {
 			    return !isNaN(parseFloat(n)) && isFinite(n);
+			}
+
+			function excluirEntidade(id){	
+				var tabela = 'itemproduto';
+				if(confirm("Deseja realmente excluir?")){					
+					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
+				}
 			}
 	    </script>
 

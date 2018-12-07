@@ -7,7 +7,7 @@
 	verificarPermissao('pesquisarEmpresa');
 
 	function pesquisar(){
-		if(isset($_POST['input-pesquisar-empresa'])){
+		if(isset($_GET['input-pesquisar-empresa'])){
 			echo "
 			<div class='coluna col12 centralizado'>
 				<div class='coluna col4 sem-padding-left linhaTabela'>
@@ -24,12 +24,14 @@
 			</div>";
 
 			$sql = new Sql();
-			$resultadoItemProduto = $sql->select("select * from empresa where razaoSocial like :busca or nomeFantasia like :busca or cnpj like :busca", array(
-				":busca"=>"%".$_POST['input-pesquisar-empresa']."%"
+			$resultadoEmpresa = $sql->select("select * from empresa where razaoSocial like :busca or nomeFantasia like :busca or cnpj like :busca", array(
+				":busca"=>"%".$_GET['input-pesquisar-empresa']."%"
 			));
 			$impaPar = 'linhaTabelaPar';//linhaTabelaImpar - essa variável deve controlar o background de ímpar para par e assim fazer com que cores diferentes sejam utilizadas durante a listagem de produtos
-			foreach ($resultadoItemProduto as $itemProduto) {				
-				foreach ($itemProduto as $campo => $valor) {							
+			foreach ($resultadoEmpresa as $empresa) {				
+				foreach ($empresa as $campo => $valor) {	
+					$idEmpresa = $empresa['idEmpresa'];
+
 					if($campo == 'razaoSocial'){								
 						echo "<div class='coluna col12 centralizado $impaPar'>";
 						echo "<div class='coluna col4 sem-padding-left linhaTabela'>$valor</div>";
@@ -53,7 +55,7 @@
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idEmpresa)' value='Excluir'>
 							</div>";
 								
 						echo "</div>";						
@@ -93,6 +95,14 @@
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
 
+	    <script type="text/javascript">
+	    	function excluirEntidade(id){	
+	    		var tabela = 'empresa';
+				if(confirm("Deseja realmente excluir?")){					
+					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
+				}
+			}
+	    </script>
 	</head>
 	<body>
 		<!--Menu Drop-down-->
@@ -151,7 +161,7 @@
 				<div class="coluna col12">
 					<h2>Empresa</h2>
 				</div>	
-				<form action="" method="post">
+				<form action="" method="get">
 					<!--Linha 1-->						
 					<div class="coluna col8">
 						<input type="text" name="input-pesquisar-empresa" id="input-pesquisar-empresa" placeholder="Pesquisar" required>

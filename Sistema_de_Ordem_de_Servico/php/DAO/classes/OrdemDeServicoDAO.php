@@ -1,6 +1,8 @@
 <?php  
 	class OrdemDeServicoDAO{
 		private $ordemDeServico;
+		private $idOrdemDeServico;
+		private $idCliente;
 
 		public function __construct($ordemDeServico){
 			$this->ordemDeServico = $ordemDeServico;			
@@ -8,6 +10,14 @@
 
 		public function getOrdemDeServico(){
 			return $this->ordemDeServico;	
+		}
+
+		public function getIdOrdemDeServico(){
+			return $this->idOrdemDeServico;
+		}
+
+		public function getIdCliente(){
+			return $this->idCliente;
 		}
 
 		public function cadastrar(){
@@ -47,6 +57,8 @@
 			//SELECT MAX(ID) FROM tabela  
 
 			$ordemDeServico = $sql->select("select max(idOrdemDeServico) from ordemDeServico", array());
+			$this->idOrdemDeServico = $ordemDeServico[0]['max(idOrdemDeServico)'];	//Define o id de ordem de serviço para ser usado na criação das parcelas
+			$this->idCliente = $resultadoCliente[0]['idCliente'];	//Define o id de cliente para ser usado na criação de parcelas
 			
 			for($i=0; $i < count($_SESSION['carrinho']); $i++){
 				$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
@@ -64,6 +76,11 @@
 					":precoVenda"=>$produto[0]['precoVenda'],    
 					":idItemProduto"=>$produto[0]['idItemProduto'], 
 					":idOrdemDeServico"=>$ordemDeServico[0]['max(idOrdemDeServico)']
+				));	
+
+				$sql->query("update itemproduto set quantidadeVenda = :quantidadeVenda where idItemProduto = :idItemProduto", array( 
+					":quantidadeVenda"=>$_SESSION['carrinho'][$i]['quantidade'],
+					":idItemProduto"=>$produto[0]['idItemProduto']
 				));	
 			}
 

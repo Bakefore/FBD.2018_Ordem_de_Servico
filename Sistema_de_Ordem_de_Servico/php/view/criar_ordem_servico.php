@@ -6,6 +6,14 @@
 
 	verificarPermissao('criarOrdemDeServico');
 
+	//Função que verifica se tem a quantidade de produtos que foi desejada pelo usuário
+	function definirQauntidadeProdutos($quantidadeEmEstoque, $quantidadeSelecionada){
+		if($quantidadeSelecionada <= $quantidadeEmEstoque){
+			return $quantidadeSelecionada;
+		}
+		return $quantidadeEmEstoque;
+	}
+
 	function criarOrdemDeServico(){
 		if((isset($_POST['select-os-empresa'])) && (isset($_POST['input-os-data-solicitacao'])) && (isset($_POST['input-os-atendente'])) 
 			&& (isset($_POST['select-os-tipo'])) && (isset($_POST['select-os-cliente'])) && (isset($_POST['select-os-tecnico'])) 
@@ -32,8 +40,31 @@
 				$_POST['input-os-quantidade-parcelas'], $_POST['textarea-os-descricao'], $_POST['input-os-valor-parcela'], 
 				$_POST['input-os-valor-total']);
 
+			//Cria as parcelas para inserir no banco de dados
+			$parcelasArray = array();
+			$codigoParcela = $sql->select("select max(codigo) from parcela", array());	//Pega o maior código das parcelas
+
+			//define o código da parcela como 1 caso seja o primeiro código a ser inserido, caso não seja o primeiro, incrementa o código da parcela
+			if($codigoParcela == null){
+				$codigoParcela = 1;				
+			}
+			else{
+				$codigoParcela = $codigoParcela[0]['max(codigo)'] + 1;	
+			}
+			
+			for ($i=0; $i < $_POST['input-os-quantidade-parcelas']; $i++) { 
+				//cria as datas de vencimento com base no dia em que a ordem de serviço será executada somando meses igual a quantidade de parcelas que foram escolhidas
+				$soma = 1+$i;
+				$dataVencimento = date('Y-m-d', strtotime("+$soma month",strtotime($_POST['input-os-data-data-execucao']))); 
+
+				$parcela = new Parcela($codigoParcela, $dataVencimento, $_POST['input-os-quantidade-parcelas'], $_POST['input-os-valor-parcela'], $soma);
+				array_push($parcelasArray, $parcela);
+			}
+
 			$ordemDeServicoDAO = new OrdemDeServicoDAO($ordemDeServico);
 			$ordemDeServicoDAO->cadastrar();
+			$parcelaDAO = new ParcelaDAO($parcelasArray, $ordemDeServicoDAO->getIdOrdemDeServico(), $ordemDeServicoDAO->getIdCliente());
+			$parcelaDAO->cadastrar();
 			Mensagem::exibirMensagem("Ordem de Serviço criada com Sucesso!");
 		}
 	}
@@ -166,14 +197,19 @@
 								$sql = new Sql();
 								$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
 									":idItemProduto"=>intval($_SESSION['carrinho'][$i]['id'])
-								));
+								));								
 
 								if ($produto[0]['quantidadeEstoque'] < $_SESSION['carrinho'][$i]['quantidade']) {
 									$_SESSION['carrinho'][$i]['quantidade'] = $produto[0]['quantidadeEstoque'];
-									Mensagem::exibirMensagem("O produto ".$produto[0]['nome']." só tem ".$produto[0]['quantidadeEstoque']." unidades!");
+									//Faz a subtração dos produtos que tem no estoque com os que já foram vendidos para verificar quantos produtos podem ser vendidos
+									$calculoDeQuantidade = $produto[0]['quantidadeEstoque'] - $produto[0]['quantidadeVenda'];
+									Mensagem::exibirMensagem("O produto ".$produto[0]['nome']." só tem ".$calculoDeQuantidade." unidades!");
 								}
 
-								$quantidadeProduto = $_SESSION['carrinho'][$i]['quantidade'];
+								//Faz a subtração dos produtos que tem no estoque com os que já foram vendidos para verificar quantos produtos podem ser vendidos
+								$calculoDeQuantidade = $produto[0]['quantidadeEstoque'] - $produto[0]['quantidadeVenda'];
+								//Verifica se tem a quantidade de produtos que foi desejada pelo usuário
+								$quantidadeProduto = definirQauntidadeProdutos($calculoDeQuantidade, $_SESSION['carrinho'][$i]['quantidade']);
 								$produtoID = $_SESSION['carrinho'][$i]['id'];
 								$nomeItemProduto = $produto[0]['nome'];
 								$marcaItemProduto = $produto[0]['marca'];
@@ -240,8 +276,8 @@
 					<div class="coluna col2">
 						<label for="select-os-forma-pagamento">Pagamento *</label>
 						<select name="select-os-forma-pagamento" id="select-os-forma-pagamento" required>
-							<option value="a vista">À Vista</option>
-							<option value="a prazo">À Prazo</option>
+							<option value="À Vista">À Vista</option>
+							<option value="À Prazo">À Prazo</option>
 						</select>
 					</div>
 					<div class="coluna col2">

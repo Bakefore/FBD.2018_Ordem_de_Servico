@@ -51,7 +51,7 @@
 
 	function verficarMenuFinanceiro(){
 		if ($_SESSION['acesso']['exibirFinanceiro']) {//editar condição para verificar acesso do usuário
-			echo "<li>Finanças</li>";
+			echo "<li onclick=encaminharPagina('exibir_financas.php')>Finanças</li>";
 		}
 	}	
 ?>
