@@ -7,7 +7,8 @@
 		}*/
 
 		public function __construct(){
-			$this->conexao = new PDO("mysql:host=localhost:3306;dbname=sistemaOrdemDeServico", "root", "");//:3307
+			$this->conexao = new PDO("mysql:host=localhost;dbname=sistemaOrdemDeServico", "root", "");//:3307
+			$this->conexao->exec("SET CHARACTER SET utf8");
 		}
 
 		/*private function definirParametros($statement, $parametros = array()){
