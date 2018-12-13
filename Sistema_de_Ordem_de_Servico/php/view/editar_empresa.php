@@ -67,18 +67,12 @@
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
 				$empresaDAO = new EmpresaDAO($empresa, $enderecoDAO->getId());
-				$operacao = $empresaDAO->editar($_SESSION['idParaSerEditado']);
+				$empresaDAO->editar($_SESSION['idParaSerEditado']);				
 
-				if($operacao == false){
-					throw new EntidadeJaCadastradaException("A empresa já está cadastrada!", 2);					
-				}
-
-				Mensagem::exibirMensagem("A Empresa foi cadastrada com sucesso!");
+				Mensagem::exibirMensagem("A Empresa foi editada com sucesso!");
 			} catch (CNPJinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
-			} catch (EntidadeJaCadastradaException $e2){
-				Mensagem::exibirMensagem($e2->getMessage());
-			}			
+			}		
 		}
 	}
 

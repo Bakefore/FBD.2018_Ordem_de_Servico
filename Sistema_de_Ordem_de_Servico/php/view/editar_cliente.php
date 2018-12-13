@@ -8,7 +8,49 @@
 	
 	verificarPermissao('cadastrarCliente');
 
-	function cadastrarcliente(){
+	//Verifica se o ID foi passado e cria uma sessão para representar o ID
+	if(isset($_POST['id'])){
+		$_SESSION['idParaSerEditado'] = $_POST['id'];
+	}
+
+	//mostra todos os dados atuais da entidade
+	if(isset($_SESSION['idParaSerEditado'])){
+		$sql = new Sql();
+
+		$resultadoCliente = $sql->select("select * from cliente where idCliente = :idCliente", array(
+			":idCliente"=>$_SESSION['idParaSerEditado']
+		));
+
+		$resultadoEmpresa = $sql->select("select * from empresa where idEmpresa = :idEmpresa", array(
+			":idEmpresa"=>$resultadoCliente[0]['idEmpresa']
+		));
+
+		$resultadoEndereco = $sql->select("select * from endereco where idEndereco = :idEndereco", array(
+			":idEndereco"=>$resultadoCliente[0]['idEndereco']
+		));
+
+		$resultadoCidade = $sql->select("select * from cidade where idCidade = :idCidade", array(
+			":idCidade"=>$resultadoEndereco[0]['idCidade']
+		));
+
+		$resultadoEstado = $sql->select("select * from estado where idEstado = :idEstado", array(
+			":idEstado"=>$resultadoCidade[0]['idEstado']
+		));
+
+		//$empresa = $resultadoEmpresa[0]['razaoSocial'];
+		$sexo = $resultadoCliente[0]['sexo'];
+		$nome = $resultadoCliente[0]['nome'];
+		$cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $resultadoCliente[0]['cpf']);
+		$dataNascimento = $resultadoCliente[0]['dataNascimento'];
+		$bairro = $resultadoEndereco[0]['bairro'];
+		$rua = 	$resultadoEndereco[0]['rua'];
+		$numero = $resultadoEndereco[0]['numero'];
+		$complemento = $resultadoEndereco[0]['complemento'];
+		$cidade = $resultadoCidade[0]['nome'];
+		$estado = $resultadoEstado[0]['uf'];
+	}
+
+	function editarcliente(){
 		if((isset($_POST['input-cliente-nome'])) && (isset($_POST['input-cliente-cpf'])) && (isset($_POST['input-cliente-nascimento'])) 
 			&& (isset($_POST['select-cliente-sexo'])) && (isset($_POST['select-cliente-empresa'])) && (isset($_POST['input-cliente-cep'])) 
 			&& (isset($_POST['select-cliente-uf'])) && (isset($_POST['input-cliente-cidade'])) && (isset($_POST['input-cliente-bairro'])) 
@@ -29,21 +71,15 @@
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
 				$clienteDAO = new ClienteDAO($cliente, $enderecoDAO->getId());
-				$operacao = $clienteDAO->cadastrar();
+				$clienteDAO->editar($_SESSION['idParaSerEditado']);
 
-				if($operacao == false){
-					throw new EntidadeJaCadastradaException("O cliente já está cadastrado!", 2);					
-				}
-
-				Mensagem::exibirMensagem("O Cliente foi cadastrado com sucesso!");
+				Mensagem::exibirMensagem("O dados do cliente foram atualizados com sucesso!");
 			} catch (CPFinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
-			} catch (EntidadeJaCadastradaException $e2){
-				Mensagem::exibirMensagem($e2->getMessage());
 			}			
 		}
 	}
-	cadastrarcliente();
+	editarcliente();
 ?>
 <!DOCTYPE html>
 <html>
@@ -131,21 +167,21 @@
 		<div class="sessao" id="cadastrar-cliente">
 			<div class="linha">
 				<div class="coluna col12">
-					<h2>Cadastrar Cliente</h2>
+					<h2>Editar Cliente</h2>
 				</div>	
 				<form action="" method="post">
 					<!--Linha 1-->					
 					<div class="coluna col4">
 						<label for="input-cliente-nome">Nome *</label>
-						<input type="text" name="input-cliente-nome" id="input-cliente-nome" required>
+						<input type="text" name="input-cliente-nome" id="input-cliente-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 					</div>					
 					<div class="coluna col2">
 						<label for="input-cliente-cpf">CPF *</label>
-						<input type="text" name="input-cliente-cpf" id="input-cliente-cpf" required>
+						<input type="text" name="input-cliente-cpf" id="input-cliente-cpf" required value="<?php if(isset($cpf)){echo $cpf;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-cliente-nascimento">Nascimento *</label>
-						<input type="date" name="input-cliente-nascimento" id="input-cliente-nascimento" required>
+						<input type="date" name="input-cliente-nascimento" id="input-cliente-nascimento" required value="<?php if(isset($dataNascimento)){echo $dataNascimento;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="select-cliente-sexo">Sexo *</label>
@@ -161,8 +197,8 @@
 					</div>					
 					<!--Linha 2-->					
 					<div class="coluna col2">
-						<label for="input-cliente-cep">CEP *</label>
-						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-cliente-rua', 'input-cliente-bairro', 'input-cliente-cidade', 'select-cliente-uf');" type="text" name="input-cliente-cep" id="input-cliente-cep" required>
+						<label for="input-cliente-cep">CEP</label>
+						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-cliente-rua', 'input-cliente-bairro', 'input-cliente-cidade', 'select-cliente-uf');" type="text" name="input-cliente-cep" id="input-cliente-cep">
 					</div>
 					<div class="coluna col2">
 						<label for="select-cliente-uf">UF *</label>
@@ -170,28 +206,28 @@
 					</div>					
 					<div class="coluna col2">
 						<label for="input-cliente-cidade">Cidade *</label>
-						<input type="text" name="input-cliente-cidade" id="input-cliente-cidade" required>
+						<input type="text" name="input-cliente-cidade" id="input-cliente-cidade" required value="<?php if(isset($cidade)){echo $cidade;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-cliente-bairro">Bairro *</label>
-						<input type="text" name="input-cliente-bairro" id="input-cliente-bairro" required>
+						<input type="text" name="input-cliente-bairro" id="input-cliente-bairro" required value="<?php if(isset($bairro)){echo $bairro;} ?>">
 					</div>
 					<div class="coluna col4">
 						<label for="input-cliente-rua">Rua *</label>
-						<input type="text" name="input-cliente-rua" id="input-cliente-rua" required>
+						<input type="text" name="input-cliente-rua" id="input-cliente-rua" required value="<?php if(isset($rua)){echo $rua;} ?>">
 					</div>
 					<!--Linha 3-->
 					<div class="coluna col2">
 						<label for="input-cliente-numero">Número *</label>
-						<input type="text" name="input-cliente-numero" id="input-cliente-numero" required>
+						<input type="text" name="input-cliente-numero" id="input-cliente-numero" required value="<?php if(isset($numero)){echo $numero;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-cliente-complemento">Complemento</label>
-						<input type="text" name="input-cliente-complemento" id="input-cliente-complemento">
+						<input type="text" name="input-cliente-complemento" id="input-cliente-complemento" value="<?php if(isset($complemento)){echo $complemento;} ?>">
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Cadastrar Cliente" class="botao-cadastro">
+							<input type="submit" value="Editar Cliente" class="botao-cadastro">
 						</div>
 					</div>					
 				</form>
@@ -211,14 +247,16 @@
 					</div>
 				</footer>
 			</div>
-		</div>	
+		</div>			
 
 		<!-- Preenchendo campos de UF -->
 	    <script src="../../common/js/preencher_uf.js"></script>
 
 	    <script type="text/javascript">
-	    	inserirEstados('select-cliente-uf');
-	    </script>   	 
+	    	inserirEstados('select-cliente-uf');	    		    	
+	    	document.getElementById('select-cliente-sexo').value = '<?php if(isset($sexo)){echo $sexo;} ?>';
+	    	document.getElementById('select-cliente-uf').value = '<?php if(isset($estado)){echo $estado;} ?>';	 	    	   	
+	    </script>   
 	</body>
 </html>
 <?php  
@@ -251,3 +289,6 @@
 		</script>";
 	}
 ?>
+<script type="text/javascript">
+	document.getElementById('select-cliente-empresa').value = '<?php if(isset($resultadoEmpresa[0]['razaoSocial'])){echo $resultadoEmpresa[0]['razaoSocial'];} ?>';
+</script>

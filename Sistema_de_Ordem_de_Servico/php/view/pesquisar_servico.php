@@ -55,7 +55,7 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idServico)' value='Editar'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
@@ -105,6 +105,11 @@
 				if(confirm("Deseja realmente excluir?")){					
 					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
 				}
+			}
+
+			function editarEntidade(id){
+				var tabela = 'servico';									
+				window.location.href = "../controller/editarEntidade.php?id=" + id + "&tabela=" + tabela;				
 			}
 	    </script>
 	</head>

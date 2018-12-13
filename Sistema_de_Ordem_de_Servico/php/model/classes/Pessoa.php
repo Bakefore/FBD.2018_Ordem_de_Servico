@@ -10,6 +10,7 @@
 
 		public function __construct($nome, $cpf, $nasciemnto, $sexo, $contatosArray = array(), $endereco, $empresa){
 			$this->nome = $nome;
+			$cpf = preg_replace('/[^0-9]/', '', (string) $cpf);
 			$this->cpf = $cpf;
 			$this->nasciemnto = $nasciemnto;
 			$this->sexo = $sexo;
@@ -21,6 +22,7 @@
 		//Super é um método desenvolvido para imitar o super do java para um caso de herança
 		public function super($nome, $cpf, $nasciemnto, $sexo, $contatosArray = array(), $endereco, $empresa){
 			$this->setNome($nome);
+			$cpf = preg_replace('/[^0-9]/', '', (string) $cpf);
 			$this->setCPF($cpf);
 			$this->setNascimento($nasciemnto);
 			$this->setSexo($sexo);

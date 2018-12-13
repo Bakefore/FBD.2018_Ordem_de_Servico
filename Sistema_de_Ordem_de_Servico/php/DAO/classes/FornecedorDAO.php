@@ -44,5 +44,23 @@
 			
 			return false;//Retorna false caso não tenha cadastrado			
 		}
+
+		public function editar($idFornecedor){
+			$sql = new Sql();
+
+			$resultadoEmpresa = $sql->select("select * from empresa where razaoSocial = :razaoSocial", array(
+				":razaoSocial"=>$this->fornecedor->getEmpresa()
+			));
+
+			$sql->query("update fornecedor set razaoSocial = :razaoSocial, nomeFantasia = :nomeFantasia, cnpj = :cnpj, idEndereco = :idEndereco, idEmpresa = :idEmpresa where idFornecedor = :idFornecedor", array(
+
+				":razaoSocial"=>$this->fornecedor->getRazaoSocial(), 
+				":nomeFantasia"=>$this->fornecedor->getNomeFantasia(), 
+				":cnpj"=>$this->fornecedor->getCNPJ(), 
+				":idEndereco"=>$this->getIdEndereco(),
+				":idEmpresa"=>$resultadoEmpresa[0]['idEmpresa'],
+				":idFornecedor"=>$idFornecedor
+			));		
+		}
 	}
 ?>

@@ -4,7 +4,7 @@ use sistemaOrdemDeServico;
 #Tabelas Fortes
 #Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
-/*
+
 select * from estado;
 select * from cidade;
 select * from endereco;
@@ -20,7 +20,7 @@ select * from ordemDeServico;
 select * from itemProdutoVenda;
 select * from servicoordemdeservico;
 select * from parcela;
-*/
+
 /*
 truncate estado;
 truncate cidade;
@@ -279,8 +279,8 @@ insert into fornecedor (razaoSocial, nomeFantasia, cnpj, idEndereco, idEmpresa) 
 
 insert into cliente (sexo, nome, cpf, dataNascimento, idEmpresa, idEndereco) values ('M', 'Cliente', '10619029439', '1998-08-29', 1, 1);
 
-insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('FormataÃ§Ã£o de PC', 'Tecnico', 'Formato teu PC', 40.52, 1);
-insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('Limpar PC', 'Tecnico', 'Limpo teu PC', 10.52, 1);
+insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('Formatação de PC', 'Técnico', 'Formato teu PC', 40.52, 1);
+insert into servico (nome, tipo, descricao, valor, idEmpresa) values ('Limpar PC', 'Técnico', 'Limpo teu PC', 10.52, 1);
 
 /*insert into produto (nome, tipo, descricao) values ('Carro de controle remoto', 'Brinquedo', 'Carrinho de controle remoto');
 

@@ -50,5 +50,31 @@
 			}
 			return false;//Retorna false caso não tenha cadastrado	
 		}
+
+		public function editar($idFuncionario){
+			$sql = new Sql();
+
+			$reultadoAcesso = $sql->select("select * from acesso where nome = :nome", array(
+				":nome"=>$this->funcionario->getAcesso()					
+			));
+
+			$resultadoEmpresa = $sql->select("select * from empresa where razaoSocial = :razaoSocial", array(
+				":razaoSocial"=>$this->funcionario->getEmpresa()					
+			));
+
+			$sql->query("update funcionario set sexo = :sexo, nome = :nome, cpf = :cpf, dataNascimento = :dataNascimento, login = :login, senha = :senha, idAcesso = :idAcesso, idEndereco = :idEndereco, idEmpresa = :idEmpresa where idFuncionario = :idFuncionario", array(
+
+				":sexo"=>$this->funcionario->getSexo(), 
+				":nome"=>$this->funcionario->getNome(), 
+				":cpf"=>$this->funcionario->getCPF(), 
+				":dataNascimento"=>$this->funcionario->getNascimento(), 
+				":login"=>$this->funcionario->getLogin(), 
+				":senha"=>$this->funcionario->getSenha(), 
+				":idAcesso"=>$reultadoAcesso[0]['idAcesso'], 
+				":idEndereco"=>$this->getIdEndereco(), 
+				":idEmpresa"=>$resultadoEmpresa[0]['idEmpresa'],
+				"idFuncionario"=>$idFuncionario
+			));	
+		}
 	}
 ?>

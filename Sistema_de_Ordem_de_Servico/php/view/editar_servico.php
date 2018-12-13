@@ -8,7 +8,30 @@
 
 	verificarPermissao('adicionarServico');
 
-	function cadastrarServico(){
+	//Verifica se o ID foi passado e cria uma sessão para representar o ID
+	if(isset($_POST['id'])){
+		$_SESSION['idParaSerEditado'] = $_POST['id'];
+	}
+
+	//mostra todos os dados atuais da entidade
+	if(isset($_SESSION['idParaSerEditado'])){
+		$sql = new Sql();
+
+		$resultadoServico = $sql->select("select * from servico where idServico = :idServico", array(
+			":idServico"=>$_SESSION['idParaSerEditado']
+		));
+
+		$resultadoEmpresa = $sql->select("select * from empresa where idEmpresa = :idEmpresa", array(
+			":idEmpresa"=>$resultadoServico[0]['idEmpresa']
+		));
+
+		$nome = $resultadoServico[0]['nome'];
+		$tipo = $resultadoServico[0]['tipo'];
+		$descricao = $resultadoServico[0]['descricao'];
+		$valor = $resultadoServico[0]['valor'];
+	}
+
+	function editarServico(){
 		if((isset($_POST['input-servico-nome'])) && (isset($_POST['select-servico-empresa'])) && (isset($_POST['input-servico-valor'])) 
 			&& (isset($_POST['select-servico-tipo']))  && (isset($_POST['textarea-servico-descricao']))){
 
@@ -21,21 +44,15 @@
 				}
 
 				$servicoDAO = new ServicoDAO($servico);
-				$operacao = $servicoDAO->cadastrar();
+				$servicoDAO->editar($_SESSION['idParaSerEditado']);
 
-				if($operacao == false){
-					throw new EntidadeJaCadastradaException("Já existe um serviço com o mesmo nome!", 1);					
-				}
-
-				Mensagem::exibirMensagem("O Serviço foi inserido com sucesso!");
-			} catch (EntidadeJaCadastradaException $e) {
-				Mensagem::exibirMensagem($e->getMessage());
+				Mensagem::exibirMensagem("O Serviço foi atualizado com sucesso!");
 			} catch (ValorNaoNumericoException $e2) {
 				Mensagem::exibirMensagem($e2->getMessage());
 			}
 		}
 	}
-	cadastrarServico();
+	editarServico();
 ?>
 <!DOCTYPE html>
 <html>
@@ -147,19 +164,19 @@
 		<div class="sessao" id="cadastrar-servico">
 			<div class="linha">
 				<div class="coluna col12">
-					<h2>Cadastrar Serviço</h2>
+					<h2>Editar Serviço</h2>
 				</div>	
 				<form action="" method="post">
 					<div class="coluna col4">
 						<label for="input-servico-nome">Nome *</label>
-						<input type="text" name="input-servico-nome" id="input-servico-nome" required>
+						<input type="text" name="input-servico-nome" id="input-servico-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 
 						<label for="select-servico-empresa">Empresa *</label>
 						<select name="select-servico-empresa" id="select-servico-empresa" required></select>		
 					</div>
 					<div class="coluna col2">
 						<label for="input-servico-valor">Valor *</label>
-						<input type="text" name="input-servico-valor" id="input-servico-valor" required>
+						<input type="text" name="input-servico-valor" id="input-servico-valor" required value="<?php if(isset($valor)){echo $valor;} ?>">
 
 						<label for="select-servico-tipo">Tipo de Serviço *</label>
 						<select name="select-servico-tipo" id="select-servico-tipo" required>
@@ -168,11 +185,11 @@
 					</div>	
 					<div class="coluna col6">
 						<label for="textarea-servico-descricao">Descrição *</label>
-						<textarea class="descricao-servico" id="textarea-servico-descricao" name="textarea-servico-descricao" required></textarea>
+						<textarea class="descricao-servico" id="textarea-servico-descricao" name="textarea-servico-descricao" required><?php if(isset($descricao)){echo $descricao;} ?></textarea>
 					</div>	
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Cadastrar Serviço" class="botao-cadastro">
+							<input type="submit" value="Editar Serviço" class="botao-cadastro">
 						</div>	
 					</div>							
 				</form>
@@ -232,3 +249,7 @@
 		</script>";
 	}
 ?>
+<script type="text/javascript">
+	document.getElementById('select-servico-empresa').value = '<?php if(isset($resultadoEmpresa[0]['razaoSocial'])){echo $resultadoEmpresa[0]['razaoSocial'];} ?>';
+	document.getElementById('select-servico-tipo').value = '<?php if(isset($tipo)){echo $tipo;} ?>';
+</script>

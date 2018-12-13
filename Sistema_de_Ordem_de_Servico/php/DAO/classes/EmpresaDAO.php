@@ -43,23 +43,13 @@
 		public function editar($idEmpresa){
 			$sql = new Sql();
 
-			$resultadoEmpresa = $sql->select("select * from empresa where razaoSocial = :razaoSocial and nomeFantasia = :nomeFantasia and cnpj = :cnpj", array(
+			$sql->query("update empresa set razaoSocial = :razaoSocial, nomeFantasia = :nomeFantasia, cnpj = :cnpj, idEndereco = :idEndereco where idEmpresa = :idEmpresa", array(
 				":razaoSocial"=>$this->empresa->getRazaoSocial(),
-				":nomeFantasia"=>$this->empresa->getNomeFantasia(),
-				":cnpj"=>$this->empresa->getCNPJ()
-			));
-
-			if($resultadoEmpresa == null){
-				$sql->query("update empresa set razaoSocial = :razaoSocial, nomeFantasia = :nomeFantasia, cnpj = :cnpj where idEmpresa = :idEmpresa", array(
-					":razaoSocial"=>$this->empresa->getRazaoSocial(),
-					":nomeFantasia"=>$this->empresa->getNomeFantasia(), 
-					":cnpj"=>$this->empresa->getCNPJ(),
-					":idEmpresa"=>$idEmpresa
-				));	
-				return true;//Retorna true caso tenha cadastrado
-			}
-			
-			return false;//Retorna false caso não tenha cadastrado	
+				":nomeFantasia"=>$this->empresa->getNomeFantasia(), 
+				":cnpj"=>$this->empresa->getCNPJ(),
+				":idEmpresa"=>$idEmpresa,
+				":idEndereco"=>$this->getIdEndereco()
+			));	
 		}
 	}
 ?>

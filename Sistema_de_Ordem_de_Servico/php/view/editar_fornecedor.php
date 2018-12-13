@@ -8,8 +8,48 @@
 
 	verificarPermissao('cadastrarFornecedor');	
 
+	//Verifica se o ID foi passado e cria uma sessão para representar o ID
+	if(isset($_POST['id'])){
+		$_SESSION['idParaSerEditado'] = $_POST['id'];
+	}
+
+	//mostra todos os dados atuais da entidade
+	if(isset($_SESSION['idParaSerEditado'])){
+		$sql = new Sql();
+
+		$resultadoFornecedor = $sql->select("select * from fornecedor where idFornecedor = :idFornecedor", array(
+			":idFornecedor"=>$_SESSION['idParaSerEditado']
+		));
+
+		$resultadoEmpresa = $sql->select("select * from empresa where idEmpresa = :idEmpresa", array(
+			":idEmpresa"=>$resultadoFornecedor[0]['idEmpresa']
+		));
+
+		$resultadoEndereco = $sql->select("select * from endereco where idEndereco = :idEndereco", array(
+			":idEndereco"=>$resultadoFornecedor[0]['idEndereco']
+		));
+
+		$resultadoCidade = $sql->select("select * from cidade where idCidade = :idCidade", array(
+			":idCidade"=>$resultadoEndereco[0]['idCidade']
+		));
+
+		$resultadoEstado = $sql->select("select * from estado where idEstado = :idEstado", array(
+			":idEstado"=>$resultadoCidade[0]['idEstado']
+		));
+
+		$razaoSocial = $resultadoFornecedor[0]['razaoSocial'];
+		$nomeFantasia = $resultadoFornecedor[0]['nomeFantasia'];
+		$cnpj = preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/','$1.$2.$3/$4-$5',$resultadoFornecedor[0]['cnpj']);
+		$bairro = $resultadoEndereco[0]['bairro'];
+		$rua = 	$resultadoEndereco[0]['rua'];
+		$numero = $resultadoEndereco[0]['numero'];
+		$complemento = $resultadoEndereco[0]['complemento'];
+		$cidade = $resultadoCidade[0]['nome'];
+		$estado = $resultadoEstado[0]['uf'];
+	}
+
 	//Verifica os dados passados para então fazer o cadastro de uma Empresa
-	function cadastrarFornecedor(){
+	function editarFornecedor(){
 		if((isset($_POST['input-fornecedor-razao-social'])) && (isset($_POST['input-fornecedor-nome-fantasia'])) 
 			&& (isset($_POST['input-fornecedor-cnpj'])) && (isset($_POST['select-fornecedor-empresa']))
 			&& (isset($_POST['input-fornecedor-cep'])) && (isset($_POST['select-fornecedor-uf'])) 
@@ -31,22 +71,16 @@
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
 				$fornecedorDAO = new FornecedorDAO($fornecedor, $enderecoDAO->getId());
-				$operacao = $fornecedorDAO->cadastrar();
+				$fornecedorDAO->editar($_SESSION['idParaSerEditado']);
 
-				if($operacao == false){
-					throw new EntidadeJaCadastradaException("O Fornecedor já está cadastrado!", 2);					
-				}
-
-				Mensagem::exibirMensagem("O Fornecedor foi cadastrado com sucesso!");
+				Mensagem::exibirMensagem("O Fornecedor foi editado com sucesso!");
 			} catch (CNPJinvalidoException $e) {
 				Mensagem::exibirMensagem($e->getMessage());
-			} catch (EntidadeJaCadastradaException $e2){
-				Mensagem::exibirMensagem($e2->getMessage());
 			}			
 		}
 	}	
 
-	cadastrarFornecedor();
+	editarFornecedor();
 ?>
 <!DOCTYPE html>
 <html>
@@ -133,21 +167,21 @@
 		<div class="sessao" id="cadastrar-fornecedor">
 			<div class="linha">
 				<div class="coluna col12">
-					<h2>Cadastrar Fornecedor</h2>
+					<h2>Editar Fornecedor</h2>
 				</div>
 				<form action="" method="post">
 					<!--Linha 1-->					
 					<div class="coluna col4">
 						<label for="input-fornecedor-razao-social">Razão Social *</label>
-						<input type="text" name="input-fornecedor-razao-social" id="input-fornecedor-razao-social" required>
+						<input type="text" name="input-fornecedor-razao-social" id="input-fornecedor-razao-social" required value="<?php if(isset($razaoSocial)){echo $razaoSocial;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-fornecedor-nome-fantasia">Nome Fantasia *</label>
-						<input type="text" name="input-fornecedor-nome-fantasia" id="input-fornecedor-nome-fantasia" required>
+						<input type="text" name="input-fornecedor-nome-fantasia" id="input-fornecedor-nome-fantasia" required value="<?php if(isset($nomeFantasia)){echo $nomeFantasia;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-fornecedor-cnpj">CNPJ *</label>
-						<input type="text" name="input-fornecedor-cnpj" id="input-fornecedor-cnpj" required>
+						<input type="text" name="input-fornecedor-cnpj" id="input-fornecedor-cnpj" required value="<?php if(isset($cnpj)){echo $cnpj;} ?>">
 					</div>
 					<div class="coluna col4">
 						<label for="select-fornecedor-empresa">Empresa *</label>
@@ -155,8 +189,8 @@
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
 					</div>										
 					<div class="coluna col2">
-						<label for="input-fornecedor-cep">CEP *</label>
-						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-fornecedor-rua', 'input-fornecedor-bairro', 'input-fornecedor-cidade', 'select-fornecedor-uf');" type="text" name="input-fornecedor-cep" id="input-fornecedor-cep" required>
+						<label for="input-fornecedor-cep">CEP</label>
+						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-fornecedor-rua', 'input-fornecedor-bairro', 'input-fornecedor-cidade', 'select-fornecedor-uf');" type="text" name="input-fornecedor-cep" id="input-fornecedor-cep">
 					</div>
 					<div class="coluna col2">
 						<label for="select-fornecedor-uf">UF *</label>
@@ -165,27 +199,27 @@
 					<!--Linha 2-->
 					<div class="coluna col2">
 						<label for="input-fornecedor-cidade">Cidade *</label>
-						<input type="text" name="input-fornecedor-cidade" id="input-fornecedor-cidade" required>
+						<input type="text" name="input-fornecedor-cidade" id="input-fornecedor-cidade" required value="<?php if(isset($cidade)){echo $cidade;} ?>"> 
 					</div>
 					<div class="coluna col2">
 						<label for="input-fornecedor-bairro">Bairro *</label>
-						<input type="text" name="input-fornecedor-bairro" id="input-fornecedor-bairro" required>
+						<input type="text" name="input-fornecedor-bairro" id="input-fornecedor-bairro" required value="<?php if(isset($bairro)){echo $bairro;} ?>">
 					</div>
 					<div class="coluna col4">
 						<label for="input-fornecedor-rua">Rua *</label>
-						<input type="text" name="input-fornecedor-rua" id="input-fornecedor-rua" required>
+						<input type="text" name="input-fornecedor-rua" id="input-fornecedor-rua" required value="<?php if(isset($rua)){echo $rua;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-fornecedor-numero">Número *</label>
-						<input type="text" name="input-fornecedor-numero" id="input-fornecedor-numero" required>
+						<input type="text" name="input-fornecedor-numero" id="input-fornecedor-numero" required value="<?php if(isset($numero)){echo $numero;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-fornecedor-complemento">Complemento</label>
-						<input type="text" name="input-fornecedor-complemento" id="input-fornecedor-complemento">
+						<input type="text" name="input-fornecedor-complemento" id="input-fornecedor-complemento" value="<?php if(isset($complemento)){echo $complemento;} ?>">
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Cadastrar Fornecedor" class="botao-cadastro">
+							<input type="submit" value="Editar Fornecedor" class="botao-cadastro">
 						</div>
 					</div>
 				</form>
@@ -212,6 +246,7 @@
 
 	    <script type="text/javascript">
 	    	inserirEstados('select-fornecedor-uf');
+	    	document.getElementById('select-fornecedor-uf').value = '<?php if(isset($estado)){echo $estado;} ?>';	
 	    </script>   	 
 	</body>
 </html>
@@ -245,5 +280,7 @@
 		</script>";
 	}
 ?>
-
+<script type="text/javascript">
+	document.getElementById('select-fornecedor-empresa').value = '<?php if(isset($resultadoEmpresa[0]['razaoSocial'])){echo $resultadoEmpresa[0]['razaoSocial'];} ?>';
+</script>
 				

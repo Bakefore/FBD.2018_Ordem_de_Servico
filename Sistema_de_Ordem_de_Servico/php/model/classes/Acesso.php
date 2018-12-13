@@ -90,7 +90,7 @@
 			$this->nome = $nome;
 		}
 
-		public function getCadastrarEmpresa(){
+		public function getCadastrarEmpresa():bool{
 			return $this->cadastrarEmpresa;
 		}
 
@@ -98,7 +98,7 @@
 			$this->cadastrarEmpresa = $cadastrarEmpresa;
 		}
 
-		public function getPesquisarEmpresa(){
+		public function getPesquisarEmpresa():bool{
 			return $this->pesquisarEmpresa;
 		}
 
@@ -106,7 +106,7 @@
 			$this->pesquisarEmpresa = $pesquisarEmpresa;
 		}
 
-		public function getEditarEmpresa(){
+		public function getEditarEmpresa():bool{
 			return $this->editarEmpresa;
 		}
 
@@ -114,7 +114,7 @@
 			$this->editarEmpresa = $editarEmpresa;
 		}
 
-		public function getExcluirEmpresa(){
+		public function getExcluirEmpresa():bool{
 			return $this->excluirEmpresa;
 		}
 
@@ -122,7 +122,7 @@
 			$this->excluirEmpresa = $excluirEmpresa;
 		}
 
-		public function getCriarAcesso(){
+		public function getCriarAcesso():bool{
 			return $this->criarAcesso;
 		}
 
@@ -130,7 +130,7 @@
 			$this->criarAcesso = $criarAcesso;	
 		}
 
-		public function getPesquisarAcesso(){
+		public function getPesquisarAcesso():bool{
 			return $this->pesquisarAcesso;
 		}
 
@@ -138,7 +138,7 @@
 			$this->pesquisarAcesso = $pesquisarAcesso;
 		}
 
-		public function getEditarAcesso(){
+		public function getEditarAcesso():bool{
 			return $this->editarAcesso;
 		}
 
@@ -146,7 +146,7 @@
 			$this->editarAcesso = $editarAcesso;
 		}
 
-		public function getExcluirAcesso(){
+		public function getExcluirAcesso():bool{
 			return $this->excluirAcesso;
 		}
 
@@ -154,7 +154,7 @@
 			$this->excluirAcesso = $excluirAcesso;
 		}
 
-		public function getCadastrarFuncionario(){
+		public function getCadastrarFuncionario():bool{
 			return $this->cadastrarFuncionario;
 		}
 
@@ -162,7 +162,7 @@
 			$this->cadastrarFuncionario = $cadastrarFuncionario;
 		}
 
-		public function getPesquisarFuncionario(){
+		public function getPesquisarFuncionario():bool{
 			return $this->pesquisarFuncionario;
 		}
 
@@ -170,7 +170,7 @@
 			$this->pesquisarFuncionario = $pesquisarFuncionario;
 		}
 
-		public function getEditarFuncionario(){
+		public function getEditarFuncionario():bool{
 			return $this->editarFuncionario;
 		}
 
@@ -178,7 +178,7 @@
 			$this->editarFuncionario = $editarFuncionario;
 		}
 
-		public function getExcluirFuncionario(){
+		public function getExcluirFuncionario():bool{
 			return $this->excluirFuncionario;
 		}
 
@@ -186,7 +186,7 @@
 			$this->excluirFuncionario = $excluirFuncionario;
 		}
 
-		public function getCadastrarCliente(){
+		public function getCadastrarCliente():bool{
 			return $this->cadastrarCliente;
 		}
 
@@ -194,7 +194,7 @@
 			$this->cadastrarCliente = $cadastrarCliente;
 		}
 
-		public function getPesquisarCliente(){
+		public function getPesquisarCliente():bool{
 			return $this->pesquisarCliente;
 		}
 
@@ -202,7 +202,7 @@
 			$this->pesquisarCliente = $pesquisarCliente;
 		}
 
-		public function getEditarCliente(){
+		public function getEditarCliente():bool{
 			return $this->editarCliente;
 		}
 
@@ -210,7 +210,7 @@
 			$this->editarCliente = $editarCliente;
 		}
 
-		public function getExcluirCliente(){
+		public function getExcluirCliente():bool{
 			return $this->excluirCliente;
 		}
 
@@ -218,7 +218,7 @@
 			$this->excluirCliente = $excluirCliente;
 		}
 
-		public function getCadastrarServico(){
+		public function getCadastrarServico():bool{
 			return $this->cadastrarServico;
 		}
 
@@ -226,7 +226,7 @@
 			$this->cadastrarServico = $cadastrarServico;
 		}
 
-		public function getPesquisarServico(){
+		public function getPesquisarServico():bool{
 			return $this->pesquisarServico;
 		}
 
@@ -234,7 +234,7 @@
 			$this->pesquisarServico = $pesquisarServico;
 		}
 
-		public function getEditarServico(){
+		public function getEditarServico():bool{
 			return $this->editarServico;
 		}
 
@@ -242,7 +242,7 @@
 			$this->editarServico = $editarServico;
 		}
 
-		public function getExcluirServico(){
+		public function getExcluirServico():bool{
 			return $this->excluirServico;
 		}
 
@@ -250,7 +250,7 @@
 			$this->excluirServico = $excluirServico;
 		}
 
-		public function getCadastrarFornecedor(){
+		public function getCadastrarFornecedor():bool{
 			return $this->cadastrarFornecedor;
 		}
 
@@ -258,7 +258,7 @@
 			$this->cadastrarFornecedor = $cadastrarFornecedor;
 		}
 
-		public function getPesquisarFornecedor(){
+		public function getPesquisarFornecedor():bool{
 			return $this->pesquisarFornecedor;
 		}
 
@@ -266,7 +266,7 @@
 			$this->pesquisarFornecedor = $pesquisarFornecedor;
 		}
 
-		public function getEditarFornecedor(){
+		public function getEditarFornecedor():bool{
 			return $this->editarFornecedor;
 		}
 
@@ -274,7 +274,7 @@
 			$this->editarFornecedor = $editarFornecedor;
 		}
 
-		public function getExcluirFornecedor(){
+		public function getExcluirFornecedor():bool{
 			return $this->excluirFornecedor;
 		}
 
@@ -282,7 +282,7 @@
 			$this->excluirFornecedor = $excluirFornecedor;
 		}
 
-		public function getCadastrarProduto(){
+		public function getCadastrarProduto():bool{
 			return $this->cadastrarProduto;
 		}
 
@@ -290,7 +290,7 @@
 			$this->cadastrarProduto = $cadastrarProduto;
 		}
 
-		public function getPesquisarProduto(){
+		public function getPesquisarProduto():bool{
 			return $this->pesquisarProduto;
 		}
 
@@ -298,7 +298,7 @@
 			$this->pesquisarProduto = $pesquisarProduto;
 		}
 
-		public function getEditarProduto(){
+		public function getEditarProduto():bool{
 			return $this->editarProduto;
 		}
 
@@ -306,7 +306,7 @@
 			$this->editarProduto = $editarProduto;
 		}
 
-		public function getExcluirProduto(){
+		public function getExcluirProduto():bool{
 			return $this->excluirProduto;
 		}
 
@@ -314,7 +314,7 @@
 			$this->excluirProduto = $excluirProduto;
 		}
 
-		public function getCriarOrdemDeServico(){
+		public function getCriarOrdemDeServico():bool{
 			return $this->criarOrdemDeServico;
 		}
 
@@ -322,7 +322,7 @@
 			$this->criarOrdemDeServico = $criarOrdemDeServico;
 		}
 
-		public function getPesquisarOrdemDeServico(){
+		public function getPesquisarOrdemDeServico():bool{
 			return $this->pesquisarOrdemDeServico;
 		}
 
@@ -330,7 +330,7 @@
 			$this->pesquisarOrdemDeServico = $pesquisarOrdemDeServico;
 		}
 
-		public function getEditarOrdemDeServico(){
+		public function getEditarOrdemDeServico():bool{
 			return $this->editarOrdemDeServico;
 		}
 
@@ -338,7 +338,7 @@
 			$this->editarOrdemDeServico = $editarOrdemDeServico;
 		}
 
-		public function getExcluirOrdemDeServico(){
+		public function getExcluirOrdemDeServico():bool{
 			return $this->excluirOrdemDeServico;
 		}
 
@@ -346,7 +346,7 @@
 			$this->excluirOrdemDeServico = $excluirOrdemDeServico;
 		}
 
-		public function getExibirFinanceiro(){
+		public function getExibirFinanceiro():bool{
 			return $this->exibirFinanceiro;
 		}
 
@@ -354,7 +354,7 @@
 			$this->exibirFinanceiro = $exibirFinanceiro;
 		}
 
-		public function getEditarFinanceiro(){
+		public function getEditarFinanceiro():bool{
 			return $this->editarFinanceiro;
 		}
 

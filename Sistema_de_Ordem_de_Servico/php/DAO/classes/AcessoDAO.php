@@ -64,5 +64,50 @@
 
 			return false;//Retorna false caso não tenha cadastrado
 		}
+
+		public function editar($idAcesso){
+			$sql = new Sql();
+
+			//Caso não exista nenhum acesso com este nome, poderá cadastrar o acesso			
+			$sql->query("update acesso set nome = :nome, cadastrarEmpresa = :cadastrarEmpresa, editarEmpresa = :editarEmpresa, pesquisarEmpresa = :pesquisarEmpresa, excluirEmpresa = :excluirEmpresa, cadastrarFuncionario = :cadastrarFuncionario, editarFuncionario = :editarFuncionario, pesquisarFuncionario = :pesquisarFuncionario, excluirFuncionario = :excluirFuncionario, criarAcesso = :criarAcesso, editarAcesso = :editarAcesso, pesquisarAcesso = :pesquisarAcesso, excluirAcesso = :excluirAcesso, cadastrarCliente = :cadastrarCliente, editarCliente = :editarCliente, pesquisarCliente = :pesquisarCliente, excluirCliente = :excluirCliente, adicionarServico = :adicionarServico, editarServico = :editarServico, pesquisarServico = :pesquisarServico, excluirServico = :excluirServico, cadastrarFornecedor = :cadastrarFornecedor, pesquisarFornecedor = :pesquisarFornecedor, editarFornecedor = :editarFornecedor, excluirFornecedor = :excluirFornecedor, cadastrarProduto = :cadastrarProduto, editarProduto = :editarProduto, pesquisarProduto = :pesquisarProduto, excluirProduto = :excluirProduto, criarOrdemDeServico = :criarOrdemDeServico, editarOrdemDeServico = :editarOrdemDeServico, pesquisarOrdemDeServico = :pesquisarOrdemDeServico, excluirOrdemDeServico = :excluirOrdemDeServico, exibirFinanceiro = :exibirFinanceiro, editarFinanceiro = :editarFinanceiro where idAcesso = :idAcesso", array(
+
+				":nome"=>$this->acesso->getNome(), 
+				":cadastrarEmpresa"=>$this->acesso->getCadastrarEmpresa(), 
+				":editarEmpresa"=>$this->acesso->getEditarEmpresa(), 
+				":pesquisarEmpresa"=>$this->acesso->getPesquisarEmpresa(), 
+				":excluirEmpresa"=>$this->acesso->getExcluirEmpresa(), 
+				":cadastrarFuncionario"=>$this->acesso->getCadastrarFuncionario(), 
+				":editarFuncionario"=>$this->acesso->getEditarFuncionario(), 
+				":pesquisarFuncionario"=>$this->acesso->getPesquisarFuncionario(), 
+				":excluirFuncionario"=>$this->acesso->getExcluirFuncionario(), 
+				":criarAcesso"=>$this->acesso->getCriarAcesso(), 
+				":editarAcesso"=>$this->acesso->getEditarAcesso(), 
+				":pesquisarAcesso"=>$this->acesso->getPesquisarAcesso(), 
+				":excluirAcesso"=>$this->acesso->getExcluirAcesso(), 
+				":cadastrarCliente"=>$this->acesso->getCadastrarCliente(), 
+				":editarCliente"=>$this->acesso->getEditarCliente(), 
+				":pesquisarCliente"=>$this->acesso->getPesquisarCliente(), 
+				":excluirCliente"=>$this->acesso->getExcluirCliente(), 
+				":adicionarServico"=>$this->acesso->getCadastrarServico(), 
+				":editarServico"=>$this->acesso->getEditarServico(), 
+				":pesquisarServico"=>$this->acesso->getPesquisarServico(), 
+				":excluirServico"=>$this->acesso->getExcluirServico(),
+				":cadastrarFornecedor"=>$this->acesso->getCadastrarFornecedor(), 
+				":pesquisarFornecedor"=>$this->acesso->getPesquisarFornecedor(), 
+				":editarFornecedor"=>$this->acesso->getEditarFornecedor(), 
+				":excluirFornecedor"=>$this->acesso->getExcluirFornecedor(),
+				":cadastrarProduto"=>$this->acesso->getCadastrarProduto(), 
+				":editarProduto"=>$this->acesso->getEditarProduto(), 
+				":pesquisarProduto"=>$this->acesso->getPesquisarProduto(), 
+				":excluirProduto"=>$this->acesso->getExcluirProduto(), 
+				":criarOrdemDeServico"=>$this->acesso->getCriarOrdemDeServico(), 
+				":editarOrdemDeServico"=>$this->acesso->getEditarOrdemDeServico(), 
+				":pesquisarOrdemDeServico"=>$this->acesso->getPesquisarOrdemDeServico(), 
+				":excluirOrdemDeServico"=>$this->acesso->getExcluirOrdemDeServico(), 
+				":exibirFinanceiro"=>$this->acesso->getExibirFinanceiro(), 
+				":editarFinanceiro"=>$this->acesso->getEditarFinanceiro(),
+				":idAcesso"=>$idAcesso
+			));					
+		}
 	}
 ?>
