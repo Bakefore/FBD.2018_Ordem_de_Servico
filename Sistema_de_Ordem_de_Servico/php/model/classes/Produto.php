@@ -15,6 +15,10 @@
 		private $porcentagemVarejo;
 		private $porcentagemAtacado;
 		private $descricao;
+		//Só utilizados na edição de produtos
+		private $promocao;
+		private $desconto;
+		private $dataCompra;
 
 		public function __construct($nome, $tipo, $marca, $modelo, $validade, $fornecedor, $empresa, $custoCompra, $precoVenda, $codigoBarras, $quantidade, $status, $porcentagemVarejo, $porcentagemAtacado, $descricao){
 
@@ -159,5 +163,29 @@
 		public function setDescricao($descricao){
 			$this->descricao = $descricao;
 		}	
+
+		public function getPromocao():bool{
+			return $this->promocao;
+		}
+
+		public function setPromocao($promocao){
+			$this->promocao = $promocao;
+		}
+
+		public function getDesconto(){
+			return $this->desconto;
+		}
+
+		public function setDesconto($desconto){
+			$this->desconto = $desconto;
+		}		
+
+		public function getDataCompra(){
+			return $this->dataCompra;
+		}
+
+		public function setDataCompra($dataCompra){
+			$this->dataCompra = $dataCompra;
+		}
 	}
 ?>

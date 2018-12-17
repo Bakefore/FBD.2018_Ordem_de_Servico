@@ -4,7 +4,7 @@ use sistemaOrdemDeServico;
 #Tabelas Fortes
 #Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
-
+/*
 select * from estado;
 select * from cidade;
 select * from endereco;
