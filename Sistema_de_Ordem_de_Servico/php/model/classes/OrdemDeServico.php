@@ -16,6 +16,7 @@
 		private $descricao;
 		private $valorParcela;
 		private $valorTotal;
+		private $status;
 
 		public function __construct($servicosArray = array(), $produtosArray = array(), $empresa, $dataSolicitacao, $atendente, $tipo, $cliente, $tecnicoResponsavel, $dataExecucao, $formaPagamento, $desconto, $numeroParcelas, $descricao, $valorParcela, $valorTotal){
 
@@ -154,6 +155,14 @@
 
 		public function setValorTotal($valorParcela){
 			$this->valorTotal = $valorTotal;
+		}
+
+		public function getStatus(){
+			return $this->status;
+		}
+
+		public function setStatus($status){
+			$this->status = $status;
 		}
 	}
 ?>

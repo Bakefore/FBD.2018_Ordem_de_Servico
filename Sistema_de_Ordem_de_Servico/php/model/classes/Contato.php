@@ -13,8 +13,16 @@
 			return $this->tipo;
 		}
 
+		public function setTipo($tipo){
+			$this->tipo = $tipo;
+		}
+
 		public function getDescricao(){
 			return $this->descricao;
+		}
+
+		public function setDescricao($descricao){
+			$this->descricao = $descricao;
 		}
 	}
 ?>

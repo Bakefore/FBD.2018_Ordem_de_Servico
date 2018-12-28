@@ -4,7 +4,7 @@ use sistemaOrdemDeServico;
 #Tabelas Fortes
 #Tabelas criadas 19/19
 #OBS: Criar Tabela de Acesso apenas depois que todas as funcionalidades estiverem definidas
-/*
+
 select * from estado;
 select * from cidade;
 select * from endereco;
@@ -21,14 +21,12 @@ select * from itemProdutoVenda;
 select * from servicoordemdeservico;
 select * from parcela;
 
-/*
 truncate estado;
 truncate cidade;
 truncate endereco;
 truncate empresa;
 truncate servico;
-*/
-
+truncate parcela;
 
 create table produto(
     idProduto int not null auto_increment primary key,
@@ -55,7 +53,8 @@ create table itemproduto(
     porcentagemAtacado float not null,
     porcentagemVarejo float not null,
     idProduto int references produto(idProduto),
-    idFornecedor int references fornecedor(idFornecedor)
+    idFornecedor int references fornecedor(idFornecedor),
+    idEmpresa int references empresa(idEmpresa)
 )default charset = 'utf8';
 
 create table estado(
@@ -172,28 +171,28 @@ create table contatoCliente(
     idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
     tipo varchar(50) not null,
-    idCliente int references cliente(idCliente)
+    idReferenciado int references cliente(idCliente)
 )default charset = 'utf8';
 
 create table contatoFuncionario(
     idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
     tipo varchar(50) not null,
-    idFuncionario int references funcionario(idFuncionario)
+    idReferenciado int references funcionario(idFuncionario)
 )default charset = 'utf8';
 
 create table contatoFornecedor(
     idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
     tipo varchar(50) not null,
-    idFornecedor int references fornecedor(idFornecedor)
+    idReferenciado int references fornecedor(idFornecedor)
 )default charset = 'utf8';
 
 create table contatoEmpresa(
     idContato int not null auto_increment primary key,
     descricao varchar(255) not null,
     tipo varchar(50) not null,
-    idEmpresa int references empresa(idEmpresa)
+    idReferenciado int references empresa(idEmpresa)
 )default charset = 'utf8';
 
 create table ordemDeServico(
@@ -206,6 +205,7 @@ create table ordemDeServico(
     quantidadeParcelas int not null,
     valorFinal float not null,
     tipo varchar(50) not null,
+    finalizada boolean not null default false,
     idEmpresa int references empresa(idEmpresa),
     idCliente int references cliente(idCliente),
     idFuncionarioAtendente int references funcionario(idFuncionario),
@@ -260,6 +260,7 @@ insert into estado (uf) values ('PE');
 insert into cidade (nome, idEstado) values ('Serra Talhada', '1');
 insert into endereco (bairro, rua, numero, complemento, idCidade) values ('Nossa Senhora da Penha', 'Rua Padre Romão Ferraz', '123', '', 1);
 insert into empresa (razaoSocial, nomeFantasia, cnpj, idEndereco) values ('Empresa', 'Empresa', '80149485000119', 1);
+insert into empresa (razaoSocial, nomeFantasia, cnpj, idEndereco) values ('OutraEmpresa', 'OutraEmpresa', '80149485000119', 1);
 
 insert into acesso (nome, cadastrarEmpresa, editarEmpresa, pesquisarEmpresa, excluirEmpresa, cadastrarFuncionario, editarFuncionario,
     pesquisarFuncionario, excluirFuncionario, criarAcesso, editarAcesso, pesquisarAcesso, excluirAcesso, cadastrarCliente, editarCliente, 

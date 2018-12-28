@@ -110,7 +110,8 @@
 				":dataCompra"=>$this->produto->getDataCompra(),
 				":dataValidade"=>$this->produto->getValidade(), 
 				":codigoDeBarra"=>$this->produto->getCodigoBarras(), 
-				":quantidadeEstoque"=>$this->produto->getQuantidade(), 
+				//Verifica a quantidade a ser inserida e quantos foram vendidos, então soma, pois assim se obterá apenas o resultado do que se tem no estoque
+				":quantidadeEstoque"=>$this->produto->getQuantidade() + $resultadoItemProduto[0]['quantidadeVenda'], 
 				":ativo"=>$this->produto->getStatus(), 
 				":valorCompra"=>$this->produto->getCustoCompra(), 
 				":precoVenda"=>$this->produto->getPrecoVenda(),

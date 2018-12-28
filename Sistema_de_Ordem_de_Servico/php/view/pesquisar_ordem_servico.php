@@ -6,6 +6,11 @@
 
 	verificarPermissao('pesquisarOrdemDeServico');
 
+	//verifica se ordem de serviço não está finalizada
+	if((isset($_GET['erro'])) && ($_GET['erro'] == 1)){
+		echo "<script>alert('A ordem de serviço já está finalizada! Não é possível fazer alterações!');</script>";
+	}
+
 	function pesquisar(){
 		if(isset($_GET['input-ordem-de-servico'])){
 			echo "
@@ -74,7 +79,7 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idOrdemDeServico)' value='Editar'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
@@ -124,6 +129,11 @@
 				if(confirm("Deseja realmente excluir?")){					
 					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
 				}
+			}
+
+			function editarEntidade(id){
+				var tabela = 'ordemDeServico';									
+				window.location.href = "../controller/editarEntidade.php?id=" + id + "&tabela=" + tabela;				
 			}
 	    </script>
 	</head>

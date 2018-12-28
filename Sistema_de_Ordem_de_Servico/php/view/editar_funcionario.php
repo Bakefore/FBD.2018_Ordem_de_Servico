@@ -7,7 +7,7 @@
 	use excessao\EntidadeJaCadastradaException;
 	use excessao\SenhasDiferentesException;
 
-	verificarPermissao('cadastrarFuncionario');
+	verificarPermissao('editarFuncionario');
 
 	//Verifica se o ID foi passado e cria uma sessão para representar o ID
 	if(isset($_POST['id'])){
@@ -153,6 +153,11 @@
 	    			excluir.checked = false;
 	    		}
 	    	}
+	    	
+	    	function adicionarContato(id){
+	    		var tabela = 'contatoFuncionario';									
+				window.location.href = "../controller/adicionarContato.php?id=" + id + "&tabela=" + tabela;	
+	    	}	    
 	    </script>
 	</head>
 	<body>
@@ -288,8 +293,13 @@
 						<div class="div-centralizada">
 							<input type="submit" value="Editar Funcionário" class="botao-cadastro">
 						</div>
-					</div>					
-				</form>					
+					</div>							
+				</form>	
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Adicionar Contato" class="botao-cadastro" onclick="adicionarContato(<?php echo $_SESSION['idParaSerEditado']; ?>)">
+					</div>
+				</div>				
 				<div class="coluna col12">
 					<div class="div-centralizada">
 						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">

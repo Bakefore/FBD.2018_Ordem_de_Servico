@@ -6,6 +6,15 @@
 
 	verificarPermissao('exibirFinanceiro');
 
+	//verifica se a parcela foi posta como paga
+	if((isset($_GET['operacao'])) && ($_GET['operacao'] == 1)){
+		echo "<script>alert('A parcela foi quitada com sucesso!');</script>";
+	}
+	//executa caso a parcela já estivesse paga
+	else if((isset($_GET['operacao'])) && ($_GET['operacao'] == 2)){
+		echo "<script>alert('A parcela já está quitada!');</script>";
+	}
+
 	function setarIcone($valor){
 		//Define o ícone com um X caso a parcela não tenha sido paga
 		if($valor == 0){
@@ -47,14 +56,15 @@
 			foreach ($resultadoParcelas as $parcelas) {				
 				foreach ($parcelas as $campo => $valor) {	
 					$idParcela = $parcelas['idParcela'];					
-					if($campo == 'codigo'){								
-						$resultadoCliente = $sql->select("select nome from cliente where idCliente = :idCliente", array(
+					
+					if($campo == 'codigo'){
+						$resultadoCliente = $sql->select("select * from cliente where idCliente = :idCliente", array(
 							":idCliente"=>$parcelas['idCliente']
 						));
 
 						echo "<div class='coluna col12 centralizado $impaPar'>";
-						$valor = $resultadoCliente[0]['nome'];
-						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$valor</div>";
+						$cliente = $resultadoCliente[0]['nome'];
+						echo "<div class='coluna col2 sem-padding-left linhaTabela'>$cliente</div>";
 
 						if($impaPar == "linhaTabelaImpar"){
 							$impaPar = "linhaTabelaPar";
@@ -62,7 +72,8 @@
 						else{
 							$impaPar = "linhaTabelaImpar";
 						}
-					}
+					}				
+					
 
 					if($campo == 'dataVencimento'){
 						$valor = date('d/m/Y',  strtotime($valor));
@@ -82,7 +93,7 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idParcela)' value='Pagar'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
@@ -132,6 +143,11 @@
 				if(confirm("Deseja realmente excluir?")){					
 					window.location.href = "../controller/excluirEntidade.php?id=" + id + "&tabela=" + tabela;
 				}
+			}
+
+			function editarEntidade(id){
+				var tabela = 'parcela';									
+				window.location.href = "../controller/editarEntidade.php?id=" + id + "&tabela=" + tabela;				
 			}
 	    </script>
 	</head>

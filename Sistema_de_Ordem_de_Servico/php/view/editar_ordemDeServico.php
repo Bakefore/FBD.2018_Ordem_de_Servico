@@ -6,6 +6,45 @@
 
 	verificarPermissao('criarOrdemDeServico');
 
+	//Verifica se o ID foi passado e cria uma sessão para representar o ID
+	if(isset($_POST['id'])){
+		$_SESSION['idParaSerEditado'] = $_POST['id'];
+	}
+
+	//mostra todos os dados atuais da entidade
+	if(isset($_SESSION['idParaSerEditado'])){
+		$sql = new Sql();
+
+		$resultadoOrdemDeServico = $sql->select("select * from ordemDeServico where idOrdemDeServico = :idOrdemDeServico", array(
+			":idOrdemDeServico"=>$_SESSION['idParaSerEditado']
+		));
+
+		$resultadoEmpresa = $sql->select("select * from empresa where idEmpresa = :idEmpresa", array(
+			":idEmpresa"=>$resultadoOrdemDeServico[0]['idEmpresa']
+		));
+		
+		$resultadoAtendente = $sql->select("select * from funcionario where idFuncionario = :idFuncionario", array(
+			":idFuncionario"=>$resultadoOrdemDeServico[0]['idFuncionarioAtendente']
+		));
+
+		$resultadoTecnicoResponsavel = $sql->select("select * from funcionario where idFuncionario = :idFuncionario", array(
+			":idFuncionario"=>$resultadoOrdemDeServico[0]['idFuncionarioTecnico']
+		));
+
+		$resultadoCliente = $sql->select("select * from cliente where idCliente = :idCliente", array(
+			":idCliente"=>$resultadoOrdemDeServico[0]['idCliente']
+		));
+
+		$funcionarioAtendente = $resultadoAtendente[0]['nome'];
+		$desconto = $resultadoOrdemDeServico[0]['desconto'];
+		$parcelas = $resultadoOrdemDeServico[0]['quantidadeParcelas'];		
+		$valorTotal = $resultadoOrdemDeServico[0]['valorFinal'];
+		$valorParcela = $valorTotal / $parcelas;
+		$descricao = $resultadoOrdemDeServico[0]['descricao'];
+		$dataSolicitacao = $resultadoOrdemDeServico[0]['dataDeSolicitacao'];
+		$dataExecucao = $resultadoOrdemDeServico[0]['dataDeExecucao'];
+	}
+
 	//Função que verifica se tem a quantidade de produtos que foi desejada pelo usuário
 	function definirQauntidadeProdutos($quantidadeEmEstoque, $quantidadeSelecionada){
 		if($quantidadeSelecionada <= $quantidadeEmEstoque){
@@ -14,7 +53,7 @@
 		return $quantidadeEmEstoque;
 	}
 
-	function criarOrdemDeServico(){
+	function editarOrdemDeServico(){
 		if((isset($_POST['select-os-empresa'])) && (isset($_POST['input-os-data-solicitacao'])) && (isset($_POST['input-os-atendente'])) 
 			&& (isset($_POST['select-os-tipo'])) && (isset($_POST['select-os-cliente'])) && (isset($_POST['select-os-tecnico'])) 
 			&& (isset($_POST['input-os-data-data-execucao'])) && (isset($_POST['select-os-forma-pagamento'])) 
@@ -40,10 +79,19 @@
 				$_POST['input-os-quantidade-parcelas'], $_POST['textarea-os-descricao'], $_POST['input-os-valor-parcela'], 
 				$_POST['input-os-valor-total']);
 
-			
+			$ordemDeServico->setStatus($_POST['select-os-status']);
+
+			//Verifica se a Ordem de Serviço vai ser posta como finalizada
+			$sql = new Sql();
+
+			$resultado = $sql->select("select * from ordemDeServico where idOrdemDeServico = :idOrdemDeServico", array(
+				":idOrdemDeServico"=>$_SESSION['idParaSerEditado']
+			));			
+
 			$ordemDeServicoDAO = new OrdemDeServicoDAO($ordemDeServico);
-			$ordemDeServicoDAO->cadastrar();
-			Mensagem::exibirMensagem("Ordem de Serviço criada com Sucesso!");
+			$ordemDeServicoDAO->editar($_SESSION['idParaSerEditado']);
+			
+			Mensagem::exibirMensagem("Ordem de Serviço editada com Sucesso!");
 
 			//Retira os produtos do carrinho para não atrapalhar na próxima venda
 			for ($i=0; $i < count($_SESSION['carrinho']); $i++) { 
@@ -52,7 +100,7 @@
 		}
 	}
 
-	criarOrdemDeServico();
+	editarOrdemDeServico();
 ?>
 <!DOCTYPE html>
 <html>
@@ -146,7 +194,7 @@
 		<div class="sessao" id="criar-ordem-servico">
 			<div class="linha">				
 				<div class="coluna col12">
-					<h2>Criar Ordem de Serviço</h2>
+					<h2>Editar Ordem de Serviço</h2>
 				</div>
 				<form action="" method="post">
 					<div class="coluna col12 sem-padding-right sem-padding-left">
@@ -232,11 +280,11 @@
 					</div>
 					<div class="coluna col2">
 						<label for="input-os-data-solicitacao">Data de Solitação *</label>
-						<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required>
+						<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required value="<?php if(isset($dataSolicitacao)){echo $dataSolicitacao;} ?>">
 					</div>
 					<div class="coluna col4">
 						<label for="input-os-atendente">Atendente *</label>
-						<input type="text" name="input-os-atendente" id="input-os-atendente" readonly="readonly">
+						<input type="text" name="input-os-atendente" id="input-os-atendente" readonly="readonly" value="<?php if(isset($funcionarioAtendente)){echo $funcionarioAtendente;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="select-os-tipo">Tipo *</label>
@@ -255,7 +303,7 @@
 					</div>
 					<div class="coluna col2">
 						<label for="input-os-data-data-execucao">Data de Execução *</label>
-						<input type="date" name="input-os-data-data-execucao" id="input-os-data-data-execucao" required>
+						<input type="date" name="input-os-data-data-execucao" id="input-os-data-data-execucao" required value="<?php if(isset($dataExecucao)){echo $dataExecucao;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="select-os-forma-pagamento">Pagamento *</label>
@@ -266,25 +314,32 @@
 					</div>
 					<div class="coluna col2">
 						<label for="input-os-desconto">Desconto *</label>
-						<input type="text" name="input-os-desconto" id="input-os-desconto" onblur="calcularValorTotal()" required>
+						<input type="text" name="input-os-desconto" id="input-os-desconto" onblur="calcularValorTotal()" required value="<?php if(isset($desconto)){echo $desconto;} ?>">
 
 						<label for="input-os-valor-parcela">Valor da Parcela *</label>
-						<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" onblur="calcularValorTotal()" required>
+						<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" onblur="calcularValorTotal()" required value="<?php if(isset($valorParcela)){echo $valorParcela;} ?>">
 					</div>
 					<div class="coluna col2">
 						<label for="input-os-quantidade-parcelas">Parcelas *</label>
-						<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" onblur="calcularValorTotal()" required>
+						<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" onblur="calcularValorTotal()" required value="<?php if(isset($parcelas)){echo $parcelas;} ?>">
 
 						<label for="input-os-valor-total">Valor Total</label>
-						<input type="text" name="input-os-valor-total" id="input-os-valor-total" readonly="readonly">
+						<input type="text" name="input-os-valor-total" id="input-os-valor-total" readonly="readonly" value="<?php if(isset($valorTotal)){echo $valorTotal;} ?>">
 					</div>
 					<div class="coluna col8">
 						<label for="textarea-os-descricao">Descrição *</label>
-						<textarea class="descricao-servico" id="textarea-os-descricao" name="textarea-os-descricao" required></textarea>
+						<textarea class="descricao-servico" id="textarea-os-descricao" name="textarea-os-descricao" required><?php if(isset($descricao)){echo $descricao;} ?></textarea>
+					</div>
+					<div class="coluna col2">
+						<label for="select-os-status">Status *</label>
+						<select name="select-os-status" id="select-os-status">
+							<option value="0">Aberta</option>
+							<option value="1">Finalizada</option>
+						</select>
 					</div>
 					<div class="coluna col12">
 						<div class="div-centralizada">
-							<input type="submit" value="Criar Ordem de Serviço" class="botao-cadastro">
+							<input type="submit" value="Editar Ordem de Serviço" class="botao-cadastro">
 						</div>
 					</div>
 				</form>
@@ -385,8 +440,13 @@
 				</script>";
 			}				
 		}
-	}	
-
-	//Preenche o nome d atendente de acordo com o atendente que está lpgado
-	echo "<script>document.getElementById('input-os-atendente').value = '$_SESSION[nomeCompleto]';</script>";		
+	}		
 ?>
+<script type="text/javascript">
+	document.getElementById('select-os-empresa').value = '<?php if(isset($resultadoEmpresa[0]['razaoSocial'])){echo $resultadoEmpresa[0]['razaoSocial'];} ?>';
+	document.getElementById('select-os-tipo').value = '<?php if(isset($resultadoOrdemDeServico[0]['tipo'])){echo $resultadoOrdemDeServico[0]['tipo'];} ?>';
+	document.getElementById('select-os-cliente').value = '<?php if(isset($resultadoCliente[0]['nome'])){echo $resultadoCliente[0]['nome'];} ?>';
+	document.getElementById('select-os-tecnico').value = '<?php if(isset($resultadoTecnicoResponsavel[0]['nome'])){echo $resultadoTecnicoResponsavel[0]['nome'];} ?>';
+	document.getElementById('select-os-forma-pagamento').value = '<?php if(isset($resultadoOrdemDeServico[0]['formaDePagamento'])){echo $resultadoOrdemDeServico[0]['formaDePagamento'];} ?>';
+	document.getElementById('select-os-status').value = '<?php if(isset($resultadoOrdemDeServico[0]['finalizada'])){echo $resultadoOrdemDeServico[0]['finalizada'];} ?>';
+</script>

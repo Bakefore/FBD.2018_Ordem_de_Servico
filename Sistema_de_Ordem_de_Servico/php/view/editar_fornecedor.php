@@ -6,7 +6,7 @@
 	use excessao\CNPJinvalidoException;	
 	use excessao\EntidadeJaCadastradaException;	
 
-	verificarPermissao('cadastrarFornecedor');	
+	verificarPermissao('editarFornecedor');	
 
 	//Verifica se o ID foi passado e cria uma sessão para representar o ID
 	if(isset($_POST['id'])){
@@ -111,6 +111,13 @@
 
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
+
+	    <script type="text/javascript">
+	    	function adicionarContato(id){
+	    		var tabela = 'contatoFornecedor';									
+				window.location.href = "../controller/adicionarContato.php?id=" + id + "&tabela=" + tabela;	
+	    	}
+	    </script>
 	</head>
 	<body>
 		<!--Menu Drop-down-->
@@ -223,6 +230,11 @@
 						</div>
 					</div>
 				</form>
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Adicionar Contato" class="botao-cadastro" onclick="adicionarContato(<?php echo $_SESSION['idParaSerEditado']; ?>)">
+					</div>
+				</div>
 				<div class="coluna col12">
 					<div class="div-centralizada">
 						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">

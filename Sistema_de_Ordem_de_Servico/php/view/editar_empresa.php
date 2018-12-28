@@ -108,6 +108,13 @@
 
 		<!-- Adicionando ViaCEP -->
 	    <script src="../../common/js/buscar_cep.js"></script>
+
+	    <script type="text/javascript">
+	    	function adicionarContato(id){
+	    		var tabela = 'contatoEmpresa';									
+				window.location.href = "../controller/adicionarContato.php?id=" + id + "&tabela=" + tabela;	
+	    	}
+	    </script>
 	</head>
 	<body>
 		<!--Menu Drop-down-->
@@ -217,9 +224,14 @@
 				</form>
 				<div class="coluna col12">
 					<div class="div-centralizada">
-						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+						<input type="submit" value="Adicionar Contato" class="botao-cadastro" onclick="adicionarContato(<?php echo $_SESSION['idParaSerEditado']; ?>)">
 					</div>
 				</div>
+				<div class="coluna col12">
+					<div class="div-centralizada">
+						<input type="submit" value="Voltar ao Menu Principal" class="botao-cadastro" onclick="voltarParaMenuPrincipal()">
+					</div>
+				</div>				
 			</div>
 		</div>		
 
