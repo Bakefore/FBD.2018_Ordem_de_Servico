@@ -148,84 +148,83 @@
 				<div class="coluna col12">
 					<h2>Criar Ordem de Serviço</h2>
 				</div>
-				<form action="" method="post">
-					<div class="coluna col12 sem-padding-right sem-padding-left">
-						<div class="coluna col12">
-							<h3>Serviços</h3>
-						</div>
-						<?php  
-							$sql = new Sql();
-							$servicos = $sql->select("select * from servico", array());
-							$ordem = 0;
-							foreach ($servicos as $servico) {				
-								foreach ($servico as $campo => $valor) {									
-									if($campo == 'nome'){
-										echo "
-										<div class='div-criar-acesso'>						
-										    <input type='checkbox' value='$valor' name='servico-$ordem' id='servico-$ordem' />
-										    <label for='servico-$ordem'>$valor</label>
-										</div>";		
-										$ordem++;								
-									}											
-								}								
-							}	
-						?>			
+				<form action="" method="post">					
+					<div class="coluna col12">
+						<h3>Serviços</h3>
 					</div>
-					<div class="coluna col12 sem-padding-right sem-padding-left">
-						<div class="coluna col12">
-							<h3>Produtos</h3>
-						</div>											
-						<?php  
-							for ($i=0; $i < count($_SESSION['carrinho']); $i++) { 
-								$sql = new Sql();
-								$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
-									":idItemProduto"=>intval($_SESSION['carrinho'][$i]['id'])
-								));								
+					<?php  
+						$sql = new Sql();
+						$servicos = $sql->select("select * from servico", array());
+						$ordem = 0;
+						foreach ($servicos as $servico) {				
+							foreach ($servico as $campo => $valor) {									
+								if($campo == 'nome'){
+									echo "
+									<div class='div-criar-acesso'>						
+									    <input type='checkbox' value='$valor' name='servico-$ordem' id='servico-$ordem' />
+									    <label for='servico-$ordem'>$valor</label>
+									</div>";		
+									$ordem++;								
+								}											
+							}								
+						}	
+					?>					
+					
+					<div class="coluna col12">
+						<h3>Produtos</h3>
+					</div>											
+					<?php  
+						for ($i=0; $i < count($_SESSION['carrinho']); $i++) { 
+							$sql = new Sql();
+							$produto = $sql->select("select * from itemproduto where idItemProduto = :idItemProduto", array(
+								":idItemProduto"=>intval($_SESSION['carrinho'][$i]['id'])
+							));								
 
-								if ($produto[0]['quantidadeEstoque'] < $_SESSION['carrinho'][$i]['quantidade']) {
-									$_SESSION['carrinho'][$i]['quantidade'] = $produto[0]['quantidadeEstoque'];
-									//Faz a subtração dos produtos que tem no estoque com os que já foram vendidos para verificar quantos produtos podem ser vendidos
-									$calculoDeQuantidade = $produto[0]['quantidadeEstoque'] - $produto[0]['quantidadeVenda'];
-									Mensagem::exibirMensagem("O produto ".$produto[0]['nome']." só tem ".$calculoDeQuantidade." unidades!");
-								}
-
+							if ($produto[0]['quantidadeEstoque'] < $_SESSION['carrinho'][$i]['quantidade']) {
+								$_SESSION['carrinho'][$i]['quantidade'] = $produto[0]['quantidadeEstoque'];
 								//Faz a subtração dos produtos que tem no estoque com os que já foram vendidos para verificar quantos produtos podem ser vendidos
 								$calculoDeQuantidade = $produto[0]['quantidadeEstoque'] - $produto[0]['quantidadeVenda'];
-								//Verifica se tem a quantidade de produtos que foi desejada pelo usuário
-								$quantidadeProduto = definirQauntidadeProdutos($calculoDeQuantidade, $_SESSION['carrinho'][$i]['quantidade']);
-								$_SESSION['carrinho'][$i]['quantidade'] = $quantidadeProduto;
-								$produtoID = $_SESSION['carrinho'][$i]['id'];
-								$nomeItemProduto = $produto[0]['nome'];
-								$marcaItemProduto = $produto[0]['marca'];
-								$precoItemProduto = $produto[0]['precoVenda'];
-
-								echo "
-								<div class='coluna col2'>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Nome: $nomeItemProduto</p>
-									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Marca: $marcaItemProduto</p>
-									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Preço: $precoItemProduto</p>
-									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<p>Quantidade: $quantidadeProduto</p>
-									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
-										<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($produtoID)'>
-									</div>
-								</div>";
+								Mensagem::exibirMensagem("O produto ".$produto[0]['nome']." só tem ".$calculoDeQuantidade." unidades!");
 							}
-							
-						?>
-						<div class="coluna col12">
-							<div class="div-centralizada">
-								<input type="button" value="Adicionar produto ao carrinho" class="botao-cadastro" onclick="encaminharPagina('pesquisar_produto.php')">
-							</div>
+
+							//Faz a subtração dos produtos que tem no estoque com os que já foram vendidos para verificar quantos produtos podem ser vendidos
+							$calculoDeQuantidade = $produto[0]['quantidadeEstoque'] - $produto[0]['quantidadeVenda'];
+							//Verifica se tem a quantidade de produtos que foi desejada pelo usuário
+							$quantidadeProduto = definirQauntidadeProdutos($calculoDeQuantidade, $_SESSION['carrinho'][$i]['quantidade']);
+							$_SESSION['carrinho'][$i]['quantidade'] = $quantidadeProduto;
+							$produtoID = $_SESSION['carrinho'][$i]['id'];
+							$nomeItemProduto = $produto[0]['nome'];
+							$marcaItemProduto = $produto[0]['marca'];
+							$precoItemProduto = $produto[0]['precoVenda'];
+
+							echo "
+							<div class='coluna col2'>
+								<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<p>Nome: $nomeItemProduto</p>
+								</div>
+								<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<p>Marca: $marcaItemProduto</p>
+								</div>
+								<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<p>Preço: $precoItemProduto</p>
+								</div>
+								<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<p>Quantidade: $quantidadeProduto</p>
+								</div>
+								<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($produtoID)'>
+								</div>
+							</div>";
+						}
+						
+					?>
+					
+					<div class="coluna col12">
+						<div class="div-centralizada">
+							<input type="button" value="Adicionar produto ao carrinho" class="botao-cadastro" onclick="encaminharPagina('pesquisar_produto.php')">
 						</div>
-					</div>					
+					</div>
+									
 					<div class="coluna col4">
 						<label for="select-os-empresa">Empresa *</label>
 						<select name="select-os-empresa" id="select-os-empresa" required></select>

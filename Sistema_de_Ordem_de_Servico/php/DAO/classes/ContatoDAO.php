@@ -40,5 +40,15 @@
 			
 			return false;//Retorna false caso não tenha cadastrado	
 		}
+
+		public function editar($idContato, $nomeTabela){
+			$sql = new Sql();
+
+			$sql->query("update $nomeTabela set descricao = :descricao, tipo = :tipo where idContato = :idContato", array(
+				":descricao"=>$this->contato->getDescricao(),
+				":tipo"=>$this->contato->getTipo(), 
+				":idContato"=>$idContato
+			));	
+		}
 	}
 ?>

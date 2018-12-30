@@ -14,6 +14,11 @@
 		$_SESSION['idParaSerEditado'] = $_POST['id'];
 	}
 
+	//$_SESSION['contatosSelecionados'] = null;
+	if(!isset($_SESSION['contatosSelecionados'])){
+		$_SESSION['contatosSelecionados'] = array();
+	}
+
 	//mostra todos os dados atuais da entidade
 	if(isset($_SESSION['idParaSerEditado'])){
 		$sql = new Sql();
@@ -81,8 +86,26 @@
 				}
 
 				if(($_POST['password-funcionario-confirmar-senha'] != $_POST['password-funcionario-senha'])){
-					throw new SenhasDiferentesException("As senhas devem estar iguais!", 4);					
+					throw new SenhasDiferentesException("As senhas devem estar iguais!", 4);		
 				}
+				
+				//criar DAO para contato e atualizar de forma dinâmica
+				foreach ($_SESSION['contatosSelecionados'] as $contato) {
+					$campoTipo = $contato['idCampoTipo'];
+					$campoDescricao = $contato['idCampoDescricao'];
+
+					if((isset($_POST[$campoTipo])) && (isset($_POST[$campoDescricao]))){
+						$novoContato = new Contato($_POST[$campoTipo], $_POST[$campoDescricao]);
+						$contatoDAO = new ContatoDAO($novoContato, 'contatoFuncionario', $_SESSION['idParaSerEditado']);
+						$contatoDAO->editar($contato['idContato'], 'contatoFuncionario');	
+					}
+				}
+
+				//Retira os contatos da lista de contatos selecionados
+				for ($i=0; $i < count($_SESSION['contatosSelecionados']); $i++) { 
+					$_SESSION['contatosSelecionados'][$i] = null;
+				}
+				//fim da edição de contatos	*/
 
 				$enderecoDAO = new EnderecoDAO($endereco);
 				$enderecoDAO->cadastrar();
@@ -288,7 +311,54 @@
 					<div class="coluna col2">
 						<label for="input-funcionario-complemento">Complemento</label>
 						<input type="text" name="input-funcionario-complemento" id="input-funcionario-complemento" value="<?php if(isset($complemento)){echo $complemento;} ?>">
-					</div>					
+					</div>				
+
+					<!--Lista os contatos que estão relacionados ao cadastro-->
+					<div class="coluna col12">
+						<h3>Contatos</h3>
+					</div>
+					<?php  
+						
+						$sql = new Sql();
+						$contatos = $sql->select("select * from contatoFuncionario where idReferenciado = :idReferenciado", array(
+							":idReferenciado"=>$_SESSION['idParaSerEditado']
+						));
+						$ordem = 0;
+						foreach ($contatos as $contato) {				
+							foreach ($contato as $campo => $valor) {								
+								if($campo == 'idContato'){
+									$contato = array(
+										"idContato"=>$valor,
+										"idCampoDescricao"=>'contato-'.$ordem,
+										"idCampoTipo"=>'select-tipo-'.$ordem
+									);
+									array_push($_SESSION['contatosSelecionados'], $contato);	
+								}
+
+								if($campo == 'descricao'){
+									echo "
+									<div class='div-criar-acesso'>			
+										<label for='contato-$ordem'>Descrição *</label>			
+									    <input type='text' value='$valor' name='contato-$ordem' id='contato-$ordem' required/>
+									    <label for='select-tipo-$ordem'>Tipo *</label>
+										<select name='select-tipo-$ordem' id='select-tipo-$ordem' required>
+											<option value='email'>E-mail</option>
+											<option value='telefone'>Telefone</option>
+										</select>							    
+									</div>";													
+								}	
+
+								if($campo == 'tipo'){
+									echo "
+									<script>									    	
+								    	document.getElementById('select-tipo-$ordem').value = '$valor';
+								    </script> ";		
+									$ordem++;	
+								}												
+							}								
+						}	
+					?>
+
 					<div class="coluna col12">
 						<div class="div-centralizada">
 							<input type="submit" value="Editar Funcionário" class="botao-cadastro">
