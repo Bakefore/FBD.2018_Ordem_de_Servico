@@ -242,73 +242,73 @@
 				</div>	
 				<form action="" method="post">
 					<!--Linha 1-->					
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-funcionario-nome">Nome *</label>
 						<input type="text" name="input-funcionario-nome" id="input-funcionario-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 					</div>					
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-funcionario-cpf">CPF *</label>
 						<input type="text" name="input-funcionario-cpf" id="input-funcionario-cpf" required value="<?php if(isset($cpf)){echo $cpf;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-nascimento">Nascimento *</label>
 						<input type="date" name="input-funcionario-nascimento" id="input-funcionario-nascimento" required value="<?php if(isset($dataNascimento)){echo $dataNascimento;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-funcionario-sexo">Sexo *</label>
 						<select name="select-funcionario-sexo" id="select-funcionario-sexo" required>
 							<option value="M">Masculino</option>
 							<option value="F">Feminino</option>
 						</select>
 					</div>					
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-funcionario-login">Login *</label>
 						<input type="text" name="input-funcionario-login" id="input-funcionario-login" required value="<?php if(isset($login)){echo $login;} ?>">
 					</div>
 					<!--Linha 2-->
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="password-funcionario-senha">Senha *</label>
 						<input type="password" name="password-funcionario-senha" id="password-funcionario-senha" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="password-funcionario-confirmar-senha">Confirmar Senha *</label>
 						<input type="password" name="password-funcionario-confirmar-senha" id="password-funcionario-confirmar-senha" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-funcionario-empresa">Empresa *</label>
 						<select name="select-funcionario-empresa" id="select-funcionario-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-funcionario-acesso">Acesso *</label>
 						<select name="select-funcionario-acesso" id="select-funcionario-acesso" required></select>
 					</div>									
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-cep">CEP</label>
 						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-funcionario-rua', 'input-funcionario-bairro', 'input-funcionario-cidade', 'select-funcionario-uf');" type="text" name="input-funcionario-cep" id="input-funcionario-cep">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-funcionario-uf">UF *</label>
 						<select name="select-funcionario-uf" id="select-funcionario-uf" required></select>
 					</div>
 					<!--Linha 3-->	
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-cidade">Cidade *</label>
 						<input type="text" name="input-funcionario-cidade" id="input-funcionario-cidade" required value="<?php if(isset($cidade)){echo $cidade;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-bairro">Bairro *</label>
 						<input type="text" name="input-funcionario-bairro" id="input-funcionario-bairro" required value="<?php if(isset($bairro)){echo $bairro;} ?>">
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-funcionario-rua">Rua *</label>
 						<input type="text" name="input-funcionario-rua" id="input-funcionario-rua" required value="<?php if(isset($rua)){echo $rua;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-numero">Número *</label>
 						<input type="text" name="input-funcionario-numero" id="input-funcionario-numero" required value="<?php if(isset($numero)){echo $numero;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-funcionario-complemento">Complemento</label>
 						<input type="text" name="input-funcionario-complemento" id="input-funcionario-complemento" value="<?php if(isset($complemento)){echo $complemento;} ?>">
 					</div>				

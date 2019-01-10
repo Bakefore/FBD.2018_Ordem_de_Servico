@@ -167,14 +167,14 @@
 					<h2>Editar Serviço</h2>
 				</div>	
 				<form action="" method="post">
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-servico-nome">Nome *</label>
 						<input type="text" name="input-servico-nome" id="input-servico-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 
 						<label for="select-servico-empresa">Empresa *</label>
 						<select name="select-servico-empresa" id="select-servico-empresa" required></select>		
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-servico-valor">Valor *</label>
 						<input type="text" name="input-servico-valor" id="input-servico-valor" required value="<?php if(isset($valor)){echo $valor;} ?>">
 
@@ -183,7 +183,7 @@
 							<option value="Técnico">Técnico</option>
 						</select>
 					</div>	
-					<div class="coluna col6">
+					<div class="coluna col6 formulario">
 						<label for="textarea-servico-descricao">Descrição *</label>
 						<textarea class="descricao-servico" id="textarea-servico-descricao" name="textarea-servico-descricao" required><?php if(isset($descricao)){echo $descricao;} ?></textarea>
 					</div>	

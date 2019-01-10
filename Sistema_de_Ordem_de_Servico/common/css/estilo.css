@@ -431,6 +431,103 @@ img{
 		font-weight: 100;
 	}
 }
+@media (min-width: 720px) and (max-width: 839px){
+	.linha{
+		width: 720px;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 10px;
+	}
+	.col1{
+		width: 40px;/*60*/
+	}
+	.col2{
+		width: 100px;
+	}
+	.col3{
+		width: 160px;
+	}
+	.col4{
+		width: 220px;
+	}
+	.col5{
+		width: 280px;
+	}
+	.col6{
+		width: 340px;
+	}
+	.col7{
+		width: 400px;
+	}
+	.col8{
+		width: 460px;
+	}
+	.col9{
+		width: 520px;
+	}
+	.col10{
+		width: 580px;
+	}
+	.col11{
+		width: 640px;
+	}
+	.col12{
+		width: 700px;
+	}
+	.div-centralizada{
+		width: 220px;/*igyal a coluna 4*/
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 220px;/*igyal a coluna 4*/
+	}
+	.input-titulo-nome{
+		width: 220px;/*igyal a coluna 4*/
+	}
+	#menu-superior{
+		display: none;
+	}
+	.menu{
+		display: block;
+	}
+	#menu-dropdown{
+		display: block;
+		z-index: 100;
+		margin-top: -100%;
+		text-align: center;
+		background-color: #df3a01;
+		font-size: 16px;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+	}
+	#menu-dropdown ul li{
+		margin: 0; 
+		padding: 5px;
+		cursor: pointer;		
+		color: white;	
+	}
+	#menu-dropdown ul li:hover{
+		background-color: white;
+		color: #df3a01;
+	}
+	#botao-menu{
+		display: inline;
+		float: right;
+		margin-top: 8px;
+		font-size: 50px;
+		font-weight: 100;
+	}
+	.formulario{
+		width: 220px;	
+	}
+}
 .footer{
     clear: both;
     font-size: 16px;

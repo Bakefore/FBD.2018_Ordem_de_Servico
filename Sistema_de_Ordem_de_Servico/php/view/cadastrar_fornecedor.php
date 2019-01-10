@@ -137,49 +137,49 @@
 				</div>
 				<form action="" method="post">
 					<!--Linha 1-->					
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-fornecedor-razao-social">Razão Social *</label>
 						<input type="text" name="input-fornecedor-razao-social" id="input-fornecedor-razao-social" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-nome-fantasia">Nome Fantasia *</label>
 						<input type="text" name="input-fornecedor-nome-fantasia" id="input-fornecedor-nome-fantasia" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-cnpj">CNPJ *</label>
 						<input type="text" name="input-fornecedor-cnpj" id="input-fornecedor-cnpj" required>
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="select-fornecedor-empresa">Empresa *</label>
 						<select name="select-fornecedor-empresa" id="select-fornecedor-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
 					</div>										
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-cep">CEP *</label>
 						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-fornecedor-rua', 'input-fornecedor-bairro', 'input-fornecedor-cidade', 'select-fornecedor-uf');" type="text" name="input-fornecedor-cep" id="input-fornecedor-cep" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-fornecedor-uf">UF *</label>
 						<select name="select-fornecedor-uf" id="select-fornecedor-uf" required></select>
 					</div>
 					<!--Linha 2-->
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-cidade">Cidade *</label>
 						<input type="text" name="input-fornecedor-cidade" id="input-fornecedor-cidade" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-bairro">Bairro *</label>
 						<input type="text" name="input-fornecedor-bairro" id="input-fornecedor-bairro" required>
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-fornecedor-rua">Rua *</label>
 						<input type="text" name="input-fornecedor-rua" id="input-fornecedor-rua" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-numero">Número *</label>
 						<input type="text" name="input-fornecedor-numero" id="input-fornecedor-numero" required>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-fornecedor-complemento">Complemento</label>
 						<input type="text" name="input-fornecedor-complemento" id="input-fornecedor-complemento">
 					</div>

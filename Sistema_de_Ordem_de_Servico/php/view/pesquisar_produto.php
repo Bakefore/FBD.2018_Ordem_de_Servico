@@ -67,15 +67,15 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='adicionarAoCarrinho($idItemProduto)' value='Carrinho'>
-							</div>";
+								<input type='button' class='botao-cadastro' onclick='adicionarAoCarrinho($idItemProduto)' value='Cart'>
+							</div>";//&#8853;
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='editarEntidade($idItemProduto)' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idItemProduto)' value='&#9998;'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idItemProduto)' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idItemProduto)' value='&#10005;'>
 							</div>";
 								
 						echo "</div>";

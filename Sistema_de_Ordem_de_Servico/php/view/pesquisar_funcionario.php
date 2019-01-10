@@ -57,11 +57,11 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='editarEntidade($ifFuncionario)' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($ifFuncionario)' value='&#9998;'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($ifFuncionario)' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($ifFuncionario)' value='&#10005;'>
 							</div>";
 								
 						echo "</div>";

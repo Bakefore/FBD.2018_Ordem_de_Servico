@@ -197,7 +197,7 @@
 					<h2>Editar Ordem de Serviço</h2>
 				</div>
 				<form action="" method="post">
-					<div class="coluna col12 sem-padding-right sem-padding-left">
+					
 						<div class="coluna col12">
 							<h3>Serviços</h3>
 						</div>
@@ -218,8 +218,8 @@
 								}								
 							}	
 						?>			
-					</div>
-					<div class="coluna col12 sem-padding-right sem-padding-left">
+					
+					
 						<div class="coluna col12">
 							<h3>Produtos</h3>
 						</div>											
@@ -248,20 +248,20 @@
 								$precoItemProduto = $produto[0]['precoVenda'];
 
 								echo "
-								<div class='coluna col2'>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+								<div class='coluna col2 formulario'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left formulario'>
 										<p>Nome: $nomeItemProduto</p>
 									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left formulario'>
 										<p>Marca: $marcaItemProduto</p>
 									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left formulario'>
 										<p>Preço: $precoItemProduto</p>
 									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left formulario'>
 										<p>Quantidade: $quantidadeProduto</p>
 									</div>
-									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left'>
+									<div class='coluna col2 rotulo-produto sem-padding-right sem-padding-left formulario'>
 										<input type='button' value='Remover' class='botao-cadastro' onclick='removerProdutoDoCarrinho($produtoID)'>
 									</div>
 								</div>";
@@ -273,53 +273,53 @@
 								<input type="button" value="Adicionar produto ao carrinho" class="botao-cadastro" onclick="encaminharPagina('pesquisar_produto.php')">
 							</div>
 						</div>
-					</div>					
-					<div class="coluna col4">
+										
+					<div class="coluna col4 formulario">
 						<label for="select-os-empresa">Empresa *</label>
 						<select name="select-os-empresa" id="select-os-empresa" required></select>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-os-data-solicitacao">Data de Solitação *</label>
 						<input type="date" name="input-os-data-solicitacao" id="input-os-data-solicitacao" required value="<?php if(isset($dataSolicitacao)){echo $dataSolicitacao;} ?>">
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-os-atendente">Atendente *</label>
 						<input type="text" name="input-os-atendente" id="input-os-atendente" readonly="readonly" value="<?php if(isset($funcionarioAtendente)){echo $funcionarioAtendente;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-os-tipo">Tipo *</label>
 						<select name="select-os-tipo" id="select-os-tipo" required>
 							<option value="venda">Venda</option>
 							<option value="suporte">Suporte</option>
 						</select>
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="select-os-cliente">Cliente *</label>
 						<select name="select-os-cliente" id="select-os-cliente" required></select>
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="select-os-tecnico">Técnico Responsável *</label>
 						<select name="select-os-tecnico" id="select-os-tecnico" required></select>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-os-data-data-execucao">Data de Execução *</label>
 						<input type="date" name="input-os-data-data-execucao" id="input-os-data-data-execucao" required value="<?php if(isset($dataExecucao)){echo $dataExecucao;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-os-forma-pagamento">Pagamento *</label>
 						<select name="select-os-forma-pagamento" id="select-os-forma-pagamento" required>
 							<option value="À Vista">À Vista</option>
 							<option value="À Prazo">À Prazo</option>
 						</select>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-os-desconto">Desconto *</label>
 						<input type="text" name="input-os-desconto" id="input-os-desconto" onblur="calcularValorTotal()" required value="<?php if(isset($desconto)){echo $desconto;} ?>">
 
 						<label for="input-os-valor-parcela">Valor da Parcela *</label>
 						<input type="text" name="input-os-valor-parcela" id="input-os-valor-parcela" onblur="calcularValorTotal()" required value="<?php if(isset($valorParcela)){echo $valorParcela;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-os-quantidade-parcelas">Parcelas *</label>
 						<input type="number" name="input-os-quantidade-parcelas" id="input-os-quantidade-parcelas" onblur="calcularValorTotal()" required value="<?php if(isset($parcelas)){echo $parcelas;} ?>">
 
@@ -330,7 +330,7 @@
 						<label for="textarea-os-descricao">Descrição *</label>
 						<textarea class="descricao-servico" id="textarea-os-descricao" name="textarea-os-descricao" required><?php if(isset($descricao)){echo $descricao;} ?></textarea>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-os-status">Status *</label>
 						<select name="select-os-status" id="select-os-status">
 							<option value="0">Aberta</option>

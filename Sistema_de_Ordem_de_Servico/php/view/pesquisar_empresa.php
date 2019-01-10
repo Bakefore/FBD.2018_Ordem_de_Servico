@@ -51,12 +51,12 @@
 						echo "<div class='coluna col3 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='editarEntidade($idEmpresa)' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idEmpresa)' value='&#9998;'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idEmpresa)' value='Excluir'>
-							</div>";
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idEmpresa)' value='&#10005;'>
+							</div>";//&#9587;
 								
 						echo "</div>";						
 					}	

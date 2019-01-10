@@ -209,12 +209,12 @@
 					<h2>Editar Produto</h2>
 				</div>	
 				<form action="" method="post">
-					<div class="coluna col12">
-						<div class="coluna col4 sem-padding-left">
+					
+						<div class="coluna col4  formulario">
 							<label for="input-produto-nome">Nome *</label>
 							<input type="text" name="input-produto-nome" id="input-produto-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 						</div>
-						<div class="coluna col2">
+						<div class="coluna col2 formulario">
 							<label for="select-produto-tipo">Tipo de Produto *</label>
 							<select name="select-produto-tipo" id="select-produto-tipo" required>
 								<option value="alimenticio">Alimentício</option>
@@ -224,67 +224,67 @@
 								<option value="veiculo">Veículo</option>
 							</select>
 						</div>
-						<div class="coluna col2">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-marca">Marca *</label>
 							<input type="text" name="input-produto-marca" id="input-produto-marca" required value="<?php if(isset($marca)){echo $marca;} ?>">
 						</div>
-						<div class="coluna col2">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-modelo">Modelo</label>
 							<input type="text" name="input-produto-modelo" id="input-produto-modelo" value="<?php if(isset($modelo)){echo $modelo;} ?>">
 						</div>
-						<div class="coluna col2 sem-padding-right">
+						<div class="coluna col2  formulario">
 							<label for="input-produto-validade">Data de Validade *</label>
 							<input type="date" name="input-produto-validade" id="input-produto-validade" required value="<?php if(isset($dataValidade)){echo $dataValidade;} ?>">
 						</div>
-					</div>
+					
 
-					<div class="coluna col12">
-						<div class="coluna col4 sem-padding-left">
+					
+						<div class="coluna col4 formulario">
 							<label for="select-produto-empresa">Empresa *</label>
 							<select name="select-produto-empresa" id="select-produto-empresa" onclick="alterarFornecedores()" required></select>
 						</div>
-						<div class="coluna col4">
+						<div class="coluna col4 formulario">
 							<label for="select-produto-fornecedor">Fornecedor *</label>
 							<select name="select-produto-fornecedor" id="select-produto-fornecedor" required></select>		
 						</div>					
-						<div class="coluna col2">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-custo-compra">Custo de Compra *</label>
 							<input type="text" name="input-produto-custo-compra" id="input-produto-custo-compra" required value="<?php if(isset($valorCompra)){echo $valorCompra;} ?>">
 						</div>
-						<div class="coluna col2 sem-padding-right">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-preco">Preço de Venda *</label>
 							<input type="text" name="input-produto-preco" id="input-produto-preco" required value="<?php if(isset($precoVenda)){echo $precoVenda;} ?>">
 						</div>
-					</div>
+					
 
-					<div class="coluna col12">
-						<div class="coluna col4 sem-padding-left">
+					
+						<div class="coluna col4 formulario">
 							<label for="input-produto-codigo">Código de Barras *</label>
 							<input type="text" name="input-produto-codigo" id="input-produto-codigo" required value="<?php if(isset($codigoDeBarras)){echo $codigoDeBarras;} ?>">										
 						</div>
-						<div class="coluna col2"><!--sem-padding-left-->
+						<div class="coluna col2 formulario"><!--sem-padding-left-->
 							<label for="select-produto-status">Status *</label>
 							<select name="select-produto-status" id="select-produto-status" required>
 								<option value="Ativo">Ativo</option>
 								<option value="Inativo">Inativo</option>
 							</select>
 						</div>	
-						<div class="coluna col2"><!--sem-padding-right-->
+						<div class="coluna col2 formulario"><!--sem-padding-right-->
 							<label for="input-produto-varejo">Varejo *</label>
 							<input type="text" name="input-produto-varejo" id="input-produto-varejo" required value="<?php if(isset($porcentagemVarejo)){echo $porcentagemVarejo;} ?>">
 						</div>	
-						<div class="coluna col2">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-quantidade">Quantidade Estoque *</label>
 							<input type="number" name="input-produto-quantidade" id="input-produto-quantidade" required value="<?php if(isset($quantidadeTotal)){echo $quantidadeTotal;} ?>">						
 						</div>
-						<div class="coluna col2 sem-padding-right">
+						<div class="coluna col2 formulario">
 							<label for="input-produto-atacado">Atacado *</label>
 							<input type="text" name="input-produto-atacado" id="input-produto-atacado" required value="<?php if(isset($porcentagemAtacado)){echo $porcentagemAtacado;} ?>">
 						</div>
-					</div>
 					
-					<div class="coluna col12">						
-						<div class="coluna col2 sem-padding-left">
+					
+					<div class="coluna col12 sem-padding-right sem-padding-left">						
+						<div class="coluna col2">
 							<label for="select-produto-promocao">Promoção *</label>
 							<select name="select-produto-promocao" id="select-produto-promocao" required>
 								<option value="0">Não</option>
@@ -298,7 +298,7 @@
 							<label for="textarea-produto-descricao">Descrição *</label>
 							<textarea class="descricao-servico" id="textarea-produto-descricao" name="textarea-produto-descricao" required><?php if(isset($descricao)){echo $descricao;} ?></textarea>
 						</div>
-						<div class="coluna col2 sem-padding-right">
+						<div class="coluna col2">
 							<label for="input-produto-datacompra">Data de Compra *</label>
 							<input type="date" name="input-produto-datacompra" id="input-produto-datacompra" required value="<?php if(isset($dataCompra)){echo $dataCompra;} ?>">
 						</div>	

@@ -68,7 +68,7 @@
 
 	    <script type="text/javascript">
 	    	function voltar(){
-	    		window.location.href = "editar_empresa.php";	
+	    		window.location.href = "editar_funcionario.php";	
 	    	}
 	    </script>
 	</head>

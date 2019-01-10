@@ -72,11 +72,11 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='editarEntidade($idAcesso)' value='Editar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idAcesso)' value='&#9998;'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idAcesso)' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idAcesso)' value='&#10005;'>
 							</div>";
 								
 						echo "</div>";

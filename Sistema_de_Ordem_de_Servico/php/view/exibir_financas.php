@@ -93,11 +93,11 @@
 						echo "<div class='coluna col2 linhaTabela'>$valor</div>";
 
 						echo "<div class='coluna col1'>
-								<input type='button' class='botao-cadastro' onclick='editarEntidade($idParcela)' value='Pagar'>
+								<input type='button' class='botao-cadastro' onclick='editarEntidade($idParcela)' value='R$'>
 							</div>";
 
 						echo "<div class='coluna col1 sem-padding-right'>
-								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idParcela)' value='Excluir'>
+								<input type='button' class='botao-cadastro' onclick='excluirEntidade($idParcela)' value='&#10005;'>
 							</div>";
 								
 						echo "</div>";						

@@ -200,57 +200,57 @@
 				</div>	
 				<form action="" method="post">
 					<!--Linha 1-->					
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-cliente-nome">Nome *</label>
 						<input type="text" name="input-cliente-nome" id="input-cliente-nome" required value="<?php if(isset($nome)){echo $nome;} ?>">
 					</div>					
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-cpf">CPF *</label>
 						<input type="text" name="input-cliente-cpf" id="input-cliente-cpf" required value="<?php if(isset($cpf)){echo $cpf;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-nascimento">Nascimento *</label>
 						<input type="date" name="input-cliente-nascimento" id="input-cliente-nascimento" required value="<?php if(isset($dataNascimento)){echo $dataNascimento;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-cliente-sexo">Sexo *</label>
 						<select name="select-cliente-sexo" id="select-cliente-sexo" required>
 							<option value="M">Masculino</option>
 							<option value="F">Feminino</option>
 						</select>
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-cliente-empresa">Empresa *</label>
 						<select name="select-cliente-empresa" id="select-cliente-empresa" required></select>
 						<!--Criar Função para modificar os acessos dispníveis de acordo com a empresa que foi selecionada-->
 					</div>					
 					<!--Linha 2-->					
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-cep">CEP</label>
 						<input maxlength="9" onblur="editarVariaveisGlobais(this.value, 'input-cliente-rua', 'input-cliente-bairro', 'input-cliente-cidade', 'select-cliente-uf');" type="text" name="input-cliente-cep" id="input-cliente-cep">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="select-cliente-uf">UF *</label>
 						<select name="select-cliente-uf" id="select-cliente-uf" required></select>
 					</div>					
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-cidade">Cidade *</label>
 						<input type="text" name="input-cliente-cidade" id="input-cliente-cidade" required value="<?php if(isset($cidade)){echo $cidade;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-bairro">Bairro *</label>
 						<input type="text" name="input-cliente-bairro" id="input-cliente-bairro" required value="<?php if(isset($bairro)){echo $bairro;} ?>">
 					</div>
-					<div class="coluna col4">
+					<div class="coluna col4 formulario">
 						<label for="input-cliente-rua">Rua *</label>
 						<input type="text" name="input-cliente-rua" id="input-cliente-rua" required value="<?php if(isset($rua)){echo $rua;} ?>">
 					</div>
 					<!--Linha 3-->
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-numero">Número *</label>
 						<input type="text" name="input-cliente-numero" id="input-cliente-numero" required value="<?php if(isset($numero)){echo $numero;} ?>">
 					</div>
-					<div class="coluna col2">
+					<div class="coluna col2 formulario">
 						<label for="input-cliente-complemento">Complemento</label>
 						<input type="text" name="input-cliente-complemento" id="input-cliente-complemento" value="<?php if(isset($complemento)){echo $complemento;} ?>">
 					</div>
