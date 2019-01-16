@@ -1,0 +1,87 @@
+@media print{
+	#menu-dropdown{
+		display: none;
+	}
+	.header{
+		display: none;
+	}
+	.nao-imprimir{
+		display: none;
+	}
+
+	h2{		
+		font-size: 18px;
+	}
+
+	*{
+	    margin: 0;
+	    padding: 0;	    
+	}
+	body{
+	    font-family: 'Roboto', sans-serif;                
+	    font-weight: 300;
+	    background: #E8E8E8;
+	    font-size: 18px;
+	}
+	img{
+		width: 100%;
+	}
+	
+	.linha{
+		width: auto;
+		margin: 0 auto;
+	}
+	.coluna{
+		float: left;
+		padding: 0 5px;
+	}
+	.col1{
+		width: 90px;
+	}
+	.col2{
+		width: 200px;
+	}
+	.col3{
+		width: 310px;
+	}
+	.col4{
+		width: 420px;
+	}
+	.col5{
+		width: 530px;
+	}
+	.col6{
+		width: 640px;
+	}
+	.col7{
+		width: 750px;
+	}
+	.col8{
+		width: 860px;
+	}
+	.col9{
+		width: 970px;
+	}
+	.col10{
+		width: 1080px;
+	}
+	.col11{
+		width: 1190px;
+	}
+	.col12{
+		width: 1300px;
+	}
+	.div-centralizada{
+		width: 420px;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.div-criar-acesso{
+		float: left;
+		padding: 10px 10px;
+		width: 310px;
+	}
+	.input-titulo-nome{
+		width: 420px;
+	}	
+}

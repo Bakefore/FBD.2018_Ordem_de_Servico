@@ -210,7 +210,7 @@
 				</div>	
 				<form action="" method="get">
 					<!--Linha 1-->						
-					<div class="coluna col10">
+					<div class="coluna col8">
 						<input type="text" name="input-parcela" id="input-parcela" placeholder="Pesquisar" required>
 					</div>	
 					<!--
@@ -225,7 +225,10 @@
 					<div class="coluna col2">
 						<input type="submit" value="Buscar" class="botao-cadastro">
 					</div>					
-				</form>				
+				</form>			
+				<div class="coluna col2">
+					<input type="submit" value="Relatório" class="botao-cadastro" onclick="encaminharPagina('gerar_relatorio.php')">
+				</div>	
 				<?php  					
 					pesquisar();					
 				?>

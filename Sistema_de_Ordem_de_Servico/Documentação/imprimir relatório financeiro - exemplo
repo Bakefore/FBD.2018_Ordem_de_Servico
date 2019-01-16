@@ -1,50 +1,25 @@
-__construct($parcelasArray, $idOrdemDeServico, $idCliente)
-
-
-
 periodo
-
-01/01/2018 - 31/12/2018  -  (GERAL, DEVIDAS, RECEBIDAS, ABERTO) imprimir geral
-
-
+validade inicio	 validade fim
+01/01/2018 		- 31/12/2018  -  (GERAL, DEVIDAS, RECEBIDAS, ABERTO) imprimir geral
 -----
-
 totas as contas recebidas - data - status (PAGOS)
 -----
-
 -----
-
 totas as contas a receber - data - status (ABERTO)
 -----
-
-
-
 ------
 totas as contas devidas
-
 ---
-
-
-
-
 RESUMO
-
 TOTAL RECEBIDO
-TOTAL E RECEBER
-
-
-
+TOTAL A RECEBER
 
 01/01/2018 - 31/12/2018  -  imprimir RECEBDIDAS
-
-
 -----
-
 totas as contas recebidas
 
 Clientte 22,00 - vencimento (vencido)
 -----
-
 
 RESUMO
 
