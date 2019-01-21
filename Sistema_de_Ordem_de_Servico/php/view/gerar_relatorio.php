@@ -11,6 +11,9 @@
 		$_SESSION['totalContasAReceber'] = 0;	
 	}	
 
+	$_SESSION['totalContasRecebidas'] = 0;
+	$_SESSION['totalContasAReceber'] = 0;	
+
 	function setarValor($valor, $dataVencimento, $precoParcela){
 		if((isset($_SESSION['totalContasRecebidas'])) && (isset($_SESSION['totalContasAReceber']))){
 			//Define o ícone com um X caso a parcela não tenha sido paga
